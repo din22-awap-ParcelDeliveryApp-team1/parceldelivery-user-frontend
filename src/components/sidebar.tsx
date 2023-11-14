@@ -3,23 +3,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
+
 const Sidebar = () => {
+
     return (
-        <ListGroup as="ul" variant="flush">
-            <ListGroup.Item>
-                <Link to="/incomingParcels">Incoming Parcels</Link>
+        <ListGroup as="ol" variant="flush" className="mt-5">
+            <ListGroup.Item id="sidebarListItem">
+                <Link to="/incomingParcels" id="sidebarList">Incoming Parcels</Link>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Link to="/sendNewParcel">Send a New Parcel</Link>
+            <ListGroup.Item id="sidebarListItem">
+                <Link to="/sendNewParcel" id="sidebarList">Send a New Parcel</Link>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Link to="/sentParcels">Sent Parcels</Link>
+            <ListGroup.Item id="sidebarListItem">
+                <Link to="/sentParcels" id="sidebarList">Sent Parcels</Link>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Link to="/receivedParcels">Received Parcels</Link>
+            <ListGroup.Item id="sidebarListItem">
+                <Link to="/receivedParcels" id="sidebarList">Received Parcels</Link>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Link to="/myAccount">My Account</Link>
+            <ListGroup.Item id="sidebarListItem">
+                <Link to="/myAccount" id="sidebarList">My Account</Link>
             </ListGroup.Item>
         </ListGroup>
     );

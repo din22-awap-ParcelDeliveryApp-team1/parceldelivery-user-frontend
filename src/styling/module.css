@@ -1,0 +1,99 @@
+/* Global styles for the form container */
+.registerContainer {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for error messages */
+  .error {
+    color: red;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for offscreen elements, useful for screen readers */
+  .offscreen {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  /* Base styles for form elements */
+  .form label,
+  .form input,
+  .form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .form label {
+    font-weight: bold;
+  }
+  
+  .form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Styles for valid input */
+  .valid {
+    color: green;
+  }
+  
+  /* Styles for invalid input */
+  .invalid {
+    color: red;
+  }
+  
+  /* Styles for the FontAwesome icons */
+  .faCheck {
+    color: green;
+  }
+  
+  .faTimes {
+    color: red;
+  }
+  
+  .faInfoCircle {
+    color: #999;
+    font-size: 0.8em;
+  }
+  
+  /* Style for the form instructions */
+  .instructions {
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  /* Style for the register button */
+  .form button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #003d82;
+  }
+  
+  /* Style for the login link */
+  .line {
+    text-align: center;
+  }
+  
+  .line p {
+    color: #0056b3;
+    cursor: pointer;
+  }
+  
+  /* When p elements are used for navigation, it's better to use 'a' tags for accessibility. */
+  

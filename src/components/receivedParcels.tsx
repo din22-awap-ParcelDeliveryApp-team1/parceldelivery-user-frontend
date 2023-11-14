@@ -1,6 +1,6 @@
 
 
-const recievedParcels = () => {
+const RecievedParcels = () => {
     return (
         <div className="receivedParcels">
             <h1>Received Parcels</h1>
@@ -8,4 +8,4 @@ const recievedParcels = () => {
     );
 };
 
-export default recievedParcels;
+export default RecievedParcels;
