@@ -19,7 +19,6 @@ const Home = () => {
                 <Col xs={8}>
                     <div className="home">
                         <h1>Home Page</h1>
-                        <Link to="/Register">Register here</Link>
                     </div>
                 </Col>
             </Row>
