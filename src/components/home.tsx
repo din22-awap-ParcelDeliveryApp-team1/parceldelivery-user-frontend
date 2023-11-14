@@ -1,21 +1,25 @@
+
 import Sidebar from "./sidebar";
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { Link } from "react-router-dom";
 
 
-const home = () => {
+const Home = () => {
     return (
-        <Container>
-            <Row>
-                <Col xs={3}>
+        <Container className="home">
+            <Row className="mt-10">
+                <Col xs={4} className="sidebar mr-7">
                     <Sidebar />
                 </Col>
-                <Col xs={9}>
+                <Col xs={8}>
                     <div className="home">
                         <h1>Home Page</h1>
+                        <Link to="/Register">Register here</Link>
                     </div>
                 </Col>
             </Row>
@@ -23,4 +27,4 @@ const home = () => {
     );
 };
 
-export default home;
+export default Home;

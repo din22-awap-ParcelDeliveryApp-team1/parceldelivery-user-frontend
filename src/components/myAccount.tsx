@@ -1,6 +1,6 @@
 
 
-const myAccount = () => {
+const MyAccount = () => {
     return (
         <div className="myAccount">
             <h1>My Account</h1>
@@ -8,4 +8,4 @@ const myAccount = () => {
     );
 };      
 
-export default myAccount;
+export default MyAccount;

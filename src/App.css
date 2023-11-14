@@ -1,3 +1,18 @@
 .App {
   text-align: left;
+
+}
+.home {
+  margin-top: 3%;
+}
+#sidebarList {
+  text-decoration: none;
+  color: black;
+}
+#sidebarList:hover {
+  text-decoration: none;
+  color: rgb(199, 40, 40);
+}
+#sidebarListItem {
+  border-bottom: none;
 }
