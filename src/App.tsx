@@ -5,19 +5,26 @@ import ReceivedParcels from "./components/receivedParcels";
 import IncomingParcels from './components/incomingParcels';
 import MyAccount from "./components/myAccount";
 import SendNewParcel from "./components/sendNewParcel";
+import Navbar from "./components/navbar";
+import FrontPage from "./components/frontPage";
+import Register from "./components/Register";
 import './App.css';
 
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<FrontPage />} />
+        <Route path="/frontPage" element={<Home />} />
         <Route path="/sentParcels" element={<SentParcels />} />
         <Route path="/receivedParcels" element={<ReceivedParcels />} />
         <Route path="/incomingParcels" element={<IncomingParcels />} />
         <Route path="/myAccount" element={<MyAccount />} />
         <Route path="/sendNewParcel" element={<SendNewParcel />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
+
     </div>
   );
 }
