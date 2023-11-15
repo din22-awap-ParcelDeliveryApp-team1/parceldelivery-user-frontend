@@ -1,0 +1,12 @@
+.parcelSize td {
+  padding: 5px;
+}
+.parcelSizeImage img {
+    max-width: 100%; /* Set the maximum width to 100% of the container */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+.unit {
+  font-weight: bold;
+  padding-left: 5px;
+}

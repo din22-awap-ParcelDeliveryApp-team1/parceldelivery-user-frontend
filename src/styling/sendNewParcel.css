@@ -1,0 +1,19 @@
+.arrow-link {
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .arrow-text {
+    font-weight: bold; /* Make text bold */
+    font-size: 18px; /* Increase text size */
+    /*not underline text*/
+  }
+
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-checkbox input {
+    margin-right: 8px; /* Adjust the spacing between checkbox and label */
+    border: 2px solid black;
+  }
