@@ -4,7 +4,7 @@ import SentParcels from "./components/sentParcels";
 import ReceivedParcels from "./components/receivedParcels";
 import IncomingParcels from './components/incomingParcels';
 import MyAccount from "./components/myAccount";
-import SendNewParcel from "./components/sendNewParcel";
+import SendNewParcel from "./components/SendNewParcel";
 import Navbar from "./components/navbar";
 import FrontPage from "./components/frontPage";
 import Register from "./components/Register";
