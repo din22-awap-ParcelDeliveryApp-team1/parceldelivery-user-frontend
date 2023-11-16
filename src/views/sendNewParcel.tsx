@@ -5,9 +5,9 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import { ArrowLeftCircle, ArrowRightCircle} from 'react-bootstrap-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import Sidebar from './sidebar';
-import ParcelSize from './ParcelSize';
-import ParcelSizeImage from './ParcelSizeImage';
+import Sidebar from '../components/sidebar';
+import ParcelSize from '../components/ParcelSize';
+import ParcelSizeImage from '../components/ParcelSizeImage';
 
 const SendNewParcel: React.FC = () => {
   const [step, setStep] = useState<number>(1);

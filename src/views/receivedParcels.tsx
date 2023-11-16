@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Sidebar from './sidebar';
+import Sidebar from '../components/sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useParcelContext } from '../contexts/parcelContext';
-import { parcel_status, locker_location } from './statuses';
+import { parcel_status, locker_location } from '../components/statuses';
 
 interface ParcelType {
     id_parcel: number;

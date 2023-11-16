@@ -9,9 +9,6 @@ const Sidebar = () => {
     return (
         <ListGroup as="ol" variant="flush" className="mt-5 ">
             <ListGroup.Item id="sidebarListItem">
-                <Link to="/incomingParcels" id="sidebarList">Incoming Parcels</Link>
-            </ListGroup.Item>
-            <ListGroup.Item id="sidebarListItem">
                 <Link to="/sendNewParcel" id="sidebarList">Send a New Parcel</Link>
             </ListGroup.Item>
             <ListGroup.Item id="sidebarListItem">
