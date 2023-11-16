@@ -1,18 +1,45 @@
 .App {
   text-align: left;
-
 }
-.home {
-  margin-top: 3%;
+.sidebar {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  background-color:rgb(238, 238, 238) ;
 }
 #sidebarList {
   text-decoration: none;
   color: black;
+  background-color:rgb(238, 238, 238)
 }
 #sidebarList:hover {
   text-decoration: none;
   color: rgb(199, 40, 40);
+  
 }
 #sidebarListItem {
   border-bottom: none;
+  background-color:rgb(238, 238, 238) 
+}
+.sentList {
+  padding-top: 3%;
+}
+#mainHeader {
+  padding-bottom: 5%;
+  padding-left: 16px;
+}
+#header { 
+  color: rgb(199, 40, 40);
+  padding: 16px;
+  text-align: left;
+  font-size: 1em;
+  border-style: none;
+  text-decoration: underline;
+}
+.parcelDetails {
+  margin-top: 6%;
+  padding: 3%;
+  border-style:ridge;
+}
+#detailList {
+  padding-left: 16px;
 }
