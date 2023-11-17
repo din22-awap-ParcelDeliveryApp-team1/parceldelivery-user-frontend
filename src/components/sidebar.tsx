@@ -1,16 +1,13 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-
 const Sidebar = () => {
 
     return (
-        <ListGroup as="ol" variant="flush" className="mt-5">
-            <ListGroup.Item id="sidebarListItem">
-                <Link to="/incomingParcels" id="sidebarList">Incoming Parcels</Link>
-            </ListGroup.Item>
+        <ListGroup as="ol" variant="flush" className="mt-5 ">
             <ListGroup.Item id="sidebarListItem">
                 <Link to="/sendNewParcel" id="sidebarList">Send a New Parcel</Link>
             </ListGroup.Item>
