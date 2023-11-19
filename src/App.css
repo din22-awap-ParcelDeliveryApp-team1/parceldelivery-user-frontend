@@ -1,6 +1,19 @@
 .App {
   text-align: left;
 }
+/* 
+  sentParcels and receivedParcels view css:
+*/
+.navBarLink {
+  text-decoration: none;
+  color:rgb(199, 40, 40);
+  font-weight: bolder;
+  font-size: 1.2em;
+  font-style: italic;
+}
+.navbar-brand {
+  padding-right: 10%;
+}
 .sidebar {
   padding-top: 5%;
   padding-bottom: 5%;
@@ -23,13 +36,18 @@
 .sentList {
   padding-top: 3%;
 }
-#mainHeader {
+.customListRow {
+  margin: 0;
+  padding-top: 0;
+}
+.mainHeader {
   padding-bottom: 5%;
   padding-left: 16px;
 }
 #header { 
   color: rgb(199, 40, 40);
   padding: 16px;
+  padding-bottom: 6px;
   text-align: left;
   font-size: 1em;
   border-style: none;
@@ -37,9 +55,31 @@
 }
 .parcelDetails {
   margin-top: 6%;
-  padding: 3%;
-  border-style:ridge;
+  border-style: ridge;
+  border-radius: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 #detailList {
   padding-left: 16px;
+}
+/* 
+  home view css:
+*/
+.homeMain {
+  padding-top: 5%;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+#incomingHeader {
+  padding-left: 16px;
+  padding-bottom: 6px;
+  text-align: left;
+  font-size: 1em;
+  border-style: none;
+}
+.sendParcel {
+  margin-top: 8%;
+  text-align: center;
 }
