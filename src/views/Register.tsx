@@ -1,119 +1,131 @@
-import React, {  useState, FormEvent, ChangeEvent } from 'react';
+import React, {  useState, FormEvent } from 'react';
 //import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import '../styling/module.css';
+//import { request } from 'http';
+//import { create } from 'domain';
+//import { updateExpression } from '@babel/types';
 
 interface UserData {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  phone: string;
-  streetAddress: string;
-  postalCode: string;
+  telephone: string;
+  street_address: string;
+  postal_code: string;
   city: string;
-  userName: string;
+  user_name: string;
   password: string;
   confirmPassword: string;
 }
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+//const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 //const POSTALCODE_REGEX = /^[0-9]{5}(?:-[0-9]{4})?$/;
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<UserData>({
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    phone: '',
-    streetAddress: '',
-    postalCode: '',
+    telephone: '',
+    street_address: '',
+    postal_code: '',
     city: '',
-    userName: '',
+    user_name: '',
     password: '',
     confirmPassword: '',
   });
 
-  const [validFields, setValidFields] = useState({
-    email: false,
-    phone: false,
-    userName: false,
-    password: false,
-    confirmPassword: false,
-  });
+  const [error, setError] = useState(
+    {email: '',
+    postalCode: '',
+    confirmPassword: '',
+    form: '', // Add this if you want to store form-wide errors
+  }
+  );
 
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<boolean>(false);
+  //const [success, setSuccess] = useState<boolean>(false);
+  const [submissionState, setSubmissionState] = useState('idle');
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const validForm= () => {
+     // Check if all required fields are filled in
+    const requiredFields =Object.values(formData).every(value => value.trim() !== '');
+    //Check REGEX
+    //const validEmail = EMAIL_REGEX.test(formData.email);
+   // const validPostalCode = POSTALCODE_REGEX.test(formData.postalCode);
+    const validConfirmPassword = formData.password === formData.confirmPassword;
+    //setIsFormValid(requiredFields && validEmail && validPostalCode && validConfirmPassword);
+    setIsFormValid(requiredFields && validConfirmPassword);
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // Validate the field (you can expand the validation logic)
-    if (name === 'email') {
-      setValidFields({
-        ...validFields,
-        [name]: EMAIL_REGEX.test(value),
+     
+    setFormData(prevState =>{
+    
+        const updatedFormData = { ...prevState, [name]: value };
+        // After state update, validate form
+        validForm();
+        return updatedFormData;
       });
-    } else {
-      setValidFields({
-        ...validFields,
-        [name]: value.trim() !== '',
-      });
-    }
+ // Clear or set error messages as needed
+if(name === 'confirmPassword' && formData.password !== value){
+  setError(prevState => ({ ...prevState, confirmPassword: 'Passwords do not match' }));
+}else {
+  setError(prevState => ({ ...prevState, [name]:"" }));
+}
   };
 
+    // Validate the field (you can expand the validation logic)
+   
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Check if all fields are valid
-    const isFormValid = Object.values(validFields).every((field) => field);
+    console.log(formData);
 
     if (!isFormValid) {
-      setError('Invalid data, please follow the instructions');
+      //console.log(!formData);
+      setSubmissionState('error');
       return;
     }
-
-    // Send data to the server (you can use fetch or Axios)
+    setSubmissionState('pending');
+      // Send data to the server (you can use fetch or Axios)
     try {
-      const response = await fetch('YOUR_API_ENDPOINT', {
+      const response = await fetch('http://localhost:3001/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json();
-      if (data.accessToken) {
-        setSuccess(true);
-      } else {
-        setError('Registration credentials are incorrect.');
+
+      if (response.ok && data.token) {
+        localStorage.setItem('token', data.token);
+        setSubmissionState('success');
+      }else{
+        throw new Error('Registration credentials are incorrect.');
       }
-    } catch (error) {
-      console.error(error);
-      setError('An error occurred during registration.');
+    } catch (error:any) {
+      const message = typeof error.message === 'string' ? error.message : 'An unknown error occurred';
+      console.log(error);
+      console.log(message);
+      console.log(error.message);
+      console.log(formData);
+
+      setError({...error, form: message});
+      setSubmissionState('error');
     }
   };
 
+
+
   return (
     <section className="registerContainer">
-      {success ? (
-        <>
-          <h1>Success!</h1>
-          <p>You have successfully registered as {formData.userName}!</p>
-          <p>Login in</p>
-        </>
-      ) : (
-        <form onSubmit={handleSubmit}>
+    <h1>Register now and join us!</h1>
+    <h5>* Mandory field </h5>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="form">
             {/* Other form fields go here */}
             
@@ -121,20 +133,41 @@ const Register: React.FC = () => {
             <input
               type="text"
               id="firstName"
-              name="firstName"
-              placeholder="* Enter your first name"
-              value={formData.firstName}
+              name="first_name"
+              placeholder="*First name"
+              value={formData.first_name}
               onChange={handleChange}
               required
             />
             
-            <label htmlFor="lastName" className='name'>First Name</label>
+            <label htmlFor="lastName" className='name'>Last Name</label>
             <input
               type="text"
               id="lastName"
-              name="lastName"
-              placeholder="* Enter your last name"
-              value={formData.lastName}
+              name="last_name"
+              placeholder="* Last Name"
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+            />
+             <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="* Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+             {error.email && <p className="error">{error.email}</p>}
+             <label htmlFor="phone">Phone</label>
+            <input
+              type="text"
+              id="phone"
+              name="telephone"
+              placeholder="* Phone number"
+              value={formData.telephone}
               onChange={handleChange}
               required
             />
@@ -142,9 +175,9 @@ const Register: React.FC = () => {
             <input
               type="text"
               id="streetAddress"
-              name="streetAddress"
-              placeholder="* Enter your street address"
-              value={formData.streetAddress}
+              name="street_address"
+              placeholder="* Street address"
+              value={formData.street_address}
               onChange={handleChange}
               required
             />
@@ -153,33 +186,73 @@ const Register: React.FC = () => {
             <input
             type="text"
             id="postalCode"
-            name="postalCode"
-            placeholder="* Enter your postal code"
-            value={formData.postalCode}
+            name="postal_code"
+            placeholder="* Postal code"
+            value={formData.postal_code}
             onChange={handleChange}
             required
             />
+             {error.postalCode && <p className="error">{error.postalCode}</p>}
             <label htmlFor="city">City</label>
             <input
               type="text"
               id="city"
               name="city"
-              placeholder="* Enter your city"
+              placeholder="* City"
               value={formData.city}
               onChange={handleChange}
               required
             />
-            {/* Repeat this pattern for other input fields */}
             
-            <button type="submit">Register</button>
+          <label htmlFor="userName">Give yourself username and password</label>
+          <input
+            type="text"
+            id="userName"
+            name="user_name"
+            placeholder="* Username"
+            value={formData.user_name}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="* Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+
+          <label htmlFor="confirmPassword">Confirm Password*</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="* confirm password must match your password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
+          <p> 
+          By registering, you agree to our 
+          <a className="terms" href="/terms">Terms and Conditions of Use</a>, 
+          and <a className="terms" href="/privacy">Privacy Policy</a>.
+          </p>
+            {/* Conditional UI controls based on submission state */}
+            {submissionState === 'processing' && <span>Processing...</span>}
+            {submissionState === 'success' && <span>Success!</span>}
+            {submissionState === 'error' && <span>Error. Please try again.</span>}
+            {submissionState === 'idle' && <button type="submit" >Register</button>}
           </div>
         </form>
-      )}
-      {error && (
-        <p className="error" aria-live="assertive">
-          {error}
-        </p>
-      )}
+        {Object.values(error).map((error, index)=> 
+        (error && <p key={index} className="error"> {error} 
+      </p> ) )}
+      
+      
     </section>
   );
 };
