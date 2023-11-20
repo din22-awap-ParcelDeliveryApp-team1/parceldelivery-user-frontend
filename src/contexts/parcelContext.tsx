@@ -1,8 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-<<<<<<< HEAD
 //import { createLogicalAnd } from 'typescript';
-=======
->>>>>>> d4cda5941e9200d7da31977f0cd33e05c58e1382
 import { getSentParcels, getReceivedParcels } from './parcelApiRequests';
 
 interface ParcelContextType {
