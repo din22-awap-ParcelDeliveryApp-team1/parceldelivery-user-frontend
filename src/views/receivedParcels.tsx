@@ -6,10 +6,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useParcelContext } from '../contexts/parcelContext';
-import { parcel_status, locker_location } from '../components/statuses';
+import { locker_location } from '../components/statuses';
 
 interface ParcelType {
-    id_parcel: number;
     sender_name: string;
     status: string;
     parcel_pickup_date: Date;
@@ -18,10 +17,10 @@ interface ParcelType {
     locker_location: number;
 };
 interface ParcelContextType {
-    receivedParcels: ParcelType[];
+    deliveredParcels: ParcelType[];
 };
 const ReceivedParcels = () => {
-    const { receivedParcels } = useParcelContext() as ParcelContextType;
+    const { deliveredParcels } = useParcelContext() as ParcelContextType;
     const  [selectedParcel, setSelectedParcel ] = useState<any>(null);
 
     const handleClick = (event: any, parcel: any) => {
@@ -29,27 +28,26 @@ const ReceivedParcels = () => {
         setSelectedParcel(parcel);
     };
 
-    const surveyList = receivedParcels.map((parcel: any) =>
+    const surveyList = (deliveredParcels.length > 0) ? deliveredParcels.map((parcel: any) =>
         <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
             <ListGroup.Item
                 as="li"
-                className="align-items-start"
+                className="align-items-start listRow"
                 action onClick={(event) => handleClick(event, parcel)}>
                 <Row>
-                    <Col xs={5}>
-                        <div className="fw-bold">{parcel.sender_name}</div>
+                    <Col xs={4}>
+                        <div>{parcel.sender_name}</div>
                     </Col>
                     <Col>
-                        <div className="fw-bold">{parcel_status(parcel.status)}</div>
+                        <div>{parcel.parcel_dropoff_date.slice(0, 10)}</div>
                     </Col>
                     <Col>
-                        {parcel.status === 3 ? (
-                            <div className="fw-bold">{(parcel.parcel_last_pickup_date).slice(0, 10)} latest</div>)
-                            : (<div className="fw-bold">{(parcel.parcel_pickup_date).slice(0, 10)}</div>)}
+                        <div>{parcel.parcel_pickup_date.slice(0, 10)}</div>
                     </Col>
                 </Row>
             </ListGroup.Item>
         </ListGroup>
+    ) : (<div style={{ paddingLeft: '5%' }}>You have not received any parcels yet</div>
     );
 
     return (
@@ -60,11 +58,11 @@ const ReceivedParcels = () => {
                 </Col>
                 <Col xs={6} className="sentList">
                     <div>
-                        <h3 id="mainHeader">Received parcels</h3>
+                    <h3 className="mainHeader">Received parcels history</h3>
                     </div>
                     <Row id="header">
-                        <Col xs={5}><h5>Sender name</h5></Col>
-                        <Col><h5>Status</h5></Col>
+                        <Col xs={4}><h5>Sender name</h5></Col>
+                        <Col><h5>Send date</h5></Col>
                         <Col><h5>Pickup date</h5></Col>
                     </Row>
                     <div>
@@ -80,19 +78,11 @@ const ReceivedParcels = () => {
                             <div>
                                 <div><strong>Sender name:</strong> {selectedParcel.sender_name}</div>
                                 <div><strong>Recipient name:</strong> {selectedParcel.reciever_name}</div>
-                                <div><strong>Parcel ready for pickup:</strong> {(selectedParcel.parcel_readyfor_pickup_date).slice(0, 10)}</div>
-                                {selectedParcel.status === 3 ? (
-                                    <div><strong>Pick up before:</strong> {(selectedParcel.parcel_last_pickup_date).slice(0, 10)}</div>)
-                                    : (<div><strong>Pickup date:</strong> {(selectedParcel.parcel_pickup_date).slice(0, 10)}</div>
-                                    )}
+                                <div><strong>Parcel ready for pickup:</strong> {(selectedParcel.parcel_readyforpickup_date).slice(0, 10)}</div>
+                                <div><strong>Pickup date:</strong> {(selectedParcel.parcel_pickup_date)?.slice(0, 10)}</div>
                                 <div><strong>Parcel weight:</strong> {selectedParcel.parcel_mass} kg</div>
                                 <div><strong>Size:</strong> {selectedParcel.parcel_width} cm x {selectedParcel.parcel_height} cm x {selectedParcel.parcel_depth} cm</div>
-                                {selectedParcel.status === 3 ? (
-                                    <div>
-                                        <div><strong>Parcel locker location:</strong> {locker_location(selectedParcel.parcel_pickup_locker)}</div>
-                                        <div><strong>Pickup code:</strong> {selectedParcel.parcel_pickup_code}</div>
-                                    </div>)
-                                    : null}
+                                <div><strong>Parcel picked up from:</strong> {locker_location(selectedParcel.alternative_pickup_locker ? selectedParcel.alternative_pickup_locker : selectedParcel.selected_pickup_locker)}</div>
                             </div>
                         ) : (
                             <div>Select a parcel to view detailed information</div>

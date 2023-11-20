@@ -15,7 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<FrontPage />} />
-        <Route path="/frontPage" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/sentParcels" element={<SentParcels />} />
         <Route path="/receivedParcels" element={<ReceivedParcels />} />
         <Route path="/myAccount" element={<MyAccount />} />
