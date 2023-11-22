@@ -20,10 +20,11 @@ interface UserData {
 }
 
 
-//const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 //const POSTALCODE_REGEX = /^[0-9]{5}(?:-[0-9]{4})?$/;
 
 const Register: React.FC = () => {
+
   const [formData, setFormData] = useState<UserData>({
     first_name: '',
     last_name: '',
@@ -37,59 +38,87 @@ const Register: React.FC = () => {
     confirmPassword: '',
   });
 
-  const [error, setError] = useState(
+  //const [error, setError] = useState<string >("");
+  //const [success, setSuccess] = useState<boolean>(false);
+const [error, setError] = useState(
     {email: '',
-    postalCode: '',
+    password: '',
     confirmPassword: '',
     form: '', // Add this if you want to store form-wide errors
   }
-  );
+  );  
 
-  //const [success, setSuccess] = useState<boolean>(false);
+  //const [successful, setSuccessful] = useState<boolean>(false);
   const [submissionState, setSubmissionState] = useState('idle');
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [usernameValid, setUsernameValid] = useState(true);
+ //const [isFormValid, setIsFormValid] = useState(false);
+ 
 
-  const validForm= () => {
+/*   const validForm= () => {
      // Check if all required fields are filled in
     const requiredFields =Object.values(formData).every(value => value.trim() !== '');
+    console.log(formData);
+    console.log("requiredFields:" + requiredFields);
     //Check REGEX
     //const validEmail = EMAIL_REGEX.test(formData.email);
    // const validPostalCode = POSTALCODE_REGEX.test(formData.postalCode);
     const validConfirmPassword = formData.password === formData.confirmPassword;
     //setIsFormValid(requiredFields && validEmail && validPostalCode && validConfirmPassword);
     setIsFormValid(requiredFields && validConfirmPassword);
-  }
+  }  */
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-     
-    setFormData(prevState =>{
-    
-        const updatedFormData = { ...prevState, [name]: value };
+    console.log("DBG: Update name:" + name + ":" + value);
+    setFormData({...formData, [name]: value });
+        //console.log("DBG: " + prevState);
+        //console.log("DBG: " + name + ":" + value);
+        if(name === 'email' && !EMAIL_REGEX.test(value)){
+          setError(prevState => ({...prevState, email: 'Email is not valid'}));
+        }else {setError(prevState => ({...prevState, email: ''}));}       
+        if(name === "password" && value.length < 3){
+          setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
+        }else {setError(prevState => ({...prevState, password: ''}));}
+        if(name === 'confirmPassword' && value !== formData.password){
+          setError(prevState => ({...prevState, confirmPassword: 'Passwords do not match'}));
+        }else {setError(prevState => ({...prevState, confirmPassword: ''}));}
+
+/*         if (e.target.name === "user_name" && value.length < 3){
+          setError('Username must be at least 3 characters');
+        } */
+
         // After state update, validate form
-        validForm();
-        return updatedFormData;
-      });
+      };
  // Clear or set error messages as needed
-if(name === 'confirmPassword' && formData.password !== value){
-  setError(prevState => ({ ...prevState, confirmPassword: 'Passwords do not match' }));
-}else {
-  setError(prevState => ({ ...prevState, [name]:"" }));
-}
-  };
+
 
     // Validate the field (you can expand the validation logic)
    
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-
-    if (!isFormValid) {
-      //console.log(!formData);
-      setSubmissionState('error');
+/* 
+    if (EMAIL_REGEX.test(formData.email) === false) {
+      setError('Email is not valid');
       return;
     }
-    setSubmissionState('pending');
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (formData.password.length < 3) {
+      setError('Password must be at least 3 characters');
+      return;
+    } */
+    if(Object.values(formData).some(value => value.trim() === '')){
+      setError(prevState => ({...prevState, formData: "All fileds need to be filled" }));
+      return;
+    }
+    //1122 new code, check for other error
+/*     if(Object.values(error).some(error => error)){
+      return;
+    }
+    setSubmissionState('pending'); */
       // Send data to the server (you can use fetch or Axios)
     try {
       const response = await fetch('http://localhost:3001/user', {
@@ -100,21 +129,17 @@ if(name === 'confirmPassword' && formData.password !== value){
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-
-      if (response.ok && data.token) {
-        localStorage.setItem('token', data.token);
+      console.log(data);
+      if (response.ok) {
+        //const data = await response.json();
         setSubmissionState('success');
       }else{
         throw new Error('Registration credentials are incorrect.');
       }
     } catch (error:any) {
       const message = typeof error.message === 'string' ? error.message : 'An unknown error occurred';
-      console.log(error);
-      console.log(message);
-      console.log(error.message);
-      console.log(formData);
-
-      setError({...error, form: message});
+      console.error(error);    
+      setError(message);
       setSubmissionState('error');
     }
   };
@@ -128,8 +153,7 @@ if(name === 'confirmPassword' && formData.password !== value){
         <form onSubmit={handleSubmit} noValidate>
           <div className="form">
             {/* Other form fields go here */}
-            
-            <label htmlFor="firstName" className='name'>First Name</label>
+            <label htmlFor="firstName">First name</label>
             <input
               type="text"
               id="firstName"
@@ -139,8 +163,7 @@ if(name === 'confirmPassword' && formData.password !== value){
               onChange={handleChange}
               required
             />
-            
-            <label htmlFor="lastName" className='name'>Last Name</label>
+            <label htmlFor="lastName">Last name</label>
             <input
               type="text"
               id="lastName"
@@ -150,7 +173,7 @@ if(name === 'confirmPassword' && formData.password !== value){
               onChange={handleChange}
               required
             />
-             <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -192,7 +215,7 @@ if(name === 'confirmPassword' && formData.password !== value){
             onChange={handleChange}
             required
             />
-             {error.postalCode && <p className="error">{error.postalCode}</p>}
+             {/* {error.postalCode && <p className="error">{error.postalCode}</p>} */}
             <label htmlFor="city">City</label>
             <input
               type="text"
@@ -214,7 +237,8 @@ if(name === 'confirmPassword' && formData.password !== value){
             onChange={handleChange}
             required
           />
-
+       {/*    {error.userNm && <p className="error">{error}</p>} */}
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -224,6 +248,7 @@ if(name === 'confirmPassword' && formData.password !== value){
             onChange={handleChange}
             required
           />
+          {error.password && <p className="error">{error.password}</p>}
 
           <label htmlFor="confirmPassword">Confirm Password*</label>
           <input
@@ -234,8 +259,8 @@ if(name === 'confirmPassword' && formData.password !== value){
             value={formData.confirmPassword}
             onChange={handleChange}
             required
-          />
-          {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
+          />          
+         {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
           <p> 
           By registering, you agree to our 
           <a className="terms" href="/terms">Terms and Conditions of Use</a>, 
@@ -245,7 +270,11 @@ if(name === 'confirmPassword' && formData.password !== value){
             {submissionState === 'processing' && <span>Processing...</span>}
             {submissionState === 'success' && <span>Success!</span>}
             {submissionState === 'error' && <span>Error. Please try again.</span>}
-            {submissionState === 'idle' && <button type="submit" >Register</button>}
+            {error.form && <p className="error">{error.form}</p>}
+           {/*  here has prolem, even fill all fileds, still can not submit */}
+            {/* {submissionState === 'idle' && <button type="submit" disabled={Object.values(error).some(msg => msg)} > Register</button>} */}
+            {submissionState === 'idle' && <button type="submit" >Register</button>} 
+
           </div>
         </form>
         {Object.values(error).map((error, index)=> 
