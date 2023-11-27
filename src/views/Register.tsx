@@ -1,4 +1,5 @@
-import React, {  useState, FormEvent } from 'react';
+import React, {  useState, FormEvent, } from 'react';
+//1124 add userEffect
 //import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/module.css';
@@ -38,93 +39,124 @@ const Register: React.FC = () => {
     confirmPassword: '',
   });
 
-  //const [error, setError] = useState<string >("");
-  //const [success, setSuccess] = useState<boolean>(false);
+
 const [error, setError] = useState(
     {email: '',
     password: '',
     confirmPassword: '',
+    user_name: '',
     form: '', // Add this if you want to store form-wide errors
   }
-  );  
-
-  //const [successful, setSuccessful] = useState<boolean>(false);
+  );
+  //1124 to check username  
+  const [usernameExists, setUsernameExists] = useState<boolean>(false); 
   const [submissionState, setSubmissionState] = useState('idle');
-  const [usernameValid, setUsernameValid] = useState(true);
- //const [isFormValid, setIsFormValid] = useState(false);
- 
 
-/*   const validForm= () => {
-     // Check if all required fields are filled in
-    const requiredFields =Object.values(formData).every(value => value.trim() !== '');
-    console.log(formData);
-    console.log("requiredFields:" + requiredFields);
-    //Check REGEX
-    //const validEmail = EMAIL_REGEX.test(formData.email);
-   // const validPostalCode = POSTALCODE_REGEX.test(formData.postalCode);
-    const validConfirmPassword = formData.password === formData.confirmPassword;
-    //setIsFormValid(requiredFields && validEmail && validPostalCode && validConfirmPassword);
-    setIsFormValid(requiredFields && validConfirmPassword);
-  }  */
+
+  //1124 for check username
+const checkUsername = async (user_name:string) => {
+  //console.log(req.body);
+  try {
+    const query = JSON.stringify("username:"+user_name);
+    const response = await fetch(`http://localhost:3001/user/check-username?user_name=${user_name}`, 
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',  
+      },
+      //body: JSON.stringify(user_name),
+    }); 
+
+    const data = await response.json()
+    console.log(data);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    } 
+    //const data = await response.json();
+    setUsernameExists(data.exists);  // Set the state based on the response
+  } catch (error) {
+    setError(prevState => ({...prevState, user_name: 'Username already exists'}));
+    console.error(error);
+    setUsernameExists(true);
+  }
+  }  
+
+
+  const handleFocusChange = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    //console.log("DBG: handleFocusChange:" + name + ":" + e);
+  };
+
+  const handleBlurChange = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log("DBG: handleOnBlurChange:" + name + ":" + e);
+    checkUsername(value);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("DBG: Update name:" + name + ":" + value);
     setFormData({...formData, [name]: value });
-        //console.log("DBG: " + prevState);
-        //console.log("DBG: " + name + ":" + value);
         if(name === 'email' && !EMAIL_REGEX.test(value)){
           setError(prevState => ({...prevState, email: 'Email is not valid'}));
-        }else {setError(prevState => ({...prevState, email: ''}));}       
+        }
+        //else {setError(prevState => ({...prevState, email: ''}));}       
         if(name === "password" && value.length < 3){
           setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
-        }else {setError(prevState => ({...prevState, password: ''}));}
+        }
+        else {setError(prevState => ({...prevState, password: ''}));}
         if(name === 'confirmPassword' && value !== formData.password){
           setError(prevState => ({...prevState, confirmPassword: 'Passwords do not match'}));
-        }else {setError(prevState => ({...prevState, confirmPassword: ''}));}
+        }      
+        else {setError(prevState => ({...prevState, confirmPassword: ''}));}
+          //1124 add username check
+        if (name === 'user_name'){
+          //checkUsername(value);
+          } 
+        if(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === ''){
+          setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
+        }
+        else {setError(prevState => ({...prevState, form: ''}));}
 
-/*         if (e.target.name === "user_name" && value.length < 3){
-          setError('Username must be at least 3 characters');
-        } */
-
-        // After state update, validate form
       };
  // Clear or set error messages as needed
-
-
-    // Validate the field (you can expand the validation logic)
    
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-/* 
+
     if (EMAIL_REGEX.test(formData.email) === false) {
-      setError('Email is not valid');
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(prevState => ({...prevState, email: 'Email is not valid'}));
       return;
     }
     if (formData.password.length < 3) {
-      setError('Password must be at least 3 characters');
+      setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
       return;
-    } */
-    if(Object.values(formData).some(value => value.trim() === '')){
-      setError(prevState => ({...prevState, formData: "All fileds need to be filled" }));
-      return;
-    }
-    //1122 new code, check for other error
-/*     if(Object.values(error).some(error => error)){
+    } 
+    if (formData.password !== formData.confirmPassword) {
+      setError(prevState => ({...prevState, confirmPassword: 'Passwords do not match'}));
       return;
     }
-    setSubmissionState('pending'); */
+
+    if(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === ''){
+      setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
+      //return;
+    } 
+    //1126 new code add here to tell error
+    if(usernameExists){
+      setError(prevState => ({...prevState, user_name: 'Username already exists'}));
+      return;
+    }
+    
+   
       // Send data to the server (you can use fetch or Axios)
     try {
+      //to apply if statement to check if all fields are filled
       const response = await fetch('http://localhost:3001/user', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json',  
         },
         body: JSON.stringify(formData),
       });
@@ -133,12 +165,11 @@ const [error, setError] = useState(
       if (response.ok) {
         //const data = await response.json();
         setSubmissionState('success');
-      }else{
-        throw new Error('Registration credentials are incorrect.');
       }
-    } catch (error:any) {
-      const message = typeof error.message === 'string' ? error.message : 'An unknown error occurred';
-      console.error(error);    
+
+    } catch (error) {
+      const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
+      //console.error(error);    
       setError(message);
       setSubmissionState('error');
     }
@@ -235,9 +266,13 @@ const [error, setError] = useState(
             placeholder="* Username"
             value={formData.user_name}
             onChange={handleChange}
+            onFocus={handleFocusChange}
+            onBlur={handleBlurChange}
             required
           />
-       {/*    {error.userNm && <p className="error">{error}</p>} */}
+          {/* 1124 new modify Show error message */}
+           {usernameExists && <p className="error">Username already exists</p>}
+       
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -271,17 +306,21 @@ const [error, setError] = useState(
             {submissionState === 'success' && <span>Success!</span>}
             {submissionState === 'error' && <span>Error. Please try again.</span>}
             {error.form && <p className="error">{error.form}</p>}
-           {/*  here has prolem, even fill all fileds, still can not submit */}
-            {/* {submissionState === 'idle' && <button type="submit" disabled={Object.values(error).some(msg => msg)} > Register</button>} */}
-            {submissionState === 'idle' && <button type="submit" >Register</button>} 
+           {/*  button will change to grey color if all condition is not done */}
+          {/*  {submissionState === 'idle' && <button type="submit" disabled={(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === '')} > Register</button>} */}
+          {submissionState === 'idle' && (
+           <button
+           type="submit"
+           className={usernameExists ? 'grayed-button' : ''}
+           disabled={usernameExists}
+         >
+           Register
+          </button>
+          )}
 
           </div>
         </form>
-        {Object.values(error).map((error, index)=> 
-        (error && <p key={index} className="error"> {error} 
-      </p> ) )}
-      
-      
+
     </section>
   );
 };

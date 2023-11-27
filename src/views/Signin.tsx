@@ -1,125 +1,132 @@
 import React, {  useState, FormEvent } from 'react';
 //import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import '../styling/module.css';
+//import { request } from 'http';
+//import { create } from 'domain';
 //import { updateExpression } from '@babel/types';
 
-interface UserData {
-  userName: string;
+interface LoginUserData {
+  user_name: string;
   password: string;
-  
 }
 
 
 const Signin: React.FC = () => {
-  const [loginFormData, setLoginFormData] = useState<UserData>({
-    userName: '',
+
+  const [formData, setFormData] = useState<LoginUserData>({
+    user_name: '',
     password: '',
   });
 
-  const [error, setError] = useState(
-    {userName: '',
-    password: '', // Add this if you want to store form-wide errors
+
+const [error, setError] = useState(
+    {
+    user_name: '',
+    password: '',
+    form: '', // Add this if you want to store form-wide errors
   }
-  );
+  );  
 
-  //const [success, setSuccess] = useState<boolean>(false);
+
   const [submissionState, setSubmissionState] = useState('idle');
-  //const [isFormValid, setIsFormValid] = useState(false);
-
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-     
-    setLoginFormData(prevState =>({
-      ...prevState,
-      [name]: value,
-    }));     
+    console.log("DBG: Update name:" + name + ":" + value);
+    setFormData({...formData, [name]: value });
+        //console.log("DBG: " + prevState);
+        //console.log("DBG: " + name + ":" + value);
+        
+        if(formData.user_name.trim() === '' || formData.password.trim() === '')
+        {
+          setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
+        }else {setError(prevState => ({...prevState, form: ''}));}
+
       };
-
-
-    // Validate the field (you can expand the validation logic)
-    
    
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setSubmissionState('processing');
-  
-      try {
-        const response = await fetch('http://localhost:3001/signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(loginFormData),
-        });
-        const data = await response.json();
-  
-        if (response.ok) {
-            const data = await response.json();
-          localStorage.setItem('token', data.token);
-          //setSubmissionState('success');
-          // Redirect to dashboard or user profile
-          window.location.replace('/dashboard');
-        } else {
-          throw new Error('Login credentials are incorrect.');
-        }
-      } catch (error: any) {
-        const message = typeof error.message === 'string' ? error.message : 'Password or username incorrect';
-        setError({ userName: '', password: '' });
-        setSubmissionState('error');
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formData);
+    
+    if(formData.user_name.trim() === '' || formData.password.trim() === '')
+    {
+      setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
+    }else {setError(prevState => ({...prevState, form: ''}));}
+    setSubmissionState('Signing in...');
+      // Send data to the server (you can use fetch or Axios)
+    try {
+      //to apply if statement to check if all fields are filled
+      const response = await fetch('http://localhost:3001/user/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        //const data = await response.json();
+        setSubmissionState('Login success');
       }
-    };
+/*       else{
+        throw new Error('User name or password is not correct');
+      } */
+    } catch (error) {
+      const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
+      //console.error(error);    
+      setError(message);
+      setSubmissionState('error');
+    }
+  };
+
+
 
   return (
     <section className="registerContainer">
-    <h1>Please Login </h1>
+    <h1>Sign in </h1>
+    <h5>* Mandory field </h5>
         <form onSubmit={handleSubmit} noValidate>
           <div className="form">
-            {/* Other form fields go here */}
             
           <label htmlFor="userName">Give yourself username and password</label>
           <input
             type="text"
             id="userName"
-            name="userName"
+            name="user_name"
             placeholder="* Username"
-            value={loginFormData.userName}
+            value={formData.user_name}
             onChange={handleChange}
             required
           />
-
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
             name="password"
             placeholder="* Password"
-            value={loginFormData.password}
+            value={formData.password}
             onChange={handleChange}
             required
           />
 
-
-<p>Forgot password?</p> 
-  <p><a className="terms" href="/privacy">Get your password</a>.
-</p>
-
-        
-          <div>
-            {/* Conditional UI controls based on submission state */}
-            {submissionState === 'processing' && <span>Processing...</span>}
+          <p>     
+          <a className="terms" href="/terms">Forget password?</a>, 
+          </p>
             {submissionState === 'success' && <span>Success!</span>}
             {submissionState === 'error' && <span>Error. Please try again.</span>}
-            {submissionState === 'idle' && <button type="submit">Sign in</button>}
-          </div>
+            {error.form && <p className="error">{error.form}</p>}
+           {/*  here has prolem, even fill all fileds, still can not submit */}
+           {/* {submissionState === 'idle' && <button type="submit" disabled={Object.values(error).some(msg => msg)} > Register</button>}  */}
+          {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Register</button>} 
+
+         {/*   {submissionState === 'idle' && <button type="submit" >Register</button>}   */}
+
           </div>
         </form>
-        {Object.values(error).map((error, index)=> 
-        (error && <p key={index} className="error"> {error} 
-      </p> ) )}
+
       
       
     </section>
