@@ -3,10 +3,12 @@ import Home from "./views/home";
 import SentParcels from "./views/sentParcels";
 import ReceivedParcels from "./views/receivedParcels";
 import MyAccount from "./views/myAccount";
-import SendNewParcel from "./views/sendNewParcel";
+import SendNewParcel from "./views/SendNewParcel";
 import Navbar from "./components/navbar";
 import FrontPage from "./views/frontPage";
 import Register from "./views/Register";
+
+
 import './App.css';
 
 function App() {

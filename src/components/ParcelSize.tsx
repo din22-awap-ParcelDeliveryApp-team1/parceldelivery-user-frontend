@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import { Row, Col } from 'react-bootstrap';
 
 
 const ParcelSize: React.FC = () => {
@@ -9,16 +10,21 @@ const ParcelSize: React.FC = () => {
     const [width, setWidth] = useState<number | ''>('');
     const [height, setHeight] = useState<number | ''>('');
     const [weight, setWeight] = useState<number | ''>('');
+    const [fragileChecked, setFragileChecked] = useState<boolean>(false);
+    const [fastDeliveryChecked, setFastDeliveryChecked] =
+      useState<boolean>(false);
 
     const handleInputChange = (
         event: React.ChangeEvent<HTMLInputElement>,
         setValue: React.Dispatch<React.SetStateAction<number | ''>>
       ) => {
+        event.preventDefault();
         const value = event.target.value;
         setValue(value === '' ? '' : parseInt(value, 10));
       };
 
     return (
+        <div>
         <Table className="parcelSize">
             <tbody>
                 <tr>
@@ -67,6 +73,33 @@ const ParcelSize: React.FC = () => {
                 </tr>
             </tbody>
         </Table>
+        {/* Additional Services */}
+        <Row className="mt-3">
+        <Col xs={12}>
+          <h4>Check for additional services</h4>
+          <div className="custom-checkbox">
+            <Form.Check
+              type="checkbox"
+              label={`Fragile - Extra fee 10 €`}
+              checked={fragileChecked}
+              onChange={() => setFragileChecked(!fragileChecked)}
+              id="fragile-checkbox"
+            />
+          </div>
+          <div className="custom-checkbox">
+            <Form.Check
+              type="checkbox"
+              label={`Fast delivery - Extra fee 7,9 €`}
+              checked={fastDeliveryChecked}
+              onChange={() =>
+                setFastDeliveryChecked(!fastDeliveryChecked)
+              }
+              id="fast-delivery-checkbox"
+            />
+          </div>
+        </Col>
+      </Row>
+      </div>
     );
 }
 
