@@ -1,16 +1,16 @@
 // create a script that can be used to display the status of a parcel
 
-export const parcel_status = (status: number) => {
+export const parcel_status = (status: String) => {
     switch (status) {
-        case 0:
+        case "ready_to_deliver":
             return <div>Pending</div>
-        case 1:
+        case "parcel_at_dropoff_locker":
             return <div>In drop-off locker</div>
-        case 2:
+        case "parcel_in_transportation":
             return <div>In transit</div>
-        case 3:
+        case "parcel_in_pickup_locker":
             return <div>Ready for pickup</div>
-        case 4:
+        case "reciever_recieved_parcel":
             return <div>Delivered</div>
     };
 };
