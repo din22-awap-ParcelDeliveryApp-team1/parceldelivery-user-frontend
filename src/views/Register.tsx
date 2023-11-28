@@ -100,7 +100,7 @@ const checkUsername = async (user_name:string) => {
     setFormData({...formData, [name]: value });
         if(name === 'email' && !EMAIL_REGEX.test(value)){
           setError(prevState => ({...prevState, email: 'Email is not valid'}));
-        }
+        }else {setError(prevState => ({...prevState, email: ''}));}
         //else {setError(prevState => ({...prevState, email: ''}));}       
         if(name === "password" && value.length < 3){
           setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
