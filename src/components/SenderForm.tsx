@@ -1,32 +1,36 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { ChangeEvent } from 'react';
 
 
 type SenderFormProps = {
-    onSaveSenderDetails: (details: SenderDetails) => void;
+    onChange: (details: SenderDetails) => void;
   };
   
   type SenderDetails = {
-    name: string;
-    streetAddress: string;
-    postalCode: string;
-    city: string;
-    phoneNumber: string;
-    email: string;
-    selectedLocker: any; // Add a field for the selected locker
+    sender_name: string;
+    sender_street_address: string;
+    sender_postal_code: string;
+    sender_city: string;
+    sender_telephone: string;
+    sender_email: string;
+    desired_dropoff_locker: number; 
   };
   
-  const SenderForm: React.FC<SenderFormProps> = ({ onSaveSenderDetails }: SenderFormProps) => {
+  const SenderForm: React.FC<SenderFormProps> = ({ onChange }: SenderFormProps) => {
     const [senderDetails, setSenderDetails] = useState<SenderDetails>({
-      name: '',
-      streetAddress: '',
-      postalCode: '',
-      city: '',
-      phoneNumber: '',
-      email: '',
-      selectedLocker: '',
+      sender_name: '',
+      sender_street_address: '',
+      sender_postal_code: '',
+      sender_city: '',
+      sender_telephone: '',
+      sender_email: '',
+      desired_dropoff_locker: 0, 
     });
+
+    useEffect(() => {
+      onChange(senderDetails);
+    }, [senderDetails]);
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -40,7 +44,6 @@ type SenderFormProps = {
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSaveSenderDetails(senderDetails);
       // Optionally, you can reset the form or perform other actions after saving
     };
   
@@ -51,7 +54,7 @@ type SenderFormProps = {
           <Form.Control
             type="text"
             name="name"
-            value={senderDetails.name}
+            value={senderDetails.sender_name}
             onChange={handleChange}
             required
           />
@@ -62,7 +65,7 @@ type SenderFormProps = {
           <Form.Control
             type="text"
             name="streetAddress"
-            value={senderDetails.streetAddress}
+            value={senderDetails.sender_street_address}
             onChange={handleChange}
             required
           />
@@ -73,7 +76,7 @@ type SenderFormProps = {
           <Form.Control
             type="text"
             name="postalCode"
-            value={senderDetails.postalCode}
+            value={senderDetails.sender_postal_code}
             onChange={handleChange}
             required
           />
@@ -84,7 +87,7 @@ type SenderFormProps = {
           <Form.Control
             type="text"
             name="city"
-            value={senderDetails.city}
+            value={senderDetails.sender_city}
             onChange={handleChange}
             required
           />
@@ -95,7 +98,7 @@ type SenderFormProps = {
           <Form.Control
             type="tel"
             name="phoneNumber"
-            value={senderDetails.phoneNumber}
+            value={senderDetails.sender_telephone}
             onChange={handleChange}
             required
           />
@@ -106,26 +109,23 @@ type SenderFormProps = {
           <Form.Control
             type="email"
             name="email"
-            value={senderDetails.email}
+            value={senderDetails.sender_email}
             onChange={handleChange}
             required
           />
         </Form.Group>
         
-        <Row>
-        <Col md={6}>
-          <Form.Group controlId="chooseLocker">
+        <Form.Group controlId="chooseLocker">
             <Form.Label style={{ fontWeight: 'bold' }}>Choose Dropoff Locker</Form.Label>
-            <Form.Control as="select" onChange={handleSelectLocker as any} value={senderDetails.selectedLocker}>
+            <Form.Control as="select" onChange={handleSelectLocker as any} value={senderDetails.desired_dropoff_locker}>
               <option value="">Select a Locker</option>
               <option value="locker1">Locker 1</option>
               <option value="locker2">Locker 2</option>
               <option value="locker3">Locker 3</option>
-              {/* Add more options as needed */}
+              <option value="locker4">Locker 4</option>
+              <option value="locker5">Locker 5</option>
             </Form.Control>
-          </Form.Group>
-        </Col>
-      </Row>
+        </Form.Group>
       </Form>
     );
   };

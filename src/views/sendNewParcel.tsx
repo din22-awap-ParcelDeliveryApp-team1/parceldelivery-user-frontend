@@ -6,10 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "../components/sidebar";
 import ParcelSize from "../components/ParcelSize";
 import ParcelSizeImage from "../components/ParcelSizeImage";
-import ReceiverSenderDetails from "./ReceiverSenderDetails";
 import SendParcelConfirm from "../components/SendParcelConfirm";
+import ReceiverSenderDetails from "../components/ReceiverSenderDetails";
 
-interface SendParcel{
+export interface SendParcel{
   id_parcel: number;
   id_user?: number | null;
   reciever_name: string;
@@ -45,7 +45,34 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(parcelData),
+    body: JSON.stringify({
+      id_user: 1,
+      reciever_name: parcelData.reciever_name,
+      reciever_telephone: parcelData.reciever_telephone,
+      reciever_street_address: parcelData.reciever_street_address,
+      reciever_postal_code: parcelData.reciever_postal_code,
+      reciever_city: parcelData.reciever_city,
+      sender_name: parcelData.sender_name,
+      sender_telephone: parcelData.sender_telephone || null,
+      sender_street_address: parcelData.sender_street_address || null,
+      sender_postal_code: parcelData.sender_postal_code || null,
+      sender_city: parcelData.sender_city || null,
+      parcel_dropoff_date: parcelData.parcel_dropoff_date || null,
+      parcel_readyforpickup_date: parcelData.parcel_readyforpickup_date || null,
+      parcel_pickup_date: parcelData.parcel_pickup_date || null,
+      parcel_last_pickup_date: parcelData.parcel_last_pickup_date || null,
+      pin_code: parcelData.pin_code || null,
+      status: parcelData.status,
+      desired_dropoff_locker: parcelData.desired_dropoff_locker,
+      desired_pickup_locker: parcelData.desired_pickup_locker,
+      alternative_pickup_locker: parcelData.alternative_pickup_locker || null,
+      parcel_height: parcelData.parcel_height,
+      parcel_width: parcelData.parcel_width,
+      parcel_depth: parcelData.parcel_depth,
+      parcel_mass: parcelData.parcel_mass,
+      receiver_email: parcelData.receiver_email,
+      sender_email: parcelData.sender_email,
+    }),
   });
 
   if (!response.ok) {
@@ -54,7 +81,7 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
   return response;
 }
 
-const SendNewParcel = (props: SendParcel) => {
+const SendNewParcel = () => {
   const [step, setStep] = useState<number>(1);
 
   const goToNextStep = () => {
@@ -67,11 +94,9 @@ const SendNewParcel = (props: SendParcel) => {
   const goToConfirm = async () => {
     try {
       await postParcelToBackend(parcelData);
-      // Handle success, e.g., navigate to the next step
-      goToNextStep();
+      //goToNextStep();
     } catch (error) {
       console.error('Error saving data', error);
-      // Handle error, e.g., show an error message to the user
     }
   };
   const [parcelData, setParcelData] = useState<SendParcel>({
@@ -104,6 +129,10 @@ const SendNewParcel = (props: SendParcel) => {
     sender_email: '',
   });
 
+  const onChange = (newParcelData: SendParcel) => {
+    setParcelData({...parcelData, ...newParcelData});
+  }
+
   return (
     <Container className="sendNewParcel">
       <Row className="mt-3">
@@ -115,12 +144,12 @@ const SendNewParcel = (props: SendParcel) => {
             {step === 1 && (
               <div>
                 <Row>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <div className="parcelSize">
-                      <ParcelSize />
+                      <ParcelSize onChange={onChange} />
                     </div>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <div className="parcelSizeImage">
                       <ParcelSizeImage />
                     </div>
@@ -134,7 +163,7 @@ const SendNewParcel = (props: SendParcel) => {
             {step === 2 && (
               <div>
                 <div className="receiverSenderDetails">
-                  <ReceiverSenderDetails />
+                  <ReceiverSenderDetails onChange={onChange} />
                 </div>
                 <div>
                   <Button onClick={goToPreviousStep}>Back</Button>{' '}
@@ -145,7 +174,7 @@ const SendNewParcel = (props: SendParcel) => {
             {step === 3 && (
               <div>
                 <div className="sendConfirm">
-                  <SendParcelConfirm />
+                  <SendParcelConfirm parcelData={parcelData}/>
                 </div>
                 <div>
                   <Button onClick={goToPreviousStep}>Back</Button>{' '}
@@ -154,6 +183,13 @@ const SendNewParcel = (props: SendParcel) => {
               </div>
             )}
           </div>
+          {step === 4 && (
+              <div>
+                <div className="sendConfirm">
+                  Well done
+                </div>
+              </div>
+            )}
         </Col>
       </Row>
     </Container>

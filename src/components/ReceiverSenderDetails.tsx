@@ -3,14 +3,13 @@ import { Col, } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReceiverForm from './ReceiverForm';
 import SenderForm from './SenderForm';
-import sendNewParcel from '../styling/sendNewParcel.css';
 
 interface ReceiverSenderDetailsProps {
-    onChange: () => void;
+    onChange: (change: any) => unknown;
 }
 
 
-const ReceiverSenderDetails = (props: ReceiverDetails, SenderDetail ) => {
+const ReceiverSenderDetails = (props: ReceiverSenderDetailsProps ) => {
 
     return (
         <Col xs={8}>
