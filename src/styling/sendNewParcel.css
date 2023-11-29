@@ -17,3 +17,7 @@
     margin-right: 8px; /* Adjust the spacing between checkbox and label */
     border: 2px solid black;
   }
+
+  .margin-top-30 {
+    margin-top: 30px;
+  }

@@ -1,50 +1,108 @@
 import "../styling/sendNewParcel.css";
 
 import React, { useState } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
-import { ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import ParcelSize from "../components/ParcelSize";
 import ParcelSizeImage from "../components/ParcelSizeImage";
 import ReceiverSenderDetails from "./ReceiverSenderDetails";
+import SendParcelConfirm from "../components/SendParcelConfirm";
 
-const SendNewParcel: React.FC = () => {
-  const [step, setStep] = useState<number>(1);
+interface SendParcel{
+  id_parcel: number;
+  id_user?: number | null;
+  reciever_name: string;
+  reciever_telephone: string;
+  reciever_street_address: string;
+  reciever_postal_code: string;
+  reciever_city: string;
+  sender_name: string;
+  sender_telephone?: string | null;
+  sender_street_address?: string | null;
+  sender_postal_code?: string | null;
+  sender_city?: string | null;
+  parcel_dropoff_date?: Date | null;
+  parcel_readyforpickup_date?: Date | null;
+  parcel_pickup_date?: Date | null;
+  parcel_last_pickup_date?: Date | null;
+  pin_code?: number | null;
+  status: 'ready_to_deliver' | 'parcel_at_dropoff_locker' | 'parcel_in_transportation' | 'parcel_in_pickup_locker' | 'reciever_recieved_parcel';
+  desired_dropoff_locker: number;
+  desired_pickup_locker: number;
+  alternative_pickup_locker?: number | null;
+  parcel_height: number;
+  parcel_width: number;
+  parcel_depth: number;
+  parcel_mass: number;
+  receiver_email: string;
+  sender_email: string;
+}
 
-  const [showReceiverSenderDetails, setShowReceiverSenderDetails] =
-    useState<boolean>(false);
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-  const handleBack = () => {
-    setStep(step - 1);
-  };
-  const handleSaveSize = () => {
-    // Assuming you have an API endpoint to save the data to the database
-    /* fetch('/api/saveParcelDetails', {
+async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
+  const response = await fetch('http://localhost:3001/parcel', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      fragile: fragileChecked,
-      fastDelivery: fastDeliveryChecked,
-      // Include other relevant data from the user input
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Handle success, e.g., show a success message
-      console.log('Data saved successfully', data);
-    })
-    .catch((error) => {
-      // Handle error, e.g., show an error message
-      console.error('Error saving data', error);
-    }); */
+    body: JSON.stringify(parcelData),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to post parcel. Status: ${response.status}`);
+  }
+  return response;
+}
+
+const SendNewParcel = (props: SendParcel) => {
+  const [step, setStep] = useState<number>(1);
+
+  const goToNextStep = () => {
+    setStep(step + 1);
   };
+  const goToPreviousStep = () => {
+    setStep(step - 1);
+  };
+
+  const goToConfirm = async () => {
+    try {
+      await postParcelToBackend(parcelData);
+      // Handle success, e.g., navigate to the next step
+      goToNextStep();
+    } catch (error) {
+      console.error('Error saving data', error);
+      // Handle error, e.g., show an error message to the user
+    }
+  };
+  const [parcelData, setParcelData] = useState<SendParcel>({
+    id_parcel: 1,
+    id_user: 1,
+    reciever_name: '',
+    reciever_telephone: '',
+    reciever_street_address: '',
+    reciever_postal_code: '',
+    reciever_city: '',
+    sender_name: '',
+    sender_telephone: '',
+    sender_street_address: '',
+    sender_postal_code: '',
+    sender_city: '',
+    parcel_dropoff_date: new Date(),
+    parcel_readyforpickup_date: new Date(),
+    parcel_pickup_date: new Date(),
+    parcel_last_pickup_date: new Date(),
+    pin_code: 0,
+    status: 'ready_to_deliver',
+    desired_dropoff_locker: 0,
+    desired_pickup_locker: 0,
+    alternative_pickup_locker: 0,
+    parcel_height: 0,
+    parcel_width: 0,
+    parcel_depth: 0,
+    parcel_mass: 0,
+    receiver_email: '',
+    sender_email: '',
+  });
 
   return (
     <Container className="sendNewParcel">
@@ -56,54 +114,45 @@ const SendNewParcel: React.FC = () => {
           <div className="sendNewParcel">
             {step === 1 && (
               <div>
-              <h3>Please fill in here package details. Note the maximum size!</h3>
                 <Row>
-                  <Col xs={6}>
+                  <Col xs={4}>
                     <div className="parcelSize">
                       <ParcelSize />
                     </div>
                   </Col>
-                  <Col xs={6}>
+                  <Col xs={4}>
                     <div className="parcelSizeImage">
                       <ParcelSizeImage />
                     </div>
                   </Col>
                 </Row>
-                
+                <div>
+                    <Button variant="primary" onClick={goToNextStep}>Next</Button>{' '}
+                </div>
               </div>
             )}            
-            {step === 2 && <ReceiverSenderDetails />}
-
-            {/* Buttons Row */}
-            <Row className="mt-3">
-              <Col xs={6} className="text-center">
-                <button className="btn btn-primary" onClick={handleSaveSize}>
-                  Save
-                </button>
-              </Col>
-              <Col xs={6} className="text-right">
-                <button className="btn btn-primary" onClick={handleNextStep}>
-                  Next
-                </button>
-                {/* {step < 3 ? (
-                  <Link to={`/receiverSenderDetails`} className="arrow-link">
-                    <div className="arrow-text" onClick={handleNextStep}>
-                      Next <ArrowRightCircle size={24} />
-                    </div>
-                  </Link>
-                ) : null} */}
-              </Col>
-            </Row>
-            {/* Navigation Arrows with Styled Text */}
-            <Row className="">
-              <Col xs={6}>
-                {step > 1 && (
-                  <Link to={`/${step - 1}`} className="arrow-link">
-                    <ArrowLeftCircle size={24} />
-                  </Link>
-                )}
-              </Col>
-            </Row>
+            {step === 2 && (
+              <div>
+                <div className="receiverSenderDetails">
+                  <ReceiverSenderDetails />
+                </div>
+                <div>
+                  <Button onClick={goToPreviousStep}>Back</Button>{' '}
+                  <Button onClick={goToNextStep}>Next</Button>{' '}
+                </div>
+              </div>
+            )}
+            {step === 3 && (
+              <div>
+                <div className="sendConfirm">
+                  <SendParcelConfirm />
+                </div>
+                <div>
+                  <Button onClick={goToPreviousStep}>Back</Button>{' '}
+                  <Button onClick={goToConfirm}>Confirm</Button>{' '}
+                </div>
+              </div>
+            )}
           </div>
         </Col>
       </Row>

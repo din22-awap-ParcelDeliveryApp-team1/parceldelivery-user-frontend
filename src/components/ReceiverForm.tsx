@@ -6,7 +6,7 @@ type ReceiverFormProps = {
   onSaveReceiverDetails: (details: ReceiverDetails) => void;
 };
 
-type ReceiverDetails = {
+export type ReceiverDetails = {
   name: string;
   streetAddress: string;
   postalCode: string;
@@ -35,12 +35,11 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
     onSaveReceiverDetails(receiverDetails);
     // Optionally, you can reset the form or perform other actions after saving
   };
-
   
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="receiverName">
-        <Form.Label>Name</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>Name</Form.Label>
         <Form.Control
           type="text"
           name="name"
@@ -51,7 +50,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
       </Form.Group>
 
       <Form.Group controlId="streetAddress">
-        <Form.Label>Street Address</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>Street Address</Form.Label>
         <Form.Control
           type="text"
           name="streetAddress"
@@ -62,7 +61,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
       </Form.Group>
 
       <Form.Group controlId="postalCode">
-        <Form.Label>Postal Code</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>Postal Code</Form.Label>
         <Form.Control
           type="text"
           name="postalCode"
@@ -73,7 +72,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
       </Form.Group>
 
       <Form.Group controlId="city">
-        <Form.Label>City</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>City</Form.Label>
         <Form.Control
           type="text"
           name="city"
@@ -84,7 +83,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
       </Form.Group>
 
       <Form.Group controlId="phoneNumber">
-        <Form.Label>Phone Number</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>Phone Number</Form.Label>
         <Form.Control
           type="tel"
           name="phoneNumber"
@@ -95,7 +94,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
       </Form.Group>
 
       <Form.Group controlId="email">
-        <Form.Label>Email</Form.Label>
+        <Form.Label style={{ fontWeight: 'bold' }}>Email</Form.Label>
         <Form.Control
           type="email"
           name="email"
@@ -104,8 +103,6 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onSaveReceiverDetails }: Re
           required
         />
       </Form.Group>
-
-      <Button type="submit">Save</Button>
     </Form>
   );
 };

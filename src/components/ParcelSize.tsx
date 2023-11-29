@@ -25,7 +25,8 @@ const ParcelSize: React.FC = () => {
 
     return (
         <div>
-        <Table className="parcelSize">
+          <h3>Please fill in here package details. Note the maximum size!</h3>
+          <Table className="parcelSize">
             <tbody>
                 <tr>
                     <td>
@@ -72,7 +73,7 @@ const ParcelSize: React.FC = () => {
                     </td>
                 </tr>
             </tbody>
-        </Table>
+          </Table>
         {/* Additional Services */}
         <Row className="mt-3">
         <Col xs={12}>

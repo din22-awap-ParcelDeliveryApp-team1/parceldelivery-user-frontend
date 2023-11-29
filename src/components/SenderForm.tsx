@@ -47,7 +47,7 @@ type SenderFormProps = {
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="senderName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>Name</Form.Label>
           <Form.Control
             type="text"
             name="name"
@@ -58,7 +58,7 @@ type SenderFormProps = {
         </Form.Group>
   
         <Form.Group controlId="senderStreetAddress">
-          <Form.Label>Street Address</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>Street Address</Form.Label>
           <Form.Control
             type="text"
             name="streetAddress"
@@ -69,7 +69,7 @@ type SenderFormProps = {
         </Form.Group>
   
         <Form.Group controlId="senderPostalCode">
-          <Form.Label>Postal Code</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>Postal Code</Form.Label>
           <Form.Control
             type="text"
             name="postalCode"
@@ -80,7 +80,7 @@ type SenderFormProps = {
         </Form.Group>
   
         <Form.Group controlId="senderCity">
-          <Form.Label>City</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>City</Form.Label>
           <Form.Control
             type="text"
             name="city"
@@ -91,7 +91,7 @@ type SenderFormProps = {
         </Form.Group>
   
         <Form.Group controlId="senderPhoneNumber">
-          <Form.Label>Phone Number</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>Phone Number</Form.Label>
           <Form.Control
             type="tel"
             name="phoneNumber"
@@ -102,7 +102,7 @@ type SenderFormProps = {
         </Form.Group>
   
         <Form.Group controlId="senderEmail">
-          <Form.Label>Email</Form.Label>
+          <Form.Label style={{ fontWeight: 'bold' }}>Email</Form.Label>
           <Form.Control
             type="email"
             name="email"
@@ -115,7 +115,7 @@ type SenderFormProps = {
         <Row>
         <Col md={6}>
           <Form.Group controlId="chooseLocker">
-            <Form.Label>Choose Dropoff Locker</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Choose Dropoff Locker</Form.Label>
             <Form.Control as="select" onChange={handleSelectLocker as any} value={senderDetails.selectedLocker}>
               <option value="">Select a Locker</option>
               <option value="locker1">Locker 1</option>
@@ -126,8 +126,6 @@ type SenderFormProps = {
           </Form.Group>
         </Col>
       </Row>
-
-        <Button type="submit">Save Sender Details</Button>
       </Form>
     );
   };
