@@ -24,14 +24,14 @@ return (
             </Col>
             <Col xs={6}>
                 <div className="sender">
-                    <h4 style={{ fontWeight: 'bold' }}>Sender's details</h4>
-                        <p style={{ fontWeight: 'bold' }}>Name: {parcelData.sender_name}</p>
-                        <p style={{ fontWeight: 'bold' }}>Street address: {parcelData.sender_street_address}</p>
-                        <p style={{ fontWeight: 'bold' }}>Postal code: {parcelData.sender_postal_code}</p>
-                        <p style={{ fontWeight: 'bold' }}>City: {parcelData.sender_city}</p>
-                        <p style={{ fontWeight: 'bold' }}>Telephone: {parcelData.sender_telephone}</p>
-                        <p style={{ fontWeight: 'bold' }}>Email: {parcelData.sender_email}</p>
-                        <p style={{ fontWeight: 'bold' }}>Drop-off location: {parcelData.desired_dropoff_locker}</p>
+                    <h4>Sender's details</h4>
+                        <p> <strong>Name:</strong> {parcelData.sender_name}</p>
+                        <p> <strong>Street address:</strong> {parcelData.sender_street_address}</p>
+                        <p> <strong>Postal code:</strong> {parcelData.sender_postal_code}</p>
+                        <p> <strong>City:</strong> {parcelData.sender_city}</p>
+                        <p> <strong>Telephone:</strong> {parcelData.sender_telephone}</p>
+                        <p> <strong>Email:</strong> {parcelData.sender_email}</p>
+                        <p> <strong>Drop-off location:</strong> {parcelData.desired_dropoff_locker}</p>
                 </div>
             </Col>  
         </Row>
