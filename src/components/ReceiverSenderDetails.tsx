@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Col, } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReceiverForm from './ReceiverForm';
@@ -8,11 +7,10 @@ interface ReceiverSenderDetailsProps {
     onChange: (change: any) => unknown;
 }
 
-
 const ReceiverSenderDetails = (props: ReceiverSenderDetailsProps ) => {
 
     return (
-        <Col xs={8}>
+        <Col xs={10}>
             <div className="receiverSenderDetails">
                 <h3>Please fill in here receiver and sender details</h3>
                     <h4 className="margin-top-30">Receiver's details</h4>

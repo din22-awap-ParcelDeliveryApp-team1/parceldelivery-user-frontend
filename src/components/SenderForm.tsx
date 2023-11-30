@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import { ChangeEvent } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { locker_location } from './statuses';
 
 
 type SenderFormProps = {
@@ -38,8 +38,8 @@ type SenderFormProps = {
     };
 
     const handleSelectLocker: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-        const selectedLocker = e.target.value;
-        setSenderDetails((prevDetails) => ({ ...prevDetails, selectedLocker }));
+        const selectedLocker = parseInt(e.target.value, 10);
+        setSenderDetails((prevDetails) => ({ ...prevDetails, desired_dropoff_locker: selectedLocker }));
       };
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +53,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>Name</Form.Label>
           <Form.Control
             type="text"
-            name="name"
+            name="sender_name"
             value={senderDetails.sender_name}
             onChange={handleChange}
             required
@@ -64,7 +64,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>Street Address</Form.Label>
           <Form.Control
             type="text"
-            name="streetAddress"
+            name="sender_street_address"
             value={senderDetails.sender_street_address}
             onChange={handleChange}
             required
@@ -75,7 +75,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>Postal Code</Form.Label>
           <Form.Control
             type="text"
-            name="postalCode"
+            name="sender_postal_code"
             value={senderDetails.sender_postal_code}
             onChange={handleChange}
             required
@@ -86,7 +86,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>City</Form.Label>
           <Form.Control
             type="text"
-            name="city"
+            name="sender_city"
             value={senderDetails.sender_city}
             onChange={handleChange}
             required
@@ -97,7 +97,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>Phone Number</Form.Label>
           <Form.Control
             type="tel"
-            name="phoneNumber"
+            name="sender_telephone"
             value={senderDetails.sender_telephone}
             onChange={handleChange}
             required
@@ -108,7 +108,7 @@ type SenderFormProps = {
           <Form.Label style={{ fontWeight: 'bold' }}>Email</Form.Label>
           <Form.Control
             type="email"
-            name="email"
+            name="sender_email"
             value={senderDetails.sender_email}
             onChange={handleChange}
             required
@@ -116,14 +116,16 @@ type SenderFormProps = {
         </Form.Group>
         
         <Form.Group controlId="chooseLocker">
-            <Form.Label style={{ fontWeight: 'bold' }}>Choose Dropoff Locker</Form.Label>
-            <Form.Control as="select" onChange={handleSelectLocker as any} value={senderDetails.desired_dropoff_locker}>
-              <option value="">Select a Locker</option>
-              <option value="locker1">Locker 1</option>
-              <option value="locker2">Locker 2</option>
-              <option value="locker3">Locker 3</option>
-              <option value="locker4">Locker 4</option>
-              <option value="locker5">Locker 5</option>
+          <Form.Label style={{ fontWeight: 'bold' }}>Choose Drop-off Locker</Form.Label>
+          <Button variant="link" href="/lockermap" target="_blank"> <strong>View Locker Map</strong></Button>
+          <Form.Control as="select" onChange={handleSelectLocker as any} 
+            value={senderDetails.desired_dropoff_locker}>
+                  <option value="">Select a Locker</option>
+                  <option value="1">{locker_location(1)}</option>
+                  <option value="2">{locker_location(2)}</option>
+                  <option value="3">{locker_location(3)}</option>
+                  <option value="4">{locker_location(4)}</option>
+                  <option value="5">{locker_location(5)}</option>
             </Form.Control>
         </Form.Group>
       </Form>

@@ -136,10 +136,10 @@ const SendNewParcel = () => {
   return (
     <Container className="sendNewParcel">
       <Row className="mt-3">
-        <Col xs={4} className="sidebar mr-2">
+        <Col xs={2} className="sidebar mr-2">
           <Sidebar />
         </Col>
-        <Col xs={8}>
+        <Col xs={10}>
           <div className="sendNewParcel">
             {step === 1 && (
               <div>
@@ -156,19 +156,28 @@ const SendNewParcel = () => {
                   </Col>
                 </Row>
                 <div>
-                    <Button variant="primary" onClick={goToNextStep}>Next</Button>{' '}
+                    <Button variant="primary" onClick={goToNextStep} 
+                      style={{ marginTop: '10px', padding: '8px 16px' }}>Next</Button>{' '}
                 </div>
               </div>
             )}            
             {step === 2 && (
               <div>
+                <Row>
+                  <Col xs={12}>
                 <div className="receiverSenderDetails">
                   <ReceiverSenderDetails onChange={onChange} />
                 </div>
                 <div>
-                  <Button onClick={goToPreviousStep}>Back</Button>{' '}
-                  <Button onClick={goToNextStep}>Next</Button>{' '}
+                  <Button onClick={goToPreviousStep}
+                    style={{ marginTop: '10px', padding: '8px 16px' }}>Back
+                  </Button>{' '}
+                  <Button onClick={goToNextStep} 
+                    style={{ marginTop: '10px', padding: '8px 16px' }}>Next
+                  </Button>{' '}
                 </div>
+              </Col>
+              </Row>
               </div>
             )}
             {step === 3 && (
@@ -177,8 +186,12 @@ const SendNewParcel = () => {
                   <SendParcelConfirm parcelData={parcelData}/>
                 </div>
                 <div>
-                  <Button onClick={goToPreviousStep}>Back</Button>{' '}
-                  <Button onClick={goToConfirm}>Confirm</Button>{' '}
+                  <Button onClick={goToPreviousStep} 
+                    style={{ margin: '10px', padding: '8px 16px' }}>Back
+                  </Button>{' '}
+                  <Button onClick={goToConfirm} 
+                    style={{ margin: '10px', padding: '8px 16px' }}>Confirm
+                  </Button>{' '}
                 </div>
               </div>
             )}

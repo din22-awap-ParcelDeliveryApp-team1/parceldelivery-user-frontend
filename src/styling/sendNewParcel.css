@@ -1,12 +1,3 @@
-.arrow-link {
-    text-decoration: none; /* Remove underline */
-  }
-  
-  .arrow-text {
-    font-weight: bold; /* Make text bold */
-    font-size: 18px; /* Increase text size */
-    /*not underline text*/
-  }
 
   .custom-checkbox {
     display: flex;
@@ -20,4 +11,8 @@
 
   .margin-top-30 {
     margin-top: 30px;
+  }
+
+  .sidebar {
+    max-height: 500px;
   }

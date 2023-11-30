@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-
+import { Form, Button } from 'react-bootstrap';
+import {locker_location} from './statuses';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import Map from './Map';
 
 type ReceiverFormProps = {
   onChange: (details: ReceiverDetails) => void;
@@ -37,13 +40,13 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
   };
 
   const handleSelectLocker: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const selectedLocker = e.target.value;
-    setReceiverDetails((prevDetails) => ({ ...prevDetails, selectedLocker }));
+    const selectedLocker = parseInt(e.target.value, 10);
+    console.log(selectedLocker);
+    setReceiverDetails((prevDetails) => ({ ...prevDetails, desired_pickup_locker: selectedLocker  }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Optionally, you can reset the form or perform other actions after saving
   };
   
   return (
@@ -63,7 +66,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         <Form.Label style={{ fontWeight: 'bold' }}>Street Address</Form.Label>
         <Form.Control
           type="text"
-          name="streetAddress"
+          name="reciever_street_address"
           value={receiverDetails.reciever_street_address}
           onChange={handleChange}
           required
@@ -74,7 +77,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         <Form.Label style={{ fontWeight: 'bold' }}>Postal Code</Form.Label>
         <Form.Control
           type="text"
-          name="postalCode"
+          name="reciever_postal_code"
           value={receiverDetails.reciever_postal_code}
           onChange={handleChange}
           required
@@ -85,7 +88,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         <Form.Label style={{ fontWeight: 'bold' }}>City</Form.Label>
         <Form.Control
           type="text"
-          name="city"
+          name="reciever_city"
           value={receiverDetails.reciever_city}
           onChange={handleChange}
           required
@@ -96,7 +99,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         <Form.Label style={{ fontWeight: 'bold' }}>Phone Number</Form.Label>
         <Form.Control
           type="tel"
-          name="phoneNumber"
+          name="reciever_telephone"
           value={receiverDetails.reciever_telephone}
           onChange={handleChange}
           required
@@ -107,7 +110,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         <Form.Label style={{ fontWeight: 'bold' }}>Email</Form.Label>
         <Form.Control
           type="email"
-          name="email"
+          name="receiver_email"
           value={receiverDetails.receiver_email}
           onChange={handleChange}
           required
@@ -115,16 +118,21 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
       </Form.Group>
 
       <Form.Group controlId="chooseLocker">
-            <Form.Label style={{ fontWeight: 'bold' }}>Choose Pick-up Locker</Form.Label>
-            <Form.Control as="select" onChange={handleSelectLocker as any} value={receiverDetails.desired_pickup_locker}>
-              <option value="">Select a Locker</option>
-              <option value="locker1">Locker 1</option>
-              <option value="locker2">Locker 2</option>
-              <option value="locker3">Locker 3</option>
-              <option value="locker4">Locker 4</option>
-              <option value="locker5">Locker 5</option>
+          <Form.Label style={{ fontWeight: 'bold' }}>Choose Pick-up Locker</Form.Label>
+                <Button variant="link" href="/lockermap" target="_blank"> 
+                  <strong>View Locker Map</strong>
+                </Button>
+              {/* <Map /> */}
+            <Form.Control as="select" onChange={handleSelectLocker as any} 
+              value={receiverDetails.desired_pickup_locker}>
+                <option value="">Select a Locker </option>
+                <option value="1">{locker_location(1)}</option>
+                <option value="2">{locker_location(2)}</option>
+                <option value="3">{locker_location(3)}</option>
+                <option value="4">{locker_location(4)}</option>
+                <option value="5">{locker_location(5)}</option>
             </Form.Control>
-        </Form.Group>
+      </Form.Group>
 
     </Form>
   );
