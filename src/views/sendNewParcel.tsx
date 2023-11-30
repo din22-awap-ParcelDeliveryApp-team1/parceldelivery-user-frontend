@@ -130,11 +130,17 @@ const SendNewParcel = () => {
   });
 
   const onChange = (newParcelData: SendParcel) => {
+    if(newParcelData.parcel_dropoff_date){
+      newParcelData.parcel_readyforpickup_date = 
+        new Date(newParcelData.parcel_dropoff_date.getTime()+ 4*24*60*60*1000);
+    }
+
     setParcelData({...parcelData, ...newParcelData});
   }
 
   return (
     <Container className="sendNewParcel">
+      {JSON.stringify(parcelData)}
       <Row className="mt-3">
         <Col xs={2} className="sidebar mr-2">
           <Sidebar />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { locker_location } from './statuses';
+import Map from './Map';
 
 
 type SenderFormProps = {
@@ -15,6 +16,7 @@ type SenderFormProps = {
     sender_telephone: string;
     sender_email: string;
     desired_dropoff_locker: number; 
+    parcel_dropoff_date: Date;
   };
   
   const SenderForm: React.FC<SenderFormProps> = ({ onChange }: SenderFormProps) => {
@@ -25,8 +27,11 @@ type SenderFormProps = {
       sender_city: '',
       sender_telephone: '',
       sender_email: '',
-      desired_dropoff_locker: 0, 
+      desired_dropoff_locker: 0,
+      parcel_dropoff_date: new Date(),
     });
+
+    const [isMapVisible, setIsMapVisible] = useState(false);
 
     useEffect(() => {
       onChange(senderDetails);
@@ -42,12 +47,18 @@ type SenderFormProps = {
         setSenderDetails((prevDetails) => ({ ...prevDetails, desired_dropoff_locker: selectedLocker }));
       };
   
+    const handleViewMapClick = () => {
+        setIsMapVisible(!isMapVisible);
+      };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       // Optionally, you can reset the form or perform other actions after saving
     };
   
     return (
+      <Row>
+    <Col md={8}>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="senderName">
           <Form.Label style={{ fontWeight: 'bold' }}>Name</Form.Label>
@@ -117,7 +128,9 @@ type SenderFormProps = {
         
         <Form.Group controlId="chooseLocker">
           <Form.Label style={{ fontWeight: 'bold' }}>Choose Drop-off Locker</Form.Label>
-          <Button variant="link" href="/lockermap" target="_blank"> <strong>View Locker Map</strong></Button>
+                <Button variant="link" onClick={handleViewMapClick}> 
+                  <strong>View Locker Map</strong>
+                </Button>
           <Form.Control as="select" onChange={handleSelectLocker as any} 
             value={senderDetails.desired_dropoff_locker}>
                   <option value="">Select a Locker</option>
@@ -129,7 +142,16 @@ type SenderFormProps = {
             </Form.Control>
         </Form.Group>
       </Form>
+      </Col>
+      <Col md={4}>
+        {isMapVisible && <Map />} 
+      </Col>
+      <p>
+  <strong>Drop-off date:</strong>{' '}
+  {senderDetails.parcel_dropoff_date.toLocaleDateString()}
+</p>
+    </Row>
     );
-  };
+  }
   
   export default SenderForm;

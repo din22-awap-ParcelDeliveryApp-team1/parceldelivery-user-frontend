@@ -74,7 +74,7 @@ const Map = () => {
     }
   }, [])
 
-  return <div id='map-container' style={{ width: '50%', height: '400px' }} />
+  return <div id='map-container' style={{ width: '100%', height: '500px' }} />;
 }
 
 export default Map

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import {locker_location} from './statuses';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import Map from './Map';
 
 type ReceiverFormProps = {
@@ -30,6 +28,8 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
     desired_pickup_locker: 0,
   });
 
+  const [isMapVisible, setIsMapVisible] = useState(false);
+
   useEffect(() => {
     onChange(receiverDetails);
   }, [receiverDetails]);
@@ -45,11 +45,17 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
     setReceiverDetails((prevDetails) => ({ ...prevDetails, desired_pickup_locker: selectedLocker  }));
   };
 
+  const handleViewMapClick = () => {
+    setIsMapVisible(!isMapVisible);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
   
   return (
+    <Row>
+    <Col md={8}>
     <Form  onSubmit={handleSubmit}>
       <Form.Group controlId="receiverName">
         <Form.Label style={{ fontWeight: 'bold' }}>Name</Form.Label>
@@ -119,10 +125,9 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
 
       <Form.Group controlId="chooseLocker">
           <Form.Label style={{ fontWeight: 'bold' }}>Choose Pick-up Locker</Form.Label>
-                <Button variant="link" href="/lockermap" target="_blank"> 
+                <Button variant="link" onClick={handleViewMapClick}> 
                   <strong>View Locker Map</strong>
                 </Button>
-              {/* <Map /> */}
             <Form.Control as="select" onChange={handleSelectLocker as any} 
               value={receiverDetails.desired_pickup_locker}>
                 <option value="">Select a Locker </option>
@@ -135,7 +140,11 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
       </Form.Group>
 
     </Form>
+    </Col>
+    <Col md={4}>
+        {isMapVisible && <Map />} 
+      </Col>
+    </Row>
   );
 };
-
 export default ReceiverForm;

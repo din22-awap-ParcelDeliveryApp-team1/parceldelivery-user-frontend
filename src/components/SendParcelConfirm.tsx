@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const SendParcelConfirm = (props: any) => {
@@ -18,8 +18,10 @@ return (
                         <p> <strong>Telephone:</strong> {parcelData.reciever_telephone}</p>
                         <p> <strong>Email:</strong> {parcelData.receiver_email}</p>
                         <p> <strong>Pick-up location:</strong> {parcelData.desired_pickup_locker}</p>
-                        <h5 style={{ fontWeight: 'bold' }}>Estimated time of delivery: TBD</h5>
-                        <h5 style={{ fontWeight: 'bold' }}>Costs of the delivery: TBD</h5>
+                        <p><strong>Estimated time of delivery:</strong>{' '}
+                            {parcelData.parcel_readyforpickup_date.toLocaleDateString()}
+                        </p>
+                        <p> <strong>Costs of the delivery: 7,9 € </strong></p>
                 </div>
             </Col>
             <Col xs={6}>
