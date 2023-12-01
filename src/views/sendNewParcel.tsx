@@ -178,9 +178,21 @@ const SendNewParcel = () => {
                     </div>
                   </Col>
                 </Row>
-                <div>
-                    <Button variant="primary" onClick={goToNextStep} 
-                      style={{ marginTop: '10px', padding: '8px 16px' }}>Next</Button>{' '}
+                <div /* className="d-flex justify-content-end" */>
+                  <Row>
+                    <Col xs={6} className="d-flex justify-content-end">
+                      <Button
+                        variant="primary"
+                        onClick={goToNextStep}
+                        style={{ marginTop: '10px', padding: '8px 16px' }}
+                      >
+                        Next
+                      </Button>{' '}
+                    </Col>
+                    <Col xs={6}>
+                      {/* Content for the second column */}
+                    </Col>
+                  </Row>
                 </div>
               </div>
             )}            
@@ -192,12 +204,18 @@ const SendNewParcel = () => {
                   <ReceiverSenderDetails onChange={onChange} />
                 </div>
                 <div>
-                  <Button onClick={goToPreviousStep}
-                    style={{ marginTop: '10px', padding: '8px 16px' }}>Back
-                  </Button>{' '}
-                  <Button onClick={goToNextStep} className="ml-auto"
-                    style={{ marginTop: '10px', padding: '8px 16px'}}>Next
-                  </Button>{' '}
+                  <Row>
+                    <Col xs={6}>
+                      <Button onClick={goToPreviousStep}
+                        style={{ marginTop: '10px', padding: '8px 16px' }}>Back
+                      </Button>{' '}
+                    </Col>
+                    <Col xs={6}>
+                      <Button onClick={goToNextStep} className="ml-auto"
+                        style={{ marginTop: '10px', padding: '8px 16px'}}>Next
+                      </Button>{' '}
+                    </Col>
+                  </Row>
                 </div>
               </Col>
               </Row>
@@ -209,12 +227,18 @@ const SendNewParcel = () => {
                   <SendParcelConfirm parcelData={parcelData}/>
                 </div>
                 <div>
-                  <Button onClick={goToPreviousStep} 
-                    style={{ margin: '10px', padding: '8px 16px' }}>Back
-                  </Button>{' '}
-                  <Button onClick={goToConfirm} 
-                    style={{ margin: '10px', padding: '8px 16px' }}>Confirm
-                  </Button>{' '}
+                <Row>
+                    <Col xs={6}>
+                      <Button onClick={goToPreviousStep} 
+                        style={{ padding: '8px 16px' }}>Back
+                      </Button>{' '}
+                    </Col>
+                    <Col xs={6}>
+                      <Button onClick={goToConfirm} 
+                        style={{  padding: '8px 16px' }}>Confirm
+                      </Button>{' '}
+                    </Col>
+                </Row>
                 </div>
               </div>
             )}
