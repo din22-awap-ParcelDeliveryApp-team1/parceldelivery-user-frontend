@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { locker_location } from './statuses';
 import Map from './Map';
+import "../styling/sendNewParcel.css";
 
 
 type SenderFormProps = {
@@ -146,10 +147,10 @@ type SenderFormProps = {
       <Col md={4}>
         {isMapVisible && <Map />} 
       </Col>
-      <p>
-  <strong>Drop-off date:</strong>{' '}
-  {senderDetails.parcel_dropoff_date.toLocaleDateString()}
-</p>
+      <p className='dropoffDate'>
+        <strong>Drop-off date:</strong>{' '}
+        {senderDetails.parcel_dropoff_date.toLocaleDateString()}
+    </p>
     </Row>
     );
   }

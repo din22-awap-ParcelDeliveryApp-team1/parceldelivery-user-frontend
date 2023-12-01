@@ -1,4 +1,6 @@
-
+  .sizeHeading {
+    margin-bottom: 30px;
+  }
   .custom-checkbox {
     display: flex;
     align-items: center;
@@ -15,4 +17,17 @@
 
   .sidebar {
     max-height: 500px;
+  }
+
+  .stepSend {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .confirmHeading {
+    margin-bottom: 30px;
+  }
+
+  .dropoffDate {
+    margin-top: 30px;
   }

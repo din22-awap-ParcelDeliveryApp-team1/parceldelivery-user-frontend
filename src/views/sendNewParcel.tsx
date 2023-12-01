@@ -1,5 +1,5 @@
 import "../styling/sendNewParcel.css";
-
+import { Link } from 'react-router-dom';
 import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -40,13 +40,21 @@ export interface SendParcel{
 }
 
 async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
+   // Format the dates without the time part
+   const formattedParcelData = {
+      ...parcelData,
+    parcel_dropoff_date: parcelData.parcel_dropoff_date?.toISOString() || null,
+    parcel_readyforpickup_date: parcelData.parcel_readyforpickup_date?.toISOString() || null,
+    parcel_pickup_date: parcelData.parcel_pickup_date?.toISOString() || null,
+    parcel_last_pickup_date: parcelData.parcel_last_pickup_date?.toISOString() || null,
+    };
   const response = await fetch('http://localhost:3001/parcel', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      id_user: 1,
+      id_user: parcelData.id_user,
       reciever_name: parcelData.reciever_name,
       reciever_telephone: parcelData.reciever_telephone,
       reciever_street_address: parcelData.reciever_street_address,
@@ -93,12 +101,23 @@ const SendNewParcel = () => {
 
   const goToConfirm = async () => {
     try {
-      await postParcelToBackend(parcelData);
-      //goToNextStep();
+        const response = await postParcelToBackend(parcelData);
+        if (response.ok) {
+            // Parse the response to get the pin code
+            const responseData = await response.json();
+            const pinCode = responseData.pin_code;
+            console.log('Pin Code:', pinCode);
+
+            // Update the state with the pin code
+            setParcelData((prevParcelData) => ({ ...prevParcelData, pin_code: pinCode }));
+            goToNextStep();
+        } else {
+            console.error('Failed to post parcel. Status:', response.status);
+        }
     } catch (error) {
-      console.error('Error saving data', error);
+        console.error('Error saving data', error);
     }
-  };
+};
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
     id_user: 1,
@@ -134,13 +153,11 @@ const SendNewParcel = () => {
       newParcelData.parcel_readyforpickup_date = 
         new Date(newParcelData.parcel_dropoff_date.getTime()+ 4*24*60*60*1000);
     }
-
     setParcelData({...parcelData, ...newParcelData});
   }
 
   return (
     <Container className="sendNewParcel">
-      {JSON.stringify(parcelData)}
       <Row className="mt-3">
         <Col xs={2} className="sidebar mr-2">
           <Sidebar />
@@ -178,8 +195,8 @@ const SendNewParcel = () => {
                   <Button onClick={goToPreviousStep}
                     style={{ marginTop: '10px', padding: '8px 16px' }}>Back
                   </Button>{' '}
-                  <Button onClick={goToNextStep} 
-                    style={{ marginTop: '10px', padding: '8px 16px' }}>Next
+                  <Button onClick={goToNextStep} className="ml-auto"
+                    style={{ marginTop: '10px', padding: '8px 16px'}}>Next
                   </Button>{' '}
                 </div>
               </Col>
@@ -205,8 +222,16 @@ const SendNewParcel = () => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  Well done
+                  <h5>Your order has been confirm! The pin code is {parcelData.pin_code}.</h5>
+                  <div className="stepSend">
+                    <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
+                    <p><strong>Step 2:</strong> Enter the pin code to the touch screen.</p>
+                    <p><strong>Step 3:</strong> Place the parcel inside the cabinet, close the door and you are done!</p>
+                  </div>
                 </div>
+                <Link to="/home">
+                  <Button style={{ margin: '10px', padding: '8px 16px' }}>Back to Home page</Button>
+                </Link>
               </div>
             )}
         </Col>

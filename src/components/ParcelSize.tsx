@@ -44,7 +44,7 @@ const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
 
     return (
         <div>
-          <h3>Please fill in here package details. Note the maximum size!</h3>
+          <h3 className='sizeHeading'>Please fill in here package details. Note the maximum size!</h3>
           <Table className="parcelSize">
             <tbody>
                 <tr>

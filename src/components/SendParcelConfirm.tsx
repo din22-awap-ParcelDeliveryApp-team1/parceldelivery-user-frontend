@@ -1,12 +1,13 @@
 import { Row, Col, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { locker_location } from './statuses';
 
 const SendParcelConfirm = (props: any) => {
     const { parcelData} = props;
 
 return (
     <div>
-        <h3>Please confirm your order</h3>
+        <h3 className="confirmHeading">Please confirm your order</h3>
         <Row>
             <Col xs={6}>
                 <div className="receiver">
@@ -17,7 +18,7 @@ return (
                         <p> <strong>City:</strong> {parcelData.reciever_city}</p>
                         <p> <strong>Telephone:</strong> {parcelData.reciever_telephone}</p>
                         <p> <strong>Email:</strong> {parcelData.receiver_email}</p>
-                        <p> <strong>Pick-up location:</strong> {parcelData.desired_pickup_locker}</p>
+                        <p> <strong>Pick-up location:</strong>{locker_location(parcelData.desired_pickup_locker)}</p>
                         <p><strong>Estimated time of delivery:</strong>{' '}
                             {parcelData.parcel_readyforpickup_date.toLocaleDateString()}
                         </p>
@@ -33,7 +34,7 @@ return (
                         <p> <strong>City:</strong> {parcelData.sender_city}</p>
                         <p> <strong>Telephone:</strong> {parcelData.sender_telephone}</p>
                         <p> <strong>Email:</strong> {parcelData.sender_email}</p>
-                        <p> <strong>Drop-off location:</strong> {parcelData.desired_dropoff_locker}</p>
+                        <p> <strong>Drop-off location:</strong> {locker_location(parcelData.desired_dropoff_locker)}</p>
                 </div>
             </Col>  
         </Row>
