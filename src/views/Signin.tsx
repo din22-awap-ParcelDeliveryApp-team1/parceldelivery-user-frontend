@@ -10,14 +10,18 @@ interface LoginUserData {
   user_name: string;
   password: string;
 }
-
-
+//1129 new code to fit login auth
+interface LoginResponse {
+  token: string;
+  message: string;
+  success: boolean;
+}
 const Signin: React.FC = () => {
-
+  //old code
   const [formData, setFormData] = useState<LoginUserData>({
     user_name: '',
     password: '',
-  });
+  }); 
 
 
 const [error, setError] = useState(
@@ -28,24 +32,20 @@ const [error, setError] = useState(
   }
   );  
 
-
   const [submissionState, setSubmissionState] = useState('idle');
-
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("DBG: Update name:" + name + ":" + value);
     setFormData({...formData, [name]: value });
-        //console.log("DBG: " + prevState);
-        //console.log("DBG: " + name + ":" + value);
-        
+  
         if(formData.user_name.trim() === '' || formData.password.trim() === '')
         {
           setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
         }else {setError(prevState => ({...prevState, form: ''}));}
-
       };
-   
+
+  
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
@@ -57,23 +57,27 @@ const [error, setError] = useState(
     setSubmissionState('Signing in...');
       // Send data to the server (you can use fetch or Axios)
     try {
-      //to apply if statement to check if all fields are filled
-      const response = await fetch('http://localhost:3001/user/signin', {
+      //1129 new code to fit login auth
+      const response = await fetch('http://localhost:3001/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        //const data = await response.json();
-        setSubmissionState('Login success');
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData);
+        throw new Error('Network response was not ok');
       }
-/*       else{
+      const data: LoginResponse = await response.json();
+      //read token in the data
+      console.log("DBG login res" + data);
+      if (data.success) {
+        setSubmissionState('success');
+      } else {
         throw new Error('User name or password is not correct');
-      } */
+      }
     } catch (error) {
       const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
       //console.error(error);    
@@ -81,7 +85,6 @@ const [error, setError] = useState(
       setSubmissionState('error');
     }
   };
-
 
 
   return (
@@ -118,11 +121,7 @@ const [error, setError] = useState(
             {submissionState === 'success' && <span>Success!</span>}
             {submissionState === 'error' && <span>Error. Please try again.</span>}
             {error.form && <p className="error">{error.form}</p>}
-           {/*  here has prolem, even fill all fileds, still can not submit */}
-           {/* {submissionState === 'idle' && <button type="submit" disabled={Object.values(error).some(msg => msg)} > Register</button>}  */}
-          {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Register</button>} 
-
-         {/*   {submissionState === 'idle' && <button type="submit" >Register</button>}   */}
+            {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>} 
 
           </div>
         </form>
