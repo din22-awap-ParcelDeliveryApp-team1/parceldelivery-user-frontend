@@ -23,7 +23,7 @@ function App() {
         {/* from chatGPT import chatGPT */}
         {/* <Route path="/myAccount" element={<MyAccount {...user} />} /> */}
          <Route path="/myAccount" element={<MyAccount />} /> 
-        <Route path="/sendNewParcel" element={<SendNewParcel />} />
+        <Route path="/SendNewParcel" element={<SendNewParcel />} />
         <Route path="/Register" element={<Register />} />
        <Route path="/Signin" element={<Signin />} /> 
       </Routes>
