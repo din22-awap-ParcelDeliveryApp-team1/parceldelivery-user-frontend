@@ -246,10 +246,10 @@ const SendNewParcel = () => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  <h5>Your order has been confirm! The pin code is {parcelData.pin_code}.</h5>
+                  <h5>Your order has been confirm! The pin code is {parcelData.pin_code}.Please follow the steps below!</h5>
                   <div className="stepSend">
                     <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
-                    <p><strong>Step 2:</strong> Enter the pin code to the touch screen.</p>
+                    <p><strong>Step 2:</strong> Enter the pin code to the touch screen to open the cabinet.</p>
                     <p><strong>Step 3:</strong> Place the parcel inside the cabinet, close the door and you are done!</p>
                   </div>
                 </div>
