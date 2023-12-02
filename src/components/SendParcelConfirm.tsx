@@ -7,7 +7,7 @@ const SendParcelConfirm = (props: any) => {
 
 return (
     <div>
-        <h3 className="confirmHeading">Please confirm your order</h3>
+        <h3 className="confirmHeading">Please confirm your order!</h3>
         <Row>
             <Col xs={6}>
                 <div className="receiver">

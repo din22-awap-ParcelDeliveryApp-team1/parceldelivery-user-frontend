@@ -178,7 +178,7 @@ const SendNewParcel = () => {
                     </div>
                   </Col>
                 </Row>
-                <div /* className="d-flex justify-content-end" */>
+                <div>
                   <Row>
                     <Col xs={6} className="d-flex justify-content-end">
                       <Button

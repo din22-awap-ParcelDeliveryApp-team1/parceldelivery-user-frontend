@@ -1,4 +1,3 @@
-// create a script that can be used to display the status of a parcel
 
 export const parcel_status = (status: String) => {
     switch (status) {

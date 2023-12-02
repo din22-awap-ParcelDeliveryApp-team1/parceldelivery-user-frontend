@@ -20,9 +20,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/sentParcels" element={<SentParcels />} />
         <Route path="/receivedParcels" element={<ReceivedParcels />} />
-        {/* from chatGPT import chatGPT */}
-        {/* <Route path="/myAccount" element={<MyAccount {...user} />} /> */}
-         <Route path="/myAccount" element={<MyAccount />} /> 
+        <Route path="/myAccount" element={<MyAccount />} /> 
         <Route path="/SendNewParcel" element={<SendNewParcel />} />
         <Route path="/Register" element={<Register />} />
        <Route path="/Signin" element={<Signin />} /> 
