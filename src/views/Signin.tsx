@@ -5,6 +5,7 @@ import '../styling/module.css';
 //import { request } from 'http';
 //import { create } from 'domain';
 //import { updateExpression } from '@babel/types';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginUserData {
   user_name: string;
@@ -17,6 +18,8 @@ interface LoginResponse {
   success: boolean;
 }
 const Signin: React.FC = () => {
+  //after user login, redirect to myaccount page
+  const navigate = useNavigate();
   //old code
   const [formData, setFormData] = useState<LoginUserData>({
     user_name: '',
@@ -75,6 +78,8 @@ const [error, setError] = useState(
       console.log("DBG login res" + data);
       if (data.success) {
         setSubmissionState('success');
+        // navigate to home; 12-02
+        navigate('/home');
       } else {
         throw new Error('User name or password is not correct');
       }
@@ -90,7 +95,7 @@ const [error, setError] = useState(
   return (
     <section className="registerContainer">
     <h1>Sign in </h1>
-    <h5>* Mandory field </h5>
+    <h5>* Mandatory field </h5>
         <form onSubmit={handleSubmit} noValidate>
           <div className="form">
             

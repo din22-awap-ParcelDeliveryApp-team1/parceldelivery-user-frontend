@@ -1,4 +1,5 @@
 /* Global styles for the form container */
+/*register form CSS*/
 .registerContainer {
     width: 100%;
     max-width: 600px;
@@ -109,4 +110,77 @@
   }
   
   /* When p elements are used for navigation, it's better to use 'a' tags for accessibility. */
+  /*my account CSS*/
+  .account-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+  
+    /* margin: auto; */
+  }
+  
+  .account-info {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .account-info div {
+    margin-top: 15px;
+    padding-top: 20px;
+    margin-bottom: 40px;
+    
+  }
+  
+  .account-info strong {
+    font-weight: 500;
+  }
+  .email-div {
+
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+/*   .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  } */
+  
+  .button {
+    padding: 15px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  /* Style for buttons and button states */
+.edit-button, .delete-button {
+  /* Common button styles */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 15px; /* Add a small space between buttons */
+}
+  .edit-button {
+    padding-right: 10px;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .delete-button {
+    background-color: #ff4d4f;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #cc0000;
+  }
   

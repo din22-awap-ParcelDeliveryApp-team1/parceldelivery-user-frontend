@@ -4,7 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
+import '../styling/module.css';
+//import ListGroup from 'react-bootstrap/ListGroup';
+import { useNavigate } from 'react-router-dom';
 
 type UserInfoProps = {
     firstName?: string;
@@ -26,14 +28,16 @@ const MyAccount: React.FC<UserInfoProps> = ({
     phoneNumber,
     email
   }) => {
+    //after click, it will link to edit user info page
+    const navigate = useNavigate();
     return (
-        <Container>
+        <Container className="account-container">
         <Row>
-          <Col xs={2} className="sidebar">
+          <Col xs={12} md={3} className="sidebar">
             <Sidebar />
           </Col>
-          <Col xs={9} md={10} className="user-info">
-          <div>
+          <Col xs={12} md={9} className="user-info">
+          <div >
             <strong>First name:</strong> 
           </div>
           <div>
@@ -51,13 +55,13 @@ const MyAccount: React.FC<UserInfoProps> = ({
           <div>
             <strong>Phone number:</strong> 
           </div>
-          <div>
+          <div className="email-div">
             <strong>Email:</strong> 
           </div>
-          <button onClick={() => {/* logic to edit information */}}>
+          <button className="edit-button" onClick={() => navigate('/edit-user-info')}>
             Edit information
           </button>
-          <button onClick={() => {/* logic to delete account */}}>
+          <button className="delete-button" onClick={() => {/* logic to delete account */}}>
             Delete account
           </button>
         </Col>

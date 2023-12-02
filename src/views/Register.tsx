@@ -6,6 +6,8 @@ import '../styling/module.css';
 //import { request } from 'http';
 //import { create } from 'domain';
 //import { updateExpression } from '@babel/types';
+import { Link } from 'react-router-dom';
+
 
 interface UserData {
   first_name: string;
@@ -51,7 +53,8 @@ const [error, setError] = useState(
   //1124 to check username  
   const [usernameExists, setUsernameExists] = useState<boolean>(false); 
   const [submissionState, setSubmissionState] = useState('idle');
-
+  //1201 add if success directly to login page
+  const [success, setSuccess] = useState<boolean>(false);
 
   //1124 for check username
 const checkUsername = async (user_name:string) => {
@@ -148,8 +151,6 @@ const checkUsername = async (user_name:string) => {
       setError(prevState => ({...prevState, user_name: 'Username already exists'}));
       return;
     }
-    
-   
       // Send data to the server (you can use fetch or Axios)
     try {
       //to apply if statement to check if all fields are filled
@@ -163,7 +164,7 @@ const checkUsername = async (user_name:string) => {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        //const data = await response.json();
+        setSuccess(true); // Set success state to true, to tell direct to lgoin page
         setSubmissionState('success');
       }
 
@@ -171,6 +172,7 @@ const checkUsername = async (user_name:string) => {
       const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
       //console.error(error);    
       setError(message);
+      setSuccess(false);
       setSubmissionState('error');
     }
   };
@@ -181,145 +183,157 @@ const checkUsername = async (user_name:string) => {
     <section className="registerContainer">
     <h1>Register now and join us!</h1>
     <h5>* Mandory field </h5>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="form">
-            {/* Other form fields go here */}
-            <label htmlFor="firstName">First name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="first_name"
-              placeholder="*First name"
-              value={formData.first_name}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="lastName">Last name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="last_name"
-              placeholder="* Last Name"
-              value={formData.last_name}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="* Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-             {error.email && <p className="error">{error.email}</p>}
-             <label htmlFor="phone">Phone</label>
-            <input
-              type="text"
-              id="phone"
-              name="telephone"
-              placeholder="* Phone number"
-              value={formData.telephone}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="streeAddress">Street Address</label>
-            <input
-              type="text"
-              id="streetAddress"
-              name="street_address"
-              placeholder="* Street address"
-              value={formData.street_address}
-              onChange={handleChange}
-              required
-            />
+    {submissionState !== "success" ?(
+      <form onSubmit={handleSubmit} noValidate>
+      <div className="form">
+        {/* Other form fields go here */}
+        <label htmlFor="firstName">First name</label>
+        <input
+          type="text"
+          id="firstName"
+          name="first_name"
+          placeholder="*First name"
+          value={formData.first_name}
+          onChange={handleChange}
+          required
+        />
+        <label htmlFor="lastName">Last name</label>
+        <input
+          type="text"
+          id="lastName"
+          name="last_name"
+          placeholder="* Last Name"
+          value={formData.last_name}
+          onChange={handleChange}
+          required
+        />
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="* Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+         {error.email && <p className="error">{error.email}</p>}
+         <label htmlFor="phone">Phone</label>
+        <input
+          type="text"
+          id="phone"
+          name="telephone"
+          placeholder="* Phone number"
+          value={formData.telephone}
+          onChange={handleChange}
+          required
+        />
+        <label htmlFor="streeAddress">Street Address</label>
+        <input
+          type="text"
+          id="streetAddress"
+          name="street_address"
+          placeholder="* Street address"
+          value={formData.street_address}
+          onChange={handleChange}
+          required
+        />
 
-            <label htmlFor="postalcode">Postal code</label>
-            <input
-            type="text"
-            id="postalCode"
-            name="postal_code"
-            placeholder="* Postal code"
-            value={formData.postal_code}
-            onChange={handleChange}
-            required
-            />
-             {/* {error.postalCode && <p className="error">{error.postalCode}</p>} */}
-            <label htmlFor="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              placeholder="* City"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            />
-            
-          <label htmlFor="userName">Give yourself username and password</label>
-          <input
-            type="text"
-            id="userName"
-            name="user_name"
-            placeholder="* Username"
-            value={formData.user_name}
-            onChange={handleChange}
-            onFocus={handleFocusChange}
-            onBlur={handleBlurChange}
-            required
-          />
-          {/* 1124 new modify Show error message */}
-           {usernameExists && <p className="error">Username already exists</p>}
-       
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="* Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          {error.password && <p className="error">{error.password}</p>}
+        <label htmlFor="postalcode">Postal code</label>
+        <input
+        type="text"
+        id="postalCode"
+        name="postal_code"
+        placeholder="* Postal code"
+        value={formData.postal_code}
+        onChange={handleChange}
+        required
+        />
+         {/* {error.postalCode && <p className="error">{error.postalCode}</p>} */}
+        <label htmlFor="city">City</label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          placeholder="* City"
+          value={formData.city}
+          onChange={handleChange}
+          required
+        />
+        
+      <label htmlFor="userName">Give yourself username and password</label>
+      <input
+        type="text"
+        id="userName"
+        name="user_name"
+        placeholder="* Username"
+        value={formData.user_name}
+        onChange={handleChange}
+        onFocus={handleFocusChange}
+        onBlur={handleBlurChange}
+        required
+      />
+      {/* 1124 new modify Show error message */}
+       {usernameExists && <p className="error">Username already exists</p>}
+   
+      <label htmlFor="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="* Password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      {error.password && <p className="error">{error.password}</p>}
 
-          <label htmlFor="confirmPassword">Confirm Password*</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="* confirm password must match your password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />          
-         {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
-          <p> 
-          By registering, you agree to our 
-          <a className="terms" href="/terms">Terms and Conditions of Use</a>, 
-          and <a className="terms" href="/privacy">Privacy Policy</a>.
-          </p>
-            {/* Conditional UI controls based on submission state */}
-            {submissionState === 'processing' && <span>Processing...</span>}
-            {submissionState === 'success' && <span>Success!</span>}
-            {submissionState === 'error' && <span>Error. Please try again.</span>}
-            {error.form && <p className="error">{error.form}</p>}
-           {/*  button will change to grey color if all condition is not done */}
-          {/*  {submissionState === 'idle' && <button type="submit" disabled={(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === '')} > Register</button>} */}
-          {submissionState === 'idle' && (
-           <button
-           type="submit"
-           className={usernameExists ? 'grayed-button' : ''}
-           disabled={usernameExists}
-         >
-           Register
-          </button>
-          )}
+      <label htmlFor="confirmPassword">Confirm Password*</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        placeholder="* confirm password must match your password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        required
+      />          
+     {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
+      <p> 
+      By registering, you agree to our 
+      <a className="terms" href="/terms">Terms and Conditions of Use</a>, 
+      and <a className="terms" href="/privacy">Privacy Policy</a>.
+      </p>
+        {/* Conditional UI controls based on submission state */}
+        {submissionState === 'processing' && <span>Processing...</span>}
+        {submissionState === 'success' && <span>Success!</span>}
+        {submissionState === 'error' && <span>Error. Please try again.</span>}
+        {error.form && <p className="error">{error.form}</p>}
+       {/*  button will change to grey color if all condition is not done */}
+      {/*  {submissionState === 'idle' && <button type="submit" disabled={(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === '')} > Register</button>} */}
+      {submissionState === 'idle' && (
+       <button
+       type="submit"
+       className={usernameExists ? 'grayed-button' : ''}
+       disabled={(usernameExists|| formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === '')}
+     >
+       Register
+      </button>
+      )}
 
-          </div>
-        </form>
+      </div>
+    </form>):(
+       // Render the success message if the submission state is 'success'
+       <section>
+       <h1>Success!</h1>
+       <p>
+       <Link to="/signin">Sign In</Link>
+       </p>
+     </section>
+   )}
+
+      
+        
 
     </section>
   );
