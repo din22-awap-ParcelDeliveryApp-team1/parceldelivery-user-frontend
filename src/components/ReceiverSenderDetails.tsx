@@ -24,10 +24,3 @@ const ReceiverSenderDetails = (props: ReceiverSenderDetailsProps ) => {
 
 export default ReceiverSenderDetails;
 
-function setReceiverDetails(details: any) {
-    throw new Error('Function not implemented.');
-}
-function setSenderDetails(details: any) {
-    throw new Error('Function not implemented.');
-}
-
