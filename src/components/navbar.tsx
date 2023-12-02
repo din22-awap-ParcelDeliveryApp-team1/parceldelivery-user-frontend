@@ -38,7 +38,7 @@ const NavbarHeader = () => {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav >
             <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/signIn">Sign in</Nav.Link>
+            <Nav.Link href="/Signin">Sign in</Nav.Link>
             <Nav.Link href="/Register">Register</Nav.Link>
           </Nav>
         </Navbar.Collapse>
