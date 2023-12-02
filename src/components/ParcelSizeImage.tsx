@@ -6,9 +6,9 @@ const ParcelSizeImage: React.FC = () => {
   return (
     <div>
       <img 
-      src={parcelSizeImage} 
-      alt="Parcel Size" 
-      className="img-fluid" />
+        src={parcelSizeImage} 
+        alt="Parcel Size" 
+        className="img-fluid" />
     </div>
   );
 };

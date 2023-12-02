@@ -30,17 +30,7 @@ const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: checked }));
-  };
-
-  const [step, setStep] = useState(1);
-
-  const goToPreviousStep = () => {
-    setStep(step - 1);
-  };
-
-  const goToNextStep = () => {
-    setStep(step + 1);
-  };  
+  }; 
 
     return (
         <div>
