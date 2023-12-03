@@ -1,50 +1,43 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
-import { useParcelContext } from '../contexts/parcelContext';
+import IncomingNotification from './incomingNotification';
+import logo from '../images/logo.png'
+import { useAuthContext } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
 
-interface ParcelType {
-  id_parcel: number;
-};
-interface ParcelContextType {
-  incomingParcels: ParcelType[];
-};
 const NavbarHeader = () => {
+	const { token, setToken } = useAuthContext() as any;
 
-  const { incomingParcels } = useParcelContext() as ParcelContextType;
+	const navigate = useNavigate();
 
-  const numberOfParcels = () => {
-    switch (incomingParcels.length) {
-      case 0:
-        return ""
-      case 1:
-        return "You have 1 incoming parcel!"
-      default:
-        return `You have ${incomingParcels.length} incoming parcels!`
-    };
-  };
+	const handleSignOut = () => {
+		setToken("");
+		navigate("/");
+	};
 
-  return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand>App LOGO</Navbar.Brand>
-        {incomingParcels.length > 0 ? (
-          <div>
-            <Link className="navBarLink" to="/home">{numberOfParcels()}</Link>
-          </div>
-        ) : null}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav >
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/Signin">Sign in</Nav.Link>
-            <Nav.Link href="/Register">Register</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar >
-  );
+	return (
+		<Navbar expand="lg" className="bg-body-tertiary">
+			<Container>
+				<Navbar.Brand><img src={logo} width="150" height="60" alt="Logo" /></Navbar.Brand>
+				<IncomingNotification />
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+					<Nav >
+						{token ? (
+							<Nav.Link className="navbarTags" href="/home">Home</Nav.Link>
+						) : null}
+						{token ? (
+							<Nav.Link className="navbarTags" onClick={handleSignOut}>Sign out</Nav.Link>
+						) : (
+							<Nav.Link className="navbarTags" href="/Signin">Sign in</Nav.Link>
+						)}
+						<Nav.Link className="navbarTags" href="/Register">Register</Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar >
+	);
 }
 
 export default NavbarHeader;
