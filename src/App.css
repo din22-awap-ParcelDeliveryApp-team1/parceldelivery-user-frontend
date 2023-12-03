@@ -11,10 +11,28 @@
   font-size: 1.2em;
   font-style: italic;
 }
+.navLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
 .navbarTags {
   font-size: 1.2em;
   font-weight: bolder;
   font-family: Arial, Helvetica, sans-serif;
+}
+.navHomeLink {
+  font-size: 1.25em;
+  font-weight: bolder;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  color: rgb(91, 91, 91);
+  margin-right: 10px;
+}
+.navHomeLink:hover {
+  text-decoration: none;
+  color: #2d2d2d;
 }
 .navbar-brand {
   padding-right: 10%;

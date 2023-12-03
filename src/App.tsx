@@ -3,7 +3,7 @@ import Home from "./views/home";
 import SentParcels from "./views/sentParcels";
 import ReceivedParcels from "./views/receivedParcels";
 import MyAccount from "./views/myAccount";
-import SendNewParcel from "./views/SendNewParcel";
+import SendNewParcel from "./views/sendNewParcel";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import FrontPage from "./views/frontPage";
