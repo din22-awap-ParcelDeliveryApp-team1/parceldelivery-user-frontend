@@ -91,33 +91,6 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
 
 const SendNewParcel = () => {
   const [step, setStep] = useState<number>(1);
-
-  const goToNextStep = () => {
-    setStep(step + 1);
-  };
-  const goToPreviousStep = () => {
-    setStep(step - 1);
-  };
-
-  const goToConfirm = async () => {
-    try {
-        const response = await postParcelToBackend(parcelData);
-        if (response.ok) {
-            // Parse the response to get the pin code
-            const responseData = await response.json();
-            const pinCode = responseData.pin_code;
-            console.log('Pin Code:', pinCode);
-
-            // Update the state with the pin code
-            setParcelData((prevParcelData) => ({ ...prevParcelData, pin_code: pinCode }));
-            goToNextStep();
-        } else {
-            console.error('Failed to post parcel. Status:', response.status);
-        }
-    } catch (error) {
-        console.error('Error saving data', error);
-    }
-};
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
     id_user: 1,
@@ -148,6 +121,56 @@ const SendNewParcel = () => {
     sender_email: '',
   });
 
+  const goToNextStep = () => {
+    setStep(step + 1);
+  };
+  const goToPreviousStep = () => {
+    setStep(step - 1);
+  };
+
+  const goToConfirm = async () => {
+    try {
+      // check if all data is filled in
+      if(parcelData.reciever_name === '' || 
+      parcelData.reciever_telephone === '' || 
+      parcelData.reciever_street_address === '' || 
+      parcelData.reciever_postal_code === '' || 
+      parcelData.reciever_city === '' || 
+      parcelData.sender_name === '' || 
+      parcelData.sender_telephone === '' || 
+      parcelData.sender_street_address === '' || 
+      parcelData.sender_postal_code === '' || 
+      parcelData.sender_city === '' || 
+      parcelData.receiver_email === '' || 
+      parcelData.sender_email === '' ||
+      parcelData.parcel_height === 0 ||
+      parcelData.parcel_width === 0 ||
+      parcelData.parcel_depth === 0 ||
+      parcelData.parcel_mass === 0 ||
+      parcelData.desired_dropoff_locker === 0 ||
+      parcelData.desired_pickup_locker === 0 
+      ){
+        alert("Please fill in all the fields.");
+        return;
+      }
+      const response = await postParcelToBackend(parcelData);
+        if (response.ok) {
+            // Parse the response to get the pin code
+            const responseData = await response.json();
+            const pinCode = responseData.pin_code;
+            console.log('Pin Code:', pinCode);
+
+            // Update the state with the pin code
+            setParcelData((prevParcelData) => ({ ...prevParcelData, pin_code: pinCode }));
+            goToNextStep();
+        } else {
+            console.error('Failed to post parcel. Status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error saving data', error);
+    }
+};
+  
   const onChange = (newParcelData: SendParcel) => {
     if(newParcelData.parcel_dropoff_date){
       newParcelData.parcel_readyforpickup_date = 
