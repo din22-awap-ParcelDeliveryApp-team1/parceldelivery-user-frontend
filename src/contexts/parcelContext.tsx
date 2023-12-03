@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-//import { createLogicalAnd } from 'typescript';
 import { getSentParcels, getReceivedParcels } from './parcelApiRequests';
 
 interface ParcelContextType {
@@ -10,12 +9,6 @@ interface ParcelContextType {
 }
 
 const ParcelContext = createContext<ParcelContextType | undefined>(undefined);
-
-// when userContext is created, we can use this interface to pass in the userid as a prop
-//interface ParcelContextProviderProps {
-//    userid: number; // Add userid as a prop
-//    children: React.ReactNode;
-//}
 
 const ParcelContextProvider = (props: any) => { //(props: ParcelContextProviderProps)
     //const { userid, children } = props;

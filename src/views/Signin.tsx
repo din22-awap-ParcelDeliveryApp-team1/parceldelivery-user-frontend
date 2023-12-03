@@ -1,10 +1,5 @@
 import React, {  useState, FormEvent } from 'react';
-//import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/module.css';
-//import { request } from 'http';
-//import { create } from 'domain';
-//import { updateExpression } from '@babel/types';
 import { useNavigate } from 'react-router-dom';
 
 interface LoginUserData {
@@ -26,7 +21,6 @@ const Signin: React.FC = () => {
     password: '',
   }); 
 
-
 const [error, setError] = useState(
     {
     user_name: '',
@@ -46,8 +40,6 @@ const [error, setError] = useState(
           setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
         }else {setError(prevState => ({...prevState, form: ''}));}
       };
-
-  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,48 +83,41 @@ const [error, setError] = useState(
     }
   };
 
-
   return (
     <section className="registerContainer">
-    <h1>Sign in </h1>
-    <h5>* Mandatory field </h5>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="form">
-            
-          <label htmlFor="userName">Give yourself username and password</label>
-          <input
-            type="text"
-            id="userName"
-            name="user_name"
-            placeholder="* Username"
-            value={formData.user_name}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="* Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-
-          <p>     
-          <a className="terms" href="/terms">Forget password?</a>, 
-          </p>
-            {submissionState === 'success' && <span>Success!</span>}
-            {submissionState === 'error' && <span>Error. Please try again.</span>}
-            {error.form && <p className="error">{error.form}</p>}
-            {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>} 
-
-          </div>
-        </form>
-
-      
-      
+      <h1>Sign in </h1>
+        <h5>* Mandatory field </h5>
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="form">              
+              <label htmlFor="userName">Give yourself username and password</label>
+              <input
+                type="text"
+                id="userName"
+                name="user_name"
+                placeholder="* Username"
+                value={formData.user_name}
+                onChange={handleChange}
+                required
+            />
+            <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="* Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+            />
+            <p>     
+              <a className="terms" href="/terms">Forget password?</a>, 
+            </p>
+              {submissionState === 'success' && <span>Success!</span>}
+              {submissionState === 'error' && <span>Error. Please try again.</span>}
+              {error.form && <p className="error">{error.form}</p>}
+              {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>} 
+            </div>
+          </form>     
     </section>
   );
 };

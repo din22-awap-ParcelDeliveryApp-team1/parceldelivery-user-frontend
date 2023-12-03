@@ -1,25 +1,41 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import { Row, Col } from 'react-bootstrap';
 
+interface ParcelSizeProps {
+  onChange: (parcelSize: any) => void;
+}
 
-const ParcelSize: React.FC = () => {
-    const [length, setLength] = useState<number | ''>('');
-    const [width, setWidth] = useState<number | ''>('');
-    const [height, setHeight] = useState<number | ''>('');
-    const [weight, setWeight] = useState<number | ''>('');
+const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
+  const [parcelSize, setParcelSize] = useState<any>({
+    parcel_depth: '',
+    parcel_width: '',
+    parcel_height: '',
+    parcel_mass: '',
+    fragileChecked: false,
+    fastDeliveryChecked: false,
+  });
 
-    const handleInputChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        setValue: React.Dispatch<React.SetStateAction<number | ''>>
-      ) => {
-        const value = event.target.value;
-        setValue(value === '' ? '' : parseInt(value, 10));
-      };
+  useEffect(() => {
+    props.onChange(parcelSize);
+  }, [parcelSize]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: value }));
+  };
+
+  const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: checked }));
+  }; 
 
     return (
-        <Table className="parcelSize">
+        <div>
+          <h3 className='sizeHeading'>Please fill in here package details. Note the maximum size!</h3>
+          <Table className="parcelSize">
             <tbody>
                 <tr>
                     <td>
@@ -27,8 +43,9 @@ const ParcelSize: React.FC = () => {
                         <Form.Control
                             type="number"
                             placeholder="Enter length in cm"
-                            value={length}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, setLength)}
+                            name="parcel_depth"
+                            value={parcelSize.parcel_depth}
+                            onChange={handleInputChange}
                         />
                      </td>
                 </tr>
@@ -38,8 +55,9 @@ const ParcelSize: React.FC = () => {
                         <Form.Control
                             type="number"
                             placeholder="Enter width in cm"
-                            value={width}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, setWidth)}
+                            name="parcel_width"
+                            value={parcelSize.parcel_width}
+                            onChange={handleInputChange}
                         />
                     </td>
                 </tr>
@@ -49,8 +67,9 @@ const ParcelSize: React.FC = () => {
                         <Form.Control
                             type="number"
                             placeholder="Enter height in cm"
-                            value={height}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, setHeight)}
+                            name="parcel_height"
+                            value={parcelSize.parcel_height}
+                            onChange={handleInputChange}
                         />
                     </td>
                 </tr>
@@ -60,13 +79,39 @@ const ParcelSize: React.FC = () => {
                         <Form.Control
                             type="number"
                             placeholder="Enter weight in kg"
-                            value={weight}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, setWeight)}
+                            name="parcel_mass"
+                            value={parcelSize.parcel_mass}
+                            onChange={handleInputChange}
                         />
                     </td>
                 </tr>
             </tbody>
-        </Table>
+          </Table>
+        {/* Additional Services */}
+        <Row className="mt-3">
+        <Col xs={12}>
+          <h4>Check for additional services</h4>
+          <div className="custom-checkbox">
+            <Form.Check
+              type="checkbox"
+              label={`Fragile - Extra fee 10 €`}
+              name="fragileChecked"
+              checked={parcelSize.fragileChecked}
+              onChange={handleCheckedChange}
+            />
+          </div>
+          <div className="custom-checkbox">
+            <Form.Check
+              type="checkbox"
+              label={`Fast delivery - Extra fee 7,9 €`}
+              name="fastDeliveryChecked"
+              checked={parcelSize.fastDeliveryChecked}
+              onChange={(handleCheckedChange)}
+            />
+          </div>
+        </Col>
+      </Row>
+      </div>
     );
 }
 
