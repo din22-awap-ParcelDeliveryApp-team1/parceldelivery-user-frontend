@@ -2,17 +2,21 @@ import React, { useEffect } from 'react'
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css'
 
-const Map = () => {
+type MapProps = {
+  containerId: string;
+};
+
+const Map: React.FC<MapProps> = ({ containerId }: MapProps) => {
   useEffect(() => {
     // Coordinates for Oulu, Finland
     const ouluLatitude = 65.0121
     const ouluLongitude = 25.4682
     const initialZoom = 13
 
-    const map = L.map('map-container').setView(
-      [ouluLatitude, ouluLongitude],
+    const map = L.map(containerId).setView(
+      [ouluLatitude, ouluLongitude], 
       initialZoom
-    )
+      );
     // contribution
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -72,9 +76,9 @@ const Map = () => {
     return () => {
       map.remove()
     }
-  }, [])
+  }, [containerId])
 
-  return <div id='map-container' style={{ width: '100%', height: '500px' }} />;
+  return <div id={containerId} style={{ width: '100%', height: '500px' }} />;
 }
 
 export default Map

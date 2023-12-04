@@ -28,7 +28,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
     desired_pickup_locker: 0,
   });
 
-  const [isMapVisible, setIsMapVisible] = useState(false);
+  const [isPickupMapVisible, setIsPickupMapVisible] = useState(false);
 
   useEffect(() => {
     onChange(receiverDetails);
@@ -44,11 +44,9 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
     console.log(selectedLocker);
     setReceiverDetails((prevDetails) => ({ ...prevDetails, desired_pickup_locker: selectedLocker  }));
   };
-
-  const handleViewMapClick = () => {
-    setIsMapVisible(!isMapVisible);
+  const handleViewPickupMapClick = () => {
+    setIsPickupMapVisible(!isPickupMapVisible);
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -125,7 +123,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
 
           <Form.Group controlId="chooseLocker">
               <Form.Label style={{ fontWeight: 'bold' }}>Choose Pick-up Locker</Form.Label>
-                    <Button variant="link" onClick={handleViewMapClick}> 
+                    <Button variant="link" onClick={handleViewPickupMapClick}> 
                       <strong>View Locker Map</strong>
                     </Button>
                 <Form.Control as="select" onChange={handleSelectLocker as any} 
@@ -142,7 +140,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
         </Form>
       </Col>
       <Col md={4}>
-          {isMapVisible && <Map />} 
+          {isPickupMapVisible && <Map containerId="receiverMap" />} 
       </Col>
     </Row>
   );

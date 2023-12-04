@@ -19,7 +19,7 @@ type SenderFormProps = {
     parcel_dropoff_date: Date;
   };
   
-  const SenderForm: React.FC<SenderFormProps> = ({ onChange }: SenderFormProps) => {
+const SenderForm: React.FC<SenderFormProps> = ({ onChange }: SenderFormProps) => {
     const [senderDetails, setSenderDetails] = useState<SenderDetails>({
       sender_name: '',
       sender_street_address: '',
@@ -30,14 +30,18 @@ type SenderFormProps = {
       desired_dropoff_locker: 0,
       parcel_dropoff_date: new Date(),
     });
+  
+  const [isDropoffMapVisible, setIsDropoffMapVisible] = useState(false);
 
-    const [isMapVisible, setIsMapVisible] = useState(false);
+  const handleViewDropoffMapClick = () => {
+    setIsDropoffMapVisible(!isDropoffMapVisible);
+  };
 
-    useEffect(() => {
+  useEffect(() => {
       onChange(senderDetails);
     }, [senderDetails]);
   
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setSenderDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
     };
@@ -45,10 +49,6 @@ type SenderFormProps = {
     const handleSelectLocker: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
         const selectedLocker = parseInt(e.target.value, 10);
         setSenderDetails((prevDetails) => ({ ...prevDetails, desired_dropoff_locker: selectedLocker }));
-      };
-  
-    const handleViewMapClick = () => {
-        setIsMapVisible(!isMapVisible);
       };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -127,7 +127,7 @@ type SenderFormProps = {
             
             <Form.Group controlId="chooseLocker">
               <Form.Label style={{ fontWeight: 'bold' }}>Choose Drop-off Locker</Form.Label>
-                    <Button variant="link" onClick={handleViewMapClick}> 
+                    <Button variant="link" onClick={handleViewDropoffMapClick}> 
                       <strong>View Locker Map</strong>
                     </Button>
               <Form.Control as="select" onChange={handleSelectLocker as any} 
@@ -143,7 +143,7 @@ type SenderFormProps = {
           </Form>
         </Col>
         <Col md={4}>
-            {isMapVisible && <Map />} 
+            {isDropoffMapVisible && <Map containerId="senderMap" />} 
         </Col>
         <p className='dropoffDate'>
             <strong>Drop-off date:</strong>{' '}
