@@ -5,7 +5,10 @@ import '../styling/module.css';
 //import { request } from 'http';
 //import { create } from 'domain';
 //import { updateExpression } from '@babel/types';
+//1202 new code, for nevigate to home page after login
 import { useNavigate } from 'react-router-dom';
+//1202 import useAuth from '../contexts/authContext';
+import { useAuthContext } from '../contexts/authContext';
 
 interface LoginUserData {
   user_name: string;
@@ -13,14 +16,24 @@ interface LoginUserData {
 }
 //1129 new code to fit login auth
 interface LoginResponse {
-  token: string;
-  message: string;
-  success: boolean;
+	token: string;
+	message: string;
+	success: boolean;
+	userId: number;
+	user_name: string;
 }
+// add AuthContextType as interface to useAuthContext function
+interface AuthContextType {
+	setToken: React.Dispatch<React.SetStateAction<string>>;
+	setUserId: React.Dispatch<React.SetStateAction<number>>;
+};
 const Signin: React.FC = () => {
-  //after user login, redirect to myaccount page
+  //1202 new code after user login, redirect to myaccount page
   const navigate = useNavigate();
-  //old code
+  //1202 new code, for userAuth
+  // here you take into use those states AuthContext that you want to use in this components 
+	const { setToken, setUserId } = useAuthContext() as AuthContextType;
+
   const [formData, setFormData] = useState<LoginUserData>({
     user_name: '',
     password: '',
@@ -31,7 +44,7 @@ const [error, setError] = useState(
     {
     user_name: '',
     password: '',
-    form: '', // Add this if you want to store form-wide errors
+    form: '', 
   }
   );  
 
@@ -75,10 +88,13 @@ const [error, setError] = useState(
       }
       const data: LoginResponse = await response.json();
       //read token in the data
-      console.log("DBG login res" + data);
+      //console.log("DBG login res" + data);
       if (data.success) {
         setSubmissionState('success');
-        // navigate to home; 12-02
+        //1202 new code, for userAuth get jwt
+        setToken(data.token); // Set JWT in context
+        setUserId(data.userId); // Set user ID in context
+        //navigate to home; 12-02
         navigate('/home');
       } else {
         throw new Error('User name or password is not correct');
@@ -124,7 +140,7 @@ const [error, setError] = useState(
           <a className="terms" href="/terms">Forget password?</a>, 
           </p>
             {submissionState === 'success' && <span>Success!</span>}
-            {submissionState === 'error' && <span>Error. Please try again.</span>}
+            {submissionState === 'error' && <span color='red'>Useranme or password inforrect. Please try again.</span>}
             {error.form && <p className="error">{error.form}</p>}
             {submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>} 
 

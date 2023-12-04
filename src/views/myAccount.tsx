@@ -9,27 +9,34 @@ import '../styling/module.css';
 import { useNavigate } from 'react-router-dom';
 
 type UserInfoProps = {
-    firstName?: string;
-    lastName?: string;
-    address?: string;
-    postalCode?: string;
-    city?: string;
-    phoneNumber?: string;
-    email?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  telephone?: string;
+  street_address?: string;
+  postal_code?: string;
+  city?: string;
+  user_name?: string;
+  password?: string;
+  confirmPassword?: string;
   };
   
 
 const MyAccount: React.FC<UserInfoProps> = ({
-    firstName,
-    lastName,
-    address,
-    postalCode,
-    city,
-    phoneNumber,
-    email
+  first_name,
+  last_name,
+  email,
+  telephone,
+  street_address,
+  postal_code,
+  city,
+  user_name,
+  password,
+  confirmPassword,
   }) => {
     //after click, it will link to edit user info page
     const navigate = useNavigate();
+
     return (
         <Container className="account-container">
         <Row>

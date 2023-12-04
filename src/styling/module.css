@@ -1,5 +1,9 @@
 /* Global styles for the form container */
 /*register form CSS*/
+.§already-have-account {
+  text-align: center;
+  margin-top: 15px;
+}
 .registerContainer {
     width: 100%;
     max-width: 600px;

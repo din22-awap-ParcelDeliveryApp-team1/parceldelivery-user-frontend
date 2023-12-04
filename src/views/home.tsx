@@ -8,6 +8,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { parcel_status, locker_location } from '../components/statuses';
 import { Link } from "react-router-dom";
 import { useParcelContext } from "../contexts/parcelContext";
+//1202 new code, for userAuth
+
 
 interface ParcelType {
     id_parcel: number;

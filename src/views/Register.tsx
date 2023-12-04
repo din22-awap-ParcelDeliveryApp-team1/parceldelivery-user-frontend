@@ -183,6 +183,9 @@ const checkUsername = async (user_name:string) => {
     <section className="registerContainer">
     <h1>Register now and join us!</h1>
     <h5>* Mandory field </h5>
+    <div className="already-have-account">
+      <p>Already have an account? <Link to="/signin">Sign in here</Link></p>
+    </div>
     {submissionState !== "success" ?(
       <form onSubmit={handleSubmit} noValidate>
       <div className="form">
