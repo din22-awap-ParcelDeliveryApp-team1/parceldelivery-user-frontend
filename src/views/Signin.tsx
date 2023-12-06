@@ -86,6 +86,7 @@ const [error, setError] = useState(
         console.log(errorData);
         throw new Error('Network response was not ok');
       }
+      console.log("D");
       const data: LoginResponse = await response.json();
       //read token in the data
       //console.log("DBG login res" + data);
@@ -93,9 +94,12 @@ const [error, setError] = useState(
         setSubmissionState('success');
         //1202 new code, for userAuth get jwt
         setToken(data.token); // Set JWT in context
+        console.log("D"+data.userId);
         setUserId(data.userId); // Set user ID in context
         //navigate to home; 12-02
         navigate('/home');
+        //change to my account to check 
+        //navigate('/myaccount')
       } else {
         throw new Error('User name or password is not correct');
       }

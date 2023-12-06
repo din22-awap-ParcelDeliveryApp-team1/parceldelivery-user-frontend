@@ -181,8 +181,8 @@ const checkUsername = async (user_name:string) => {
 
   return (
     <section className="registerContainer">
-    <h1>Register now and join us!</h1>
-    <h5>* Mandory field </h5>
+    {submissionState !=="success" && <h1>Register now and join us!</h1>}
+    {submissionState !== "success" && <h5>* Mandatory field</h5>}
     <div className="already-have-account">
       <p>Already have an account? <Link to="/signin">Sign in here</Link></p>
     </div>
@@ -231,7 +231,7 @@ const checkUsername = async (user_name:string) => {
           onChange={handleChange}
           required
         />
-        <label htmlFor="streeAddress">Street Address</label>
+        <label htmlFor="streetAddress">Street Address</label>
         <input
           type="text"
           id="streetAddress"
@@ -309,7 +309,9 @@ const checkUsername = async (user_name:string) => {
       </p>
         {/* Conditional UI controls based on submission state */}
         {submissionState === 'processing' && <span>Processing...</span>}
-        {submissionState === 'success' && <span>Success!</span>}
+        {submissionState === 'success' && 
+        <span>Success!</span>
+        }
         {submissionState === 'error' && <span>Error. Please try again.</span>}
         {error.form && <p className="error">{error.form}</p>}
        {/*  button will change to grey color if all condition is not done */}
@@ -329,9 +331,11 @@ const checkUsername = async (user_name:string) => {
        // Render the success message if the submission state is 'success'
        <section>
        <h1>Success!</h1>
-       <p>
+        <h2>You have successfully registered.</h2>
+        <h2>Now you can sign in.</h2>
+       <h3>
        <Link to="/signin">Sign In</Link>
-       </p>
+       </h3>
      </section>
    )}
 
