@@ -93,9 +93,9 @@ test('renders SendNewParcel second view', () => {
       userEvent.selectOptions(getByTestId("select-desired-locker"), "1");
     });
 
-  await act(async () => {
-    userEvent.selectOptions(getByTestId("select-dropoff-locker"), "1");
-  }); 
+    await act(async () => {
+      userEvent.selectOptions(getByTestId("select-dropoff-locker"), "1");
+    }); 
   // Check the "Drop-off date" text
   expect(screen.getByText('Drop-off date:')).toBeInTheDocument();
   // navigate to the 3rd page

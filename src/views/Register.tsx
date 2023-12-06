@@ -168,7 +168,7 @@ const checkUsername = async (user_name:string) => {
   return (
     <section className="registerContainer">
       <h1>Register now and join us!</h1>
-      <h5>* Mandory field </h5>
+      <h5>* Mandatory field </h5>
       {submissionState !== "success" ?(
         <form onSubmit={handleSubmit} noValidate>
         <div className="form">
@@ -214,7 +214,7 @@ const checkUsername = async (user_name:string) => {
             onChange={handleChange}
             required
           />
-          <label htmlFor="streeAddress">Street Address</label>
+          <label htmlFor="streetAddress">Street Address</label>
           <input
             type="text"
             id="streetAddress"
