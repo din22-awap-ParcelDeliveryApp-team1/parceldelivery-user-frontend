@@ -5,10 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../styling/module.css';
-//import ListGroup from 'react-bootstrap/ListGroup';
-//import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/authContext';
-
 
 type UserInfoProps = {
   first_name?: string;
@@ -21,7 +18,7 @@ type UserInfoProps = {
   user_name?: string;
   password?: string;  
   }; 
-  //const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
 
   const MyAccount: React.FC = () => {
     //get token and userId from AuthContext

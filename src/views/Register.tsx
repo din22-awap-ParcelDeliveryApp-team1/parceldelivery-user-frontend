@@ -1,11 +1,5 @@
 import React, {  useState, FormEvent, } from 'react';
-//1124 add userEffect
-//import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/module.css';
-//import { request } from 'http';
-//import { create } from 'domain';
-//import { updateExpression } from '@babel/types';
 import { Link } from 'react-router-dom';
 
 
@@ -24,7 +18,6 @@ interface UserData {
 
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//const POSTALCODE_REGEX = /^[0-9]{5}(?:-[0-9]{4})?$/;
 
 const Register: React.FC = () => {
 
@@ -67,7 +60,6 @@ const checkUsername = async (user_name:string) => {
       headers: {
         'Content-Type': 'application/json',  
       },
-      //body: JSON.stringify(user_name),
     }); 
 
     const data = await response.json()
@@ -76,7 +68,6 @@ const checkUsername = async (user_name:string) => {
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     } 
-    //const data = await response.json();
     setUsernameExists(data.exists);  // Set the state based on the response
   } catch (error) {
     setError(prevState => ({...prevState, user_name: 'Username already exists'}));
@@ -85,10 +76,8 @@ const checkUsername = async (user_name:string) => {
   }
   }  
 
-
   const handleFocusChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    //console.log("DBG: handleFocusChange:" + name + ":" + e);
+    const { name, value } = e.target;;
   };
 
   const handleBlurChange = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -103,8 +92,7 @@ const checkUsername = async (user_name:string) => {
     setFormData({...formData, [name]: value });
         if(name === 'email' && !EMAIL_REGEX.test(value)){
           setError(prevState => ({...prevState, email: 'Email is not valid'}));
-        }else {setError(prevState => ({...prevState, email: ''}));}
-        //else {setError(prevState => ({...prevState, email: ''}));}       
+        }else {setError(prevState => ({...prevState, email: ''}));}       
         if(name === "password" && value.length < 3){
           setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
         }
@@ -177,9 +165,7 @@ const checkUsername = async (user_name:string) => {
     }
   };
 
-
-
-  return (
+return (
     <section className="registerContainer">
     {submissionState !=="success" && <h1>Register now and join us!</h1>}
     {submissionState !== "success" && <h5>* Mandatory field</h5>}

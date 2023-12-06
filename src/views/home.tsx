@@ -74,7 +74,7 @@ const Home = () => {
                     </div>
                     <div className="sendParcel">
                         <h4>Start sending a new parcel</h4>
-                        <div>You need following information to send a parcel: sender and receiver details: name, address, telephone number, and email. Please measure the parcel size as well: width, height, depth (cm), and mass (kg).</div>
+                        <div>You need following information to send a parcel: sender and receiver details: name, address, telephone number, and email. Please measure the parcel size as well: length, width, height (cm), and weight (kg).</div>
                         <Link to="/sendNewParcel" className="btn btn-danger" style={{ marginTop: '2%' }}>Go to send a New Parcel</Link>
                     </div>
                 </Col>

@@ -9,16 +9,16 @@ const Sidebar = () => {
     return (
         <ListGroup as="ol" variant="flush" className="mt-5 ">
             <ListGroup.Item id="sidebarListItem">
-                <Link to="/sendNewParcel" id="sidebarList">Send a New Parcel</Link>
+                <Link to="/SendNewParcel" id="sidebarList"><strong>Send a New Parcel</strong></Link>
             </ListGroup.Item>
             <ListGroup.Item id="sidebarListItem">
-                <Link to="/sentParcels" id="sidebarList">Sent Parcels</Link>
+                <Link to="/sentParcels" id="sidebarList"><strong>Sent Parcels</strong></Link>
             </ListGroup.Item>
             <ListGroup.Item id="sidebarListItem">
-                <Link to="/receivedParcels" id="sidebarList">Received Parcels</Link>
+                <Link to="/receivedParcels" id="sidebarList"><strong>Received Parcels</strong></Link>
             </ListGroup.Item>
             <ListGroup.Item id="sidebarListItem">
-                <Link to="/myAccount" id="sidebarList">My Account</Link>
+                <Link to="/myAccount" id="sidebarList"><strong>My Account</strong></Link>
             </ListGroup.Item>
         </ListGroup>
     );
