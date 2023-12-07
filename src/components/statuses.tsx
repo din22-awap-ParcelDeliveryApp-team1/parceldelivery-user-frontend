@@ -1,4 +1,3 @@
-// create a script that can be used to display the status of a parcel
 
 export const parcel_status = (status: String) => {
     switch (status) {
@@ -20,12 +19,12 @@ export const locker_location = (location: number) => {
         case 1:
             return <div>Locker 1 - Prisma Linnanmaa</div>
         case 2:
-            return <div>Locker 2 - CityMarket Kaakkuri</div>
+            return <div>Locker 2 - K-Market Kaijonharju</div>
         case 3:
-            return <div>Locker 3 - Prisma Limingantulli</div>
+            return <div>Locker 3 - Lild Tuira</div>
         case 4:
-            return <div>Locker 4 - Lidl City Center</div>
+            return <div>Locker 4 - Lidl Pateniemi</div>
         case 5:
-            return <div>Locker 5 - CityMarket Rusko</div>
+            return <div>Locker 5 - Prisma Raksila</div>
     }
 };

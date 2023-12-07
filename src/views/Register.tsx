@@ -60,7 +60,6 @@ const checkUsername = async (user_name:string) => {
       headers: {
         'Content-Type': 'application/json',  
       },
-      //body: JSON.stringify(user_name),
     }); 
 
     const data = await response.json()
@@ -69,7 +68,6 @@ const checkUsername = async (user_name:string) => {
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     } 
-    //const data = await response.json();
     setUsernameExists(data.exists);  // Set the state based on the response
   } catch (error) {
     setError(prevState => ({...prevState, user_name: 'Username already exists'}));
@@ -77,7 +75,6 @@ const checkUsername = async (user_name:string) => {
     setUsernameExists(true);
   }
   }  
-
 
   const handleFocusChange = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -95,8 +92,7 @@ const checkUsername = async (user_name:string) => {
     setFormData({...formData, [name]: value });
         if(name === 'email' && !EMAIL_REGEX.test(value)){
           setError(prevState => ({...prevState, email: 'Email is not valid'}));
-        }else {setError(prevState => ({...prevState, email: ''}));}
-        //else {setError(prevState => ({...prevState, email: ''}));}       
+        }else {setError(prevState => ({...prevState, email: ''}));}       
         if(name === "password" && value.length < 3){
           setError(prevState => ({...prevState, password: 'Password must be at least 3 characters'}));
         }
@@ -169,9 +165,7 @@ const checkUsername = async (user_name:string) => {
     }
   };
 
-
-
-  return (
+return (
     <section className="registerContainer">
     {submissionState !=="success" && <h1>Register now and join us!</h1>}
     {submissionState !== "success" && <h5>* Mandatory field</h5>}

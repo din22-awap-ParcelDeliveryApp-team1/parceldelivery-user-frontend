@@ -1,19 +1,33 @@
-.arrow-link {
-    text-decoration: none; /* Remove underline */
+  .sizeHeading {
+    margin-bottom: 30px;
   }
-  
-  .arrow-text {
-    font-weight: bold; /* Make text bold */
-    font-size: 18px; /* Increase text size */
-    /*not underline text*/
-  }
-
   .custom-checkbox {
     display: flex;
     align-items: center;
   }
   
   .custom-checkbox input {
-    margin-right: 8px; /* Adjust the spacing between checkbox and label */
+    margin-right: 8px;
     border: 2px solid black;
+  }
+
+  .margin-top-30 {
+    margin-top: 30px;
+  }
+
+  .sidebar {
+    max-height: 500px;
+  }
+
+  .stepSend {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .confirmHeading {
+    margin-bottom: 30px;
+  }
+
+  .dropoffDate {
+    margin-top: 30px;
   }

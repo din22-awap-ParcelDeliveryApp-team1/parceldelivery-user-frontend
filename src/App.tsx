@@ -9,12 +9,15 @@ import Footer from "./components/footer";
 import FrontPage from "./views/frontPage";
 import Register from "./views/Register";
 import Signin from "./views/Signin";
+import { useAuthContext } from "./contexts/authContext";
 import './App.css';
 //1202 new code, for userAuth, has some error, need to fix
 //import { AuthProvider } from "./contexts/authContext";
 
 
 function App() {
+
+  const { token } = useAuthContext() as any;
 
   return (
     <div className="App">
@@ -23,15 +26,17 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<FrontPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/sentParcels" element={<SentParcels />} />
-        <Route path="/receivedParcels" element={<ReceivedParcels />} />
-        {/* from chatGPT import chatGPT */}
-        {/* <Route path="/myAccount" element={<MyAccount {...user} />} /> */}
-         <Route path="/myAccount" element={<MyAccount />} /> 
-        <Route path="/sendNewParcel" element={<SendNewParcel />} />
+        {token ? (
+          <>
+            <Route path="/home" element={<Home />} />
+            <Route path="/sentParcels" element={<SentParcels />} />
+            <Route path="/receivedParcels" element={<ReceivedParcels />} />
+            <Route path="/myAccount" element={<MyAccount />} />
+            <Route path="/sendNewParcel" element={<SendNewParcel />} />
+          </>
+        ) : null}
         <Route path="/Register" element={<Register />} />
-       <Route path="/Signin" element={<Signin />} /> 
+        <Route path="/Signin" element={<Signin />} />
       </Routes>
       <Footer />
       {/* </AuthProvider> */}

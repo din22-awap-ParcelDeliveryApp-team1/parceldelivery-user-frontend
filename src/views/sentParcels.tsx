@@ -22,7 +22,6 @@ interface ParcelContextType {
 };
 const SentParcels = () => {
     const { sentParcels } = useParcelContext() as ParcelContextType;
-    console.log(sentParcels);
     const [selectedParcel, setSelectedParcel] = useState<any>(null);
 
     const handleClick = (event: any, parcel: any) => {
@@ -46,7 +45,7 @@ const SentParcels = () => {
                     <Col>
                         {parcel.status === 3 ? (
                             <div>{(parcel.parcel_last_pickup_date)?.slice(0, 10) || "Becoming"} latest</div>)
-                            : (<div>{(parcel.parcel_pickup_date).slice(0, 10) || "Becoming"}</div>)}
+                            : (<div>{(parcel.parcel_pickup_date)?.slice(0, 10) || "Becoming"}</div>)}
                     </Col>
                 </Row>
             </ListGroup.Item>

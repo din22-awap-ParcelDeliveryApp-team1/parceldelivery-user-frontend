@@ -5,9 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../styling/module.css';
-
 import { useAuthContext } from '../contexts/authContext';
-
 
 type UserInfoProps = {
   first_name?: string;
@@ -20,6 +18,7 @@ type UserInfoProps = {
   user_name?: string;
   password?: string;  
   }; 
+
 
   const MyAccount: React.FC = () => {
     //get token and userId from AuthContext
