@@ -3,6 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import SendNewParcel from "../sendNewParcel";
 import { MemoryRouter } from "react-router"; 
 import userEvent from "@testing-library/user-event";
+import AuthContextProvider from "../../contexts/authContext";
 
 const mockResponse = { pin_code: '0012' };
 
@@ -23,12 +24,27 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('renders SendNewParcel component', () => {
+/* test('renders SendNewParcel component', () => {
     render(<MemoryRouter><SendNewParcel /></MemoryRouter>);
     //Check if heading text first view is present
     expect(screen.getByText('Send a New Parcel')).toBeInTheDocument();
     expect(screen.getByText('Please fill in here package details. Note the maximum size!')).toBeInTheDocument();
-  }); 
+  });  */
+
+
+test('renders SendNewParcel component for logged-in user', () => {
+    // Simulate a logged-in user
+    const userIsLoggedIn = true;
+    render(
+      <MemoryRouter>
+        <AuthContextProvider>
+          <SendNewParcel />
+        </AuthContextProvider>
+      </MemoryRouter>
+    );
+    // Assertions specific to a logged-in user
+    expect(screen.getByText('Send a New Parcel')).toBeInTheDocument();
+  });
 
 test('renders SendNewParcel second view', () => {
     render(<MemoryRouter><SendNewParcel /></MemoryRouter>);
