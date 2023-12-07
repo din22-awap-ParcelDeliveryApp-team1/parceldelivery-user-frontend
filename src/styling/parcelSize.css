@@ -14,3 +14,10 @@
 .parcelSizeImage {
   margin-top: 50px;
 }
+
+/*Error message */
+.error-message  {
+  color: red;
+  font-size: 20px;
+  margin-top: 5px;
+}
