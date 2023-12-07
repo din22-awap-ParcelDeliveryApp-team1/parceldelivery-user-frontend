@@ -113,13 +113,6 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
         <h1>My Account</h1>
         <h2>Welcome {userInfo.user_name || "Loading..."}</h2>
         <div className="user-info">
-        {/* <div>
-          <label htmlFor="user_name">User Name : </label>
-          <input type="text" 
-          name="user_name" 
-          value={userInfo.user_name} 
-          onChange={handleInputChange} />           
-        </div> */}
         <div>
         <label htmlFor="first_name">First Name : </label>
         <input type="text" 
@@ -170,7 +163,6 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
         </div>
 
         </div>
-        <button className="edit-button" onClick={handleChangeSubmit}>Save Changes</button>
         <button className="delete-button" onClick={handleDeleteSubmit}>
           Delete account
         </button>
