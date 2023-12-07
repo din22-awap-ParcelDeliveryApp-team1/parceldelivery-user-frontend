@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import logo from '../images/logo.png';
+import { Link } from 'react-router-dom';
 import '../App.css'
 
 
@@ -27,13 +28,17 @@ const FrontPage = () => {
             <Row className="mt-10 buttonsRow">
                 <Col xs={5}>
                     <div>
-                        <button className='sendbtn'>Sign in</button>
+                       <Link to="/Signin">
+                        <button className='sendbtn' >Sign in</button>
+                       </Link>
                         <div>Allready a user? Please sign in</div>
                     </div>
                 </Col>
                 <Col xs={5}>
                     <div>
+                      <Link to="/Register">
                         <button className='sendbtn'>Register</button>
+                      </Link>
                         <div>Not a registered user yet?</div>
                         <div>Please register here</div>
                     </div>
