@@ -1,11 +1,5 @@
 import React, {  useState, FormEvent, } from 'react';
-//1124 add userEffect
-//import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/module.css';
-//import { request } from 'http';
-//import { create } from 'domain';
-//import { updateExpression } from '@babel/types';
 import { Link } from 'react-router-dom';
 
 
@@ -24,7 +18,6 @@ interface UserData {
 
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//const POSTALCODE_REGEX = /^[0-9]{5}(?:-[0-9]{4})?$/;
 
 const Register: React.FC = () => {
 
@@ -88,7 +81,6 @@ const checkUsername = async (user_name:string) => {
 
   const handleFocusChange = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    //console.log("DBG: handleFocusChange:" + name + ":" + e);
   };
 
   const handleBlurChange = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -252,7 +244,6 @@ const checkUsername = async (user_name:string) => {
         onChange={handleChange}
         required
         />
-         {/* {error.postalCode && <p className="error">{error.postalCode}</p>} */}
         <label htmlFor="city">City</label>
         <input
           type="text"
@@ -314,8 +305,7 @@ const checkUsername = async (user_name:string) => {
         }
         {submissionState === 'error' && <span>Error. Please try again.</span>}
         {error.form && <p className="error">{error.form}</p>}
-       {/*  button will change to grey color if all condition is not done */}
-      {/*  {submissionState === 'idle' && <button type="submit" disabled={(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === '')} > Register</button>} */}
+       {/*  button is grey color if all condition is not done */}
       {submissionState === 'idle' && (
        <button
        type="submit"

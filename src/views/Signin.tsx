@@ -1,11 +1,5 @@
 import React, {  useState, FormEvent } from 'react';
-//import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styling/module.css';
-//import { request } from 'http';
-//import { create } from 'domain';
-//import { updateExpression } from '@babel/types';
-//1202 new code, for nevigate to home page after login
 import { useNavigate } from 'react-router-dom';
 //1202 import useAuth from '../contexts/authContext';
 import { useAuthContext } from '../contexts/authContext';
@@ -98,8 +92,6 @@ const [error, setError] = useState(
         setUserId(data.userId); // Set user ID in context
         //navigate to home; 12-02
         navigate('/home');
-        //change to my account to check 
-        //navigate('/myaccount')
       } else {
         throw new Error('User name or password is not correct');
       }

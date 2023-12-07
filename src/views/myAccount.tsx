@@ -5,8 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../styling/module.css';
-//import ListGroup from 'react-bootstrap/ListGroup';
-//import { useNavigate } from 'react-router-dom';
+
 import { useAuthContext } from '../contexts/authContext';
 
 
@@ -21,14 +20,12 @@ type UserInfoProps = {
   user_name?: string;
   password?: string;  
   }; 
-  //const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   const MyAccount: React.FC = () => {
     //get token and userId from AuthContext
     const { token, userId } = useAuthContext() as any;
     const [userInfo, setUserInfo] = useState<UserInfoProps>({});
 
-    //const [success, setSuccess]= useState<boolean>(false);
 
     useEffect(() => {
       const fetchUserInfo = async () => {
@@ -43,9 +40,6 @@ type UserInfoProps = {
         if(data && data.length > 0) {
           setUserInfo(data[0]);
         }
-        //setUserInfo(data);
-        console.log("userinfopropd data :" + JSON.stringify(data));
-        console.log("useEffect :" + setUserInfo);
       };
       fetchUserInfo();
     }
@@ -55,7 +49,6 @@ type UserInfoProps = {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setUserInfo({...userInfo, [name]: value });
-      console.log("DBG: handleinputchange :" + name + ":" + value);
     }
 
    
