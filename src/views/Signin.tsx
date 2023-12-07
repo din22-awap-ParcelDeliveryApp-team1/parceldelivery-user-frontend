@@ -1,14 +1,14 @@
 import React, {  useState, FormEvent } from 'react';
 import '../styling/module.css';
+import useAuth from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
-// import useAuthContext function from '../contexts/authContext';
 import { useAuthContext } from '../contexts/authContext';
 
 interface LoginUserData {
 	user_name: string;
 	password: string;
 };
-//1129 new code to fit login auth
+
 interface LoginResponse {
 	token: string;
 	message: string;
@@ -16,11 +16,13 @@ interface LoginResponse {
 	userId: number;
 	user_name: string;
 };
+
 // add AuthContextType as interface to useAuthContext function
 interface AuthContextType {
 	setToken: React.Dispatch<React.SetStateAction<string>>;
 	setUserId: React.Dispatch<React.SetStateAction<number>>;
 };
+
 
 const Signin: React.FC = () => {
 	// here you take into use those states AuthContext that you want to use in this components 
@@ -139,6 +141,7 @@ const Signin: React.FC = () => {
 			</form>
 		</section>
 	);
+
 };
 
 export default Signin;

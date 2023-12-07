@@ -27,4 +27,3 @@ export const getReceivedParcels = async (userid: number, token: String) => {
 
 
 
-
