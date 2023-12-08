@@ -131,7 +131,7 @@ const Signin: React.FC = () => {
 						required
 					/>
 					<p>
-						<a className="terms" href="/terms">Forget password?</a>,
+						<a className="terms" href="/terms">Forget password?</a>
 					</p>
 					{submissionState === 'success' && <span>Success!</span>}
 					{submissionState === 'error' && <span>Error. Please try again.</span>}

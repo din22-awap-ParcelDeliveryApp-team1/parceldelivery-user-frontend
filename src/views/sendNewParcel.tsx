@@ -131,12 +131,12 @@ const SendNewParcel = () => {
   const goToConfirm = async () => {
     try {
       // check if all data is filled in
-      if(parcelData.reciever_name === '' || 
+      if(parcelData.reciever_name === ''  || 
       parcelData.reciever_telephone === '' || 
       parcelData.reciever_street_address === '' || 
       parcelData.reciever_postal_code === '' || 
       parcelData.reciever_city === '' || 
-      parcelData.sender_name === '' || 
+      parcelData.sender_name === ''|| 
       parcelData.sender_telephone === '' || 
       parcelData.sender_street_address === '' || 
       parcelData.sender_postal_code === '' || 
@@ -148,7 +148,7 @@ const SendNewParcel = () => {
       parcelData.parcel_depth === 0 ||
       parcelData.parcel_mass === 0 ||
       parcelData.desired_dropoff_locker === 0 ||
-      parcelData.desired_pickup_locker === 0 
+      parcelData.desired_pickup_locker === 0
       ){
         alert("Please fill in all the fields.");
         return;
@@ -269,7 +269,7 @@ const SendNewParcel = () => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  <h5>Your order has been confirm! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
+                  <h5>Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
                   <div className="stepSend">
                     <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
                     <p><strong>Step 2:</strong> Enter the pin code to the touch screen to open the cabinet.</p>
