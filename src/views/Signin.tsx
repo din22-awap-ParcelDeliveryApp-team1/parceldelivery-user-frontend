@@ -44,7 +44,7 @@ const Signin: React.FC = () => {
 			form: '', // Add this if you want to store form-wide errors
 		}
 	);
-
+	const [loginFailed, setloginFailed] = useState(false);
 	const [submissionState, setSubmissionState] = useState('idle');
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,23 +85,27 @@ const Signin: React.FC = () => {
 
 			if (data.success) {
 				setSubmissionState('success');
-
 				// set token and userId in the AuthContext
 				// token and userId can now be accessed from any component that uses the AuthContext
 				setToken(data.token);
 				setUserId(data.userId);
-
 				navigate('/home');
 			} else {
+				//add if user key wrong password, refresh to back to page
+				setloginFailed(true);
 				throw new Error('User name or password is not correct');
 			}
-
 		} catch (error) {
 			const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
 			//console.error(error);    
 			setError(message);
 			setSubmissionState('error');
 		}
+	};
+	const handleRefresh = () => {
+		setloginFailed(false);
+		setFormData({user_name: '', password: '' });
+		//setError({ formData:""})
 	};
 
 	return (
@@ -131,13 +135,16 @@ const Signin: React.FC = () => {
 						required
 					/>
 					<p>
-						<a className="terms" href="/terms">Forget password?</a>,
+						<a className="terms" href="/terms">Forget password?</a>
 					</p>
 					{submissionState === 'success' && <span>Success!</span>}
-					{submissionState === 'error' && <span>Error. Please try again.</span>}
+					{submissionState === 'error' && <span className='error ' >Username or password is incorrect. Please try again.</span>}
 					{error.form && <p className="error">{error.form}</p>}
-					{submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>}
-				</div>
+					{loginFailed ?(<button onClick={handleRefresh}>Back</button>)
+					:(<button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>)}
+					
+{/* 					{submissionState === 'idle' && <button type="submit" disabled={(formData.user_name.trim() === '' || formData.password.trim() === '')} > Sign in</button>}
+ */}				</div>
 			</form>
 		</section>
 	);

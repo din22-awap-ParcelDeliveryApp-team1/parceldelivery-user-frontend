@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../styling/module.css';
 import { useAuthContext } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
 
 type UserInfoProps = {
   first_name?: string;
@@ -24,7 +25,8 @@ type UserInfoProps = {
     //get token and userId from AuthContext
     const { token, userId } = useAuthContext() as any;
     const [userInfo, setUserInfo] = useState<UserInfoProps>({});
-
+    const navigate = useNavigate();
+   
 
     useEffect(() => {
       const fetchUserInfo = async () => {
@@ -41,9 +43,7 @@ type UserInfoProps = {
         }
       };
       fetchUserInfo();
-    }
-    , [token, userId]);
-    console.log("MyAccount :" + userInfo);
+    }, [token, userId]);
     
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -54,7 +54,6 @@ type UserInfoProps = {
 const handleChangeSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   e.preventDefault();
   console.log("DBG: handleSubmit :" + userInfo);
-  //const data = { first_name, last_name, email, telephone, street_address, postal_code, city };
   try {
   const response = await fetch(`http://localhost:3001/user/${userId}`, {
     method: 'PUT',
@@ -77,7 +76,6 @@ const handleChangeSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
 const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   e.preventDefault();
   const confirmDelete = window.confirm("Are you sure you want to delete your account?");
-  if(confirmDelete) {
   try {
   const response = await fetch(`http://localhost:3001/user/${userId}`, {
     method: 'DELETE',
@@ -89,6 +87,7 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   });
   if(response.ok) {
     alert("Account deleted");
+    navigate('/');
     setUserInfo({});
   }else {
     const errorData = await response.json();
@@ -96,7 +95,6 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   }
 }catch (error) {
   console.log(error);
-}
 }
 }
 
@@ -161,15 +159,15 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
           value={userInfo.city} 
           onChange={handleInputChange} />           
         </div>
-
         </div>
+
         <button className="delete-button" onClick={handleDeleteSubmit}>
           Delete account
         </button>
       
       </Col>
     </Row>
-    
+ 
       </Container>
 
     );
