@@ -39,16 +39,17 @@ const Home = () => {
             <ListGroup.Item
                 as="li"
                 className="align-items-start customListRow"
-                action onClick={(event) => handleClick(event, parcel)}>
+                action onClick={(event) => handleClick(event, parcel)}
+                style={{ borderBottom: '1px solid #ccc' }}>
                 <Row>
                     <Col xs={4}>
-                        <div>{parcel.sender_name}</div>
+                        <div className="incoming">{parcel.sender_name}</div>
                     </Col>
                     <Col>
-                        <div>{parcel_status(parcel.status)}</div>
+                        <div className="incoming">{parcel_status(parcel.status)}</div>
                     </Col>
                     <Col>
-                        <div>{parcel.parcel_pickup_date?.slice(0, 10) || "Becoming"}</div>
+                        <div className="incoming">{parcel.parcel_pickup_date?.slice(0, 10) || "Becoming"}</div>
                     </Col>
                 </Row>
             </ListGroup.Item>
@@ -59,26 +60,31 @@ const Home = () => {
     return (
         <Container className="home">
             <Row className="mt-10">
-                <Col xs={2} className="sidebar mr-7">
+                <Col xs={6} md={4} lg={2} className="sidebar mr-7">
                     <Sidebar />
                 </Col>
-                <Col xs={6} className="homeMain">
+                <Col xs={12} md={8} lg={6} className="homeMain">
                     <div>
                         <h3 className="mainHeader">Welcome to recieve and send parcels!</h3>
                     </div>
                     <div>
-                        <h5 id="incomingHeader">Incoming parcels with <strong>sender name</strong>, <strong>parcel status</strong>, and <strong>pickup date</strong>:</h5>
+                        <h5 id="incomingHeader">Here is the listy of your incoming parcels with <strong>sender name</strong>, <strong>parcel status</strong>, and <strong>pickup date</strong>:</h5>
                     </div>
+                    <Row id="header">
+                        <Col xs={4}><h5>Sender</h5></Col>
+                        <Col><h5>Status</h5></Col>
+                        <Col><h5>Pickup date</h5></Col>
+                    </Row>
                     <div>
                         <div>{incomingList}</div>
                     </div>
                     <div className="sendParcel">
                         <h4>Start sending a new parcel</h4>
-                        <div>You need following information to send a parcel: sender and receiver details: name, address, telephone number, and email. Please measure the parcel size as well: length, width, height (cm), and weight (kg).</div>
-                        <Link to="/sendNewParcel" className="btn btn-danger" style={{ marginTop: '2%' }}>Go to send a New Parcel</Link>
+                        <div className="sendParcelText">You need following information to send a parcel: sender and receiver details: name, address, telephone number, and email. Please measure the parcel size as well: length, width, height (cm), and weight (kg).</div>
+                        <Link to="/sendNewParcel" className="btn sendbtn" style={{ marginTop: '2%' }}>Send a New Parcel</Link>
                     </div>
                 </Col>
-                <Col xs={4} className="parcelDetails">
+                <Col xs={12} md={8} lg={4} className="parcelDetails">
                     <div id="header">
                         <h5>Parcel details</h5>
                     </div>
@@ -113,6 +119,7 @@ const Home = () => {
                         )}
                     </div>
                 </Col>
+
             </Row>
         </Container>
     );

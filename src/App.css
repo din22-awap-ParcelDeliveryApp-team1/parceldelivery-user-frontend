@@ -37,35 +37,40 @@
 .navbar-brand {
   padding-right: 10%;
 }
+.navLogo {
+  width: 150px;
+}
 .sidebar {
   margin-bottom: 6%;
   margin-top: 6%;
+  padding-top: 5%;
   padding-bottom: 5%;
-  background-color:rgb(238, 238, 238) ;
+  background-color: #90d6dc;
 }
 #sidebarList {
   text-decoration: none;
   color: black;
-  background-color:rgb(238, 238, 238)
+  background-color: #90d6dc;
 }
 #sidebarList:hover {
   text-decoration: none;
-  color: #159eab;
+  color: #068e9a;
   
 }
+.sidebarListgroup {
+  padding-top: 5%;
+}
 #sidebarListItem {
-  border-bottom: none;
-  background-color:rgb(238, 238, 238) 
+  border-style: none;
+  padding-left: 10px;
+  background-color: #90d6dc; 
+
 }
 .sentList {
   padding-top: 3%;
 }
-.customListRow {
-  margin: 0;
-  padding-top: 0;
-}
 .mainHeader {
-  padding-bottom: 5%;
+  margin-top: 5%;
   padding-left: 16px;
 }
 #header { 
@@ -92,7 +97,7 @@
   home view css:
 */
 .homeMain {
-  padding-top: 5%;
+  padding-top: 3%;
   padding-bottom: 16px;
   padding-left: 16px;
   padding-right: 16px;
@@ -108,16 +113,26 @@
   margin-top: 8%;
   text-align: center;
 }
+.sendParcelText {
+  text-align: justify;
+  padding-left: 16px;
+  margin-bottom: 5%;
+}
 .sendbtn {
-  background-color: #159eab;
-  color: white;
+  background-color: #90d6dc;
+  color: black;
   border-radius: 3px;
   border: none;
   padding: 8px;
   font-size: 1em;
   font-weight: bolder;
   text-decoration: none;
-  width: 30%;
+  width: 40%;
+}
+.sendbtn:hover {
+  background-color: #068e9a;
+  color: white;
+
 }
 /* 
   frontPage view css:
@@ -129,11 +144,93 @@
   padding-right: 16px;
 }
 .buttonsRow {
-  margin-top: 8%;
-  margin-bottom: 8%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   text-align: center;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
+.welcome {
+  font-size: 2em;
+  font-weight: bolder;
+  font-style: italic;
+  margin-bottom: 5%;
+}
+.text {
+  font-size: 1.5em;
+  font-weight: bolder;
+  margin-bottom: 5%;
+}
+.logoMain {
+  width: 300px;
+}
+@media(max-width: 992px) {
+  .frontPageMain {
+    font-size: 0.9em;
+  }
+  .logoMain {
+    margin-bottom: 5%;
+    width: 250px;
+  }
+}
+@media(max-width: 768px) {
+  .logoMain {
+    display: none;
+  }
+  .text {
+    font-size: 1.2em;
+  }
+  .welcome {
+    font-size: 1.5em;
+    text-align: center;
+  } 
+  .FrontPageMain {
+    margin: auto;
+    padding: 5%;
+  }
+  .buttonDiv {
+    margin-bottom: 5%;;
+  } 
+  .sendbtn {
+    width: 30%;
+  }
+  .sidebar {
+    margin-left: 5%;
+  }
+  .homeMain {
+  align-items: center;
+  }
+}
+@media(max-width: 576px) {
+  .frontPageMain {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .paragraph {
+    margin-bottom: 15%;
+    font-size: 0.9em;
+  }
+  .navLogo {
+    width: 120px;
+  }
+  .mainHeader {
+    text-align: center;
+    font-size: 1.3em;
+  }
+  .sendParcelText {
+    padding: 5%;
+    font-size: 0.9em;
+  }
+  .incomingHeader {
+    font-size: 1.1em;
+  }
+  .incoming {
+    font-size: 0.9em;
+  }
+  .parcelDetails {
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 0.9em;
+  }
+}

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./views/home";
 import SentParcels from "./views/sentParcels";
@@ -16,9 +17,18 @@ import './App.css';
 
 
 function App() {
-
-  const { token } = useAuthContext() as any;
-
+  const { token, setToken, setUserId } = useAuthContext() as any;
+  
+  const localToken = localStorage.getItem("token");
+  const localUserId = Number(localStorage.getItem("userId"));
+  
+  useEffect(() => {
+    if (localToken && !token) {
+      setToken(localToken);
+      setUserId(localUserId);
+    }
+  }, [localToken, token, setToken, localUserId, setUserId]);
+  
   return (
     <div className="App">
       {/* 1202 add authprovider has error */}
