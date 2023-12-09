@@ -84,13 +84,10 @@ const Signin: React.FC = () => {
 				// token and userId can now be accessed from any component that uses the AuthContext
 				setToken(data.token);
 				setUserId(data.userId);
-<<<<<<< HEAD
-=======
 				// store in local storage
 				localStorage.setItem('token', data.token);
 				localStorage.setItem('userId', data.userId.toString());
 				
->>>>>>> f2190198edfb32d926b3483a5a6403f2baaae3c0
 				navigate('/home');
 			} else {
 				//add if user key wrong password, refresh to back to page
