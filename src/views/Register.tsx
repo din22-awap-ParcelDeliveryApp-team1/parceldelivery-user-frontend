@@ -51,7 +51,6 @@ const [error, setError] = useState(
 
   //1124 for check username
 const checkUsername = async (user_name:string) => {
-  //console.log(req.body);
   try {
     const query = JSON.stringify("username:"+user_name);
     const response = await fetch(`http://localhost:3001/user/check-username?user_name=${user_name}`, 
@@ -63,7 +62,6 @@ const checkUsername = async (user_name:string) => {
     }); 
 
     const data = await response.json()
-    console.log(data);
     
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
@@ -82,13 +80,12 @@ const checkUsername = async (user_name:string) => {
 
   const handleBlurChange = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("DBG: handleOnBlurChange:" + name + ":" + e);
     checkUsername(value);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("DBG: Update name:" + name + ":" + value);
+    
     setFormData({...formData, [name]: value });
         if(name === 'email' && !EMAIL_REGEX.test(value)){
           setError(prevState => ({...prevState, email: 'Email is not valid'}));
@@ -115,7 +112,6 @@ const checkUsername = async (user_name:string) => {
    
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
 
     if (EMAIL_REGEX.test(formData.email) === false) {
       setError(prevState => ({...prevState, email: 'Email is not valid'}));
@@ -150,7 +146,6 @@ const checkUsername = async (user_name:string) => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         setSuccess(true); // Set success state to true, to tell direct to lgoin page
         setSubmissionState('success');

@@ -25,17 +25,15 @@ interface AuthContextType {
 
 
 const Signin: React.FC = () => {
-	// here you take into use those states AuthContext that you want to use in this components 
+	// take into use those states AuthContext that you want to use in this components 
 	const { setToken, setUserId } = useAuthContext() as AuthContextType;
 
 	//after user login, redirect to myaccount page
 	const navigate = useNavigate();
-	//old code
 	const [formData, setFormData] = useState<LoginUserData>({
 		user_name: '',
 		password: '',
 	});
-
 
 	const [error, setError] = useState(
 		{
@@ -49,7 +47,7 @@ const Signin: React.FC = () => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		console.log("DBG: Update name:" + name + ":" + value);
+		
 		setFormData({ ...formData, [name]: value });
 
 		if (formData.user_name.trim() === '' || formData.password.trim() === '') {
@@ -59,16 +57,13 @@ const Signin: React.FC = () => {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(formData);
 
 		if (formData.user_name.trim() === '' || formData.password.trim() === '') {
 			setError(prevState => ({ ...prevState, form: "All fileds need to be filled" }));
 		} else { setError(prevState => ({ ...prevState, form: '' })); }
 		setSubmissionState('Signing in...');
 
-		// Send data to the server (you can use fetch or Axios)
 		try {
-			//1129 new code to fit login auth
 			const response = await fetch('http://localhost:3001/signin', {
 				method: 'POST',
 				headers: {
@@ -90,15 +85,17 @@ const Signin: React.FC = () => {
 				// token and userId can now be accessed from any component that uses the AuthContext
 				setToken(data.token);
 				setUserId(data.userId);
-
+				// store in local storage
+				localStorage.setItem('token', data.token);
+				localStorage.setItem('userId', data.userId.toString());
+				
 				navigate('/home');
 			} else {
 				throw new Error('User name or password is not correct');
 			}
 
 		} catch (error) {
-			const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';
-			//console.error(error);    
+			const message = typeof (error as any).message === 'string' ? (error as any).message : 'An unknown error occurred';  
 			setError(message);
 			setSubmissionState('error');
 		}

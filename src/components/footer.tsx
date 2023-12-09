@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Footer= () => {
     return (
-        <footer className="footer bg-body-tertiary mt-auto py-3">
+        <footer className="footer bg-body-tertiary mt-50 py-3">
           <Container>
             <Row className="justify-content-between">
               <Col xs={12} md={4}>
@@ -14,7 +14,7 @@ const Footer= () => {
                   <div className="logo">Logo</div>
                   <div className="company-name"> <strong>DeliverMe!</strong></div>
                   <div className="terms">
-                    <a href="/terms-and-conditions">Terms and Conditions</a>
+                    <a style={{color:"#035f68"}} href="/terms-and-conditions">Terms and Conditions</a>
                   </div>
                   <div className="copyright">
                     Copyright 2023 All rights reserved
@@ -34,16 +34,16 @@ const Footer= () => {
                   <h5>SOCIAL NETWORK</h5>
                   <div className="social-icons">
                     <a href="https://www.facebook.com" className="facebook">
-                      <FontAwesomeIcon icon={faFacebookSquare} size="2x" />
+                      <FontAwesomeIcon icon={faFacebookSquare} size="2x" style={{color:"#035f68"}}/>
                     </a>
                     <a href="https://www.youtube.com" className="youtube">
-                      <FontAwesomeIcon icon={faYoutube} size="2x" />
+                      <FontAwesomeIcon icon={faYoutube} size="2x" style={{color:"#035f68"}}/>
                     </a>
                     <a href="https://www.twitter.com" className="twitter">
-                      <FontAwesomeIcon icon={faTwitter} size="2x" />
+                      <FontAwesomeIcon icon={faTwitter} size="2x" style={{color:"#035f68"}}/>
                     </a>
                     <a href="https://www.instagram.com" className="instagram">
-                      <FontAwesomeIcon icon={faInstagram} size="2x" />
+                      <FontAwesomeIcon icon={faInstagram} size="2x" style={{color:"#035f68"}}/>
                     </a>
                   </div>
                 </div>

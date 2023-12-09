@@ -41,7 +41,6 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
 
   const handleSelectLocker: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     const selectedLocker = parseInt(e.target.value, 10);
-    console.log(selectedLocker);
     setReceiverDetails((prevDetails) => ({ ...prevDetails, desired_pickup_locker: selectedLocker  }));
   };
   const handleViewPickupMapClick = () => {
@@ -123,7 +122,7 @@ const ReceiverForm: React.FC<ReceiverFormProps> = ({ onChange }: ReceiverFormPro
 
           <Form.Group controlId="chooseLocker">
               <Form.Label style={{ fontWeight: 'bold' }}>Choose Pick-up Locker</Form.Label>
-                    <Button variant="link" onClick={handleViewPickupMapClick}> 
+                    <Button style={{color:"#068e9a"}} variant="link" onClick={handleViewPickupMapClick}> 
                       <strong>View Locker Map</strong>
                     </Button>
                 <Form.Control data-testid="select-desired-locker" as="select" onChange={handleSelectLocker as any} 
