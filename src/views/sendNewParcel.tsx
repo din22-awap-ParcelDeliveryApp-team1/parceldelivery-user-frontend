@@ -8,6 +8,7 @@ import ParcelSize from "../components/ParcelSize";
 import ParcelSizeImage from "../components/ParcelSizeImage";
 import SendParcelConfirm from "../components/SendParcelConfirm";
 import ReceiverSenderDetails from "../components/ReceiverSenderDetails";
+import { useAuthContext } from "../contexts/authContext";
 
 export interface SendParcel{
   id_parcel: number;
@@ -39,7 +40,7 @@ export interface SendParcel{
   sender_email: string;
 }
 
-async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
+async function postParcelToBackend(parcelData: SendParcel, token: String): Promise<Response> {
    // Format the dates without the time part
    const formattedParcelData = {
       ...parcelData,
@@ -51,6 +52,7 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
   const response = await fetch('http://localhost:3001/parcel', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -90,6 +92,7 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
 }
 
 const SendNewParcel = () => {
+  const { token } = useAuthContext() as any;
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
@@ -131,12 +134,12 @@ const SendNewParcel = () => {
   const goToConfirm = async () => {
     try {
       // check if all data is filled in
-      if(parcelData.reciever_name === '' || 
+      if(parcelData.reciever_name === ''  || 
       parcelData.reciever_telephone === '' || 
       parcelData.reciever_street_address === '' || 
       parcelData.reciever_postal_code === '' || 
       parcelData.reciever_city === '' || 
-      parcelData.sender_name === '' || 
+      parcelData.sender_name === ''|| 
       parcelData.sender_telephone === '' || 
       parcelData.sender_street_address === '' || 
       parcelData.sender_postal_code === '' || 
@@ -148,17 +151,16 @@ const SendNewParcel = () => {
       parcelData.parcel_depth === 0 ||
       parcelData.parcel_mass === 0 ||
       parcelData.desired_dropoff_locker === 0 ||
-      parcelData.desired_pickup_locker === 0 
+      parcelData.desired_pickup_locker === 0
       ){
         alert("Please fill in all the fields.");
         return;
       }
-      const response = await postParcelToBackend(parcelData);
+      const response = await postParcelToBackend(parcelData, token);
         if (response.ok) {
             // Parse the response to get the pin code
             const responseData = await response.json();
             const pinCode = responseData.pin_code;
-            console.log('Pin Code:', pinCode);
 
             // Update the state with the pin code
             setParcelData((prevParcelData) => ({ ...prevParcelData, pin_code: pinCode }));
@@ -181,11 +183,11 @@ const SendNewParcel = () => {
 
   return (
     <Container className="sendNewParcel">
-      <Row className="mt-3">
-        <Col xs={2} className="sidebar mr-2">
+      <Row className="mb-3">
+        <Col xs={6} md={4} lg={2} className="sidebar mr-2">
           <Sidebar />
         </Col>
-        <Col xs={10}>
+        <Col xs={12} md={8} lg={10}>
           <div className="sendNewParcel">
             {step === 1 && (
               <div>
@@ -205,9 +207,9 @@ const SendNewParcel = () => {
                   <Row>
                     <Col xs={6} className="d-flex justify-content-end">
                       <Button
-                        variant="primary"
+                        className="sendbtn"
                         onClick={goToNextStep}
-                        style={{ marginTop: '10px', padding: '8px 16px' }}
+                        style={{ marginTop: '10px', padding: '8px 16px',  }}
                       >
                         Next
                       </Button>{' '}
@@ -230,11 +232,12 @@ const SendNewParcel = () => {
                   <Row>
                     <Col xs={6}>
                       <Button onClick={goToPreviousStep}
+                        className="sendbtn"
                         style={{ marginTop: '10px', padding: '8px 16px' }}>Back
                       </Button>{' '}
                     </Col>
                     <Col xs={6}>
-                      <Button onClick={goToNextStep} className="ml-auto"
+                      <Button onClick={goToNextStep} className="ml-auto sendbtn"
                         style={{ marginTop: '10px', padding: '8px 16px'}}>Next
                       </Button>{' '}
                     </Col>
@@ -253,11 +256,13 @@ const SendNewParcel = () => {
                 <Row>
                     <Col xs={6}>
                       <Button onClick={goToPreviousStep} 
+                        className="sendbtn"
                         style={{ padding: '8px 16px' }}>Back
                       </Button>{' '}
                     </Col>
                     <Col xs={6}>
                       <Button onClick={goToConfirm} 
+                        className="ml-auto sendbtn"
                         style={{  padding: '8px 16px' }}>Confirm
                       </Button>{' '}
                     </Col>
@@ -269,7 +274,7 @@ const SendNewParcel = () => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  <h5>Your order has been confirm! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
+                  <h5>Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
                   <div className="stepSend">
                     <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
                     <p><strong>Step 2:</strong> Enter the pin code to the touch screen to open the cabinet.</p>

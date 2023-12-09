@@ -127,13 +127,13 @@ const SenderForm: React.FC<SenderFormProps> = ({ onChange }: SenderFormProps) =>
             
             <Form.Group controlId="chooseLocker">
               <Form.Label style={{ fontWeight: 'bold' }}>Choose Drop-off Locker</Form.Label>
-                    <Button variant="link" onClick={handleViewDropoffMapClick}> 
+                    <Button style={{color:"#068e9a"}} variant="link" onClick={handleViewDropoffMapClick}> 
                       <strong>View Locker Map</strong>
                     </Button>
-              <Form.Control as="select" onChange={handleSelectLocker as any} 
-                value={senderDetails.desired_dropoff_locker}>
-                      <option value="">Select a Locker</option>
-                      <option value="1">{locker_location(1)}</option>
+              <Form.Control data-testid="select-dropoff-locker" as="select" onChange={handleSelectLocker as any} 
+                value={senderDetails.desired_dropoff_locker+""}>
+                      <option value="0">Select a Locker</option>
+                      <option data-testid="select-dropoff-locker-1" value="1">{locker_location(1)}</option>
                       <option value="2">{locker_location(2)}</option>
                       <option value="3">{locker_location(3)}</option>
                       <option value="4">{locker_location(4)}</option>

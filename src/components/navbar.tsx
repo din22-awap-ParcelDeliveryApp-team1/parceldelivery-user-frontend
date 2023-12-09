@@ -13,13 +13,15 @@ const NavbarHeader = () => {
 
 	const handleSignOut = () => {
 		setToken("");
+		localStorage.removeItem("token");
+		localStorage.removeItem("userId");
 		navigate("/");
 	};
 
 	return (
 		<Navbar expand="lg" className="bg-body-tertiary">
 			<Container>
-				<Navbar.Brand><img src={logo} width="150" height="60" alt="Logo" /></Navbar.Brand>
+				<Navbar.Brand as={Link} to={token ? "/home" : "/"} ><img className="navLogo" src={logo} alt="Logo" /></Navbar.Brand>
 				<IncomingNotification />
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -37,7 +39,9 @@ const NavbarHeader = () => {
 							)}
 						</div>
 						<div>
-							<Nav.Link className="navbarTags" href="/Register">Register</Nav.Link>
+							{token ? null : (
+								<Nav.Link className="navbarTags" href="/Register">Register</Nav.Link>
+							)}
 						</div>
 					</Nav>
 				</Navbar.Collapse>

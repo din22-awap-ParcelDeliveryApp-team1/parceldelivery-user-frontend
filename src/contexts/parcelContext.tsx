@@ -13,8 +13,6 @@ const ParcelContext = createContext<ParcelContextType | undefined>(undefined);
 
 const ParcelContextProvider = (props: any) => {
     const { userId, token } = useAuthContext() as any;
-
-
     const [sentParcels, setSentParcels] = useState<any>([]);
     const [receivedParcels, setReceivedParcels] = useState<any>([]);
 
@@ -42,11 +40,11 @@ const ParcelContextProvider = (props: any) => {
             setReceivedParcels([]);
         };
     }, [userId, token]);
-
+    
     let incomingParcels: any = [];
     let deliveredParcels: any = [];
 
-    if (receivedParcels.length > 0) {
+    if (receivedParcels.length > 0 && token) {
         incomingParcels = receivedParcels.filter((parcel: any) => parcel.status !== "reciever_recieved_parcel");
         deliveredParcels = receivedParcels.filter((parcel: any) => parcel.status === "reciever_recieved_parcel");
     };

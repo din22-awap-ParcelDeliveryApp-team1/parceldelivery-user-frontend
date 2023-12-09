@@ -32,8 +32,9 @@ const ReceivedParcels = () => {
         <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
             <ListGroup.Item
                 as="li"
-                className="align-items-start listRow"
-                action onClick={(event) => handleClick(event, parcel)}>
+                className="align-items-start"
+                action onClick={(event) => handleClick(event, parcel)}
+                style={{ borderBottom: '1px solid #ccc' }}>
                 <Row>
                     <Col xs={4}>
                         <div>{parcel.sender_name}</div>
@@ -53,10 +54,10 @@ const ReceivedParcels = () => {
     return (
         <Container>
             <Row>
-                <Col xs={2} className="sidebar">
+                <Col xs={6} md={4} lg={2} className="sidebar">
                     <Sidebar />
                 </Col>
-                <Col xs={6} className="sentList">
+                <Col xs={12} md={8} lg={6} className="sentList">
                     <div>
                     <h3 className="mainHeader">Received parcels history</h3>
                     </div>
@@ -69,7 +70,7 @@ const ReceivedParcels = () => {
                         {surveyList}
                     </div>
                 </Col>
-                <Col xs={4} className="parcelDetails">
+                <Col xs={12} md={8} lg={4} className="parcelDetails">
                     <div id="header">
                         <h5>Parcel details</h5>
                     </div>
