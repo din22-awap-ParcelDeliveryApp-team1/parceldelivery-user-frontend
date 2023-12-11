@@ -12,8 +12,7 @@ import Register from "./views/Register";
 import Signin from "./views/Signin";
 import { useAuthContext } from "./contexts/authContext";
 import './App.css';
-//1202 new code, for userAuth, has some error, need to fix
-//import { AuthProvider } from "./contexts/authContext";
+
 
 
 function App() {
@@ -31,8 +30,7 @@ function App() {
   
   return (
     <div className="App">
-      {/* 1202 add authprovider has error */}
-    {/*   <AuthProvider> */}
+
       <Navbar />
       <Routes>
         <Route path="/" element={<FrontPage />} />
@@ -49,7 +47,7 @@ function App() {
         <Route path="/Signin" element={<Signin />} />
       </Routes>
       <Footer />
-      {/* </AuthProvider> */}
+     
     </div>
   );
 }

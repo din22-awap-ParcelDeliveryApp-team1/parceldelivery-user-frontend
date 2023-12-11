@@ -14,7 +14,7 @@ const NavbarHeader = () => {
 	const handleSignOut = () => {
 		setToken("");
 		localStorage.removeItem("token");
-		localStorage.removeItem("userId");
+		localStorage.removeItem("userid"); //change from userId to userid
 		navigate("/");
 	};
 

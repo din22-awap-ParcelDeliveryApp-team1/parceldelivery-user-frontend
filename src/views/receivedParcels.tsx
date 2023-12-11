@@ -27,7 +27,33 @@ const ReceivedParcels = () => {
         event.preventDefault();
         setSelectedParcel(parcel);
     };
+    //due to error, new code to ccheck if working
+    /*const surveyList = Array.isArray(deliveredParcels) && deliveredParcels.length > 0
+        ? deliveredParcels.map((parcel: any) =>  (
+        <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
+            <ListGroup.Item
+                as="li"
+                className="align-items-start"
+                action onClick={(event) => handleClick(event, parcel)}
+                style={{ borderBottom: '1px solid #ccc' }}>
+                <Row>
+                    <Col xs={4}>
+                        <div>{parcel.sender_name}</div>
+                    </Col>
+                    <Col>
+                        <div>{parcel.parcel_dropoff_date.slice(0, 10)}</div>
+                    </Col>
+                    <Col>
+                        <div>{parcel.parcel_pickup_date.slice(0, 10)}</div>
+                    </Col>
+                </Row>
+            </ListGroup.Item>
+        </ListGroup>
+      ))
+      : <div style={{ paddingLeft: '5%' }}>You have not received any parcels yet</div>;*/
 
+    //error after test and add token
+    
     const surveyList = (deliveredParcels.length > 0) ? deliveredParcels.map((parcel: any) =>
         <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
             <ListGroup.Item

@@ -23,7 +23,7 @@
   /* Style for error messages */
   .error {
     color: red;
-    font-size: 0.9em;
+    font-size: 1.3em;
     margin-bottom: 10px;
   }
   
@@ -207,5 +207,29 @@
   
   .delete-button:hover {
     background-color: #cc0000;
+  }
+  
+  /*Term and conditoins css*/
+  .terms-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .terms-container h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  .terms-text {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .terms-container ul {
+    margin-left: 20px;
   }
   
