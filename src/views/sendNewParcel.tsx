@@ -105,9 +105,9 @@ const SendNewParcel = () => {
     sender_postal_code: '',
     sender_city: '',
     parcel_dropoff_date: new Date(),
-    parcel_readyforpickup_date: new Date(),
-    parcel_pickup_date: new Date(),
-    parcel_last_pickup_date: new Date(),
+    parcel_readyforpickup_date: null,
+    parcel_pickup_date: null,
+    parcel_last_pickup_date: null,
     pin_code: 0,
     status: 'ready_to_deliver',
     desired_dropoff_locker: 0,
@@ -175,6 +175,8 @@ const SendNewParcel = () => {
     if(newParcelData.parcel_dropoff_date){
       newParcelData.parcel_readyforpickup_date = 
         new Date(newParcelData.parcel_dropoff_date.getTime()+ 4*24*60*60*1000);
+      newParcelData.parcel_last_pickup_date = 
+        new Date(newParcelData.parcel_dropoff_date.getTime()+ 7*24*60*60*1000);
     }
     setParcelData({...parcelData, ...newParcelData});
   }
