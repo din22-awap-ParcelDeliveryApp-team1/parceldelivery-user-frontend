@@ -3,15 +3,9 @@ import "@testing-library/jest-dom/extend-expect";
 import SendNewParcel from "../sendNewParcel";
 import { MemoryRouter } from "react-router"; 
 import userEvent from "@testing-library/user-event";
-import AuthContextProvider from "../../contexts/authContext";
-import { useAuthContext } from "../../contexts/authContext";
+import AuthContextProvider, { AuthContext } from "../../contexts/authContext";
 
 const mockResponse = { pin_code: '0012' };
-
-jest.mock("../../contexts/authContext", () => ({
-  useAuthContext: jest.fn(),
-  AuthContextProvider: jest.fn(),
-}));
 
 beforeEach(() => {
   jest.spyOn(global, 'fetch').mockResolvedValue(Promise.resolve({
@@ -32,14 +26,18 @@ afterEach(() => {
 
 // Renders SendNewParcel component for logged-in user, 1st view
 test('renders SendNewParcel component for logged-in user', async () => {
-  (useAuthContext as jest.Mock).mockReturnValue({ userid: 123, token: 'mocked-token' });
 
   await act(async () => {
     render(
       <MemoryRouter>
-        <AuthContextProvider>
+        <AuthContext.Provider value={{
+          userid: 123,
+          token: 'mocked-token',
+          setToken: jest.fn(),
+          setUserId: jest.fn(),
+        }}>
           <SendNewParcel />
-        </AuthContextProvider>
+        </AuthContext.Provider>
       </MemoryRouter>
     );
   });
@@ -67,12 +65,16 @@ test('renders SendNewParcel second view', () => {
   
 // Renders 3rd view of SendNewParcel component
 test('renders SendNewParcel 3rd view, validates form fields before confirming and gets pincode', async () => {
-  (useAuthContext as jest.Mock).mockReturnValue({ userid: 123, token: 'mocked-token' });
   render(
     <MemoryRouter>
-      <AuthContextProvider>
+      <AuthContext.Provider value={{
+        userid: 123,
+        token: 'mocked-token',
+        setToken: jest.fn(),
+        setUserId: jest.fn(),
+      }}>
         <SendNewParcel />
-      </AuthContextProvider>
+      </AuthContext.Provider>
     </MemoryRouter>
   );
     // Navigate to the 2nd page

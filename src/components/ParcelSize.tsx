@@ -18,7 +18,7 @@ const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
     fragileChecked: false,
     fastDeliveryChecked: false,
   });
-  //1207 show error message if parcel size is too big
+  //show error message if parcel size is too big
   const [error, setError] = useState({    
   parcel_depth: '',
   parcel_width: '',
@@ -28,19 +28,13 @@ const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
   useEffect(() => {
     props.onChange(parcelSize);
   }, [parcelSize]);
-//change this one to check validation
-/*
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: value }));
-  };
-*/
+
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: checked }));
   }; 
 
-    const parcelSizeValidation = (name: string, value: number) => {
+  const parcelSizeValidation = (name: string, value: number) => {
       let errorMessage = '';
       if (name === 'parcel_depth' && value > 60) errorMessage = "Maximum length limits 60 cm.";
       if (name === 'parcel_width' && value > 50) errorMessage = "Maximum width limits 50 cm.";
@@ -48,14 +42,10 @@ const ParcelSize: React.FC<ParcelSizeProps> = (props: ParcelSizeProps) => {
       if (name === 'parcel_mass' && value > 10) errorMessage = "Maximum weight limits 10 kg.";
       setError(prev=>({...prev, [name]: errorMessage}));
     };
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: value }));
       parcelSizeValidation(name, Number(value));
-      //const isInvalid = parcelSizeValidation(name, Number(value));
-      //setParcelSize((prevDetails:any) => ({ ...prevDetails, [name]: value }));
-      //setError(isInvalid ? `Error message: The ${name.replace('_', ' ')} exceeds maximum limit.` : "");
-      //parcelSizeValidation(name, parseInt(value));
     };
 
   

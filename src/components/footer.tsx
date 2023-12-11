@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { faInstagram, faFacebookSquare, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faPhone, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import logo from '../images/logo.png';
 
 const Footer= () => {
     return (
@@ -11,12 +12,12 @@ const Footer= () => {
             <Row className="justify-content-between">
               <Col xs={12} md={4}>
                 <div className="footer-brand">
-                  <div className="logo">Logo</div>
-                  <div className="company-name"> <strong>DeliverMe!</strong></div>
+                  <div className="logo"><img className="navLogo" src={logo} alt="Logo" /></div>
+                  {/* <div className="company-name"> <strong>DeliverMe!</strong></div> */}
                   <div className="terms">
                     <a style={{color:"#035f68"}} href="/terms-and-conditions">Terms and Conditions</a>
                   </div>
-                  <div className="copyright">
+                  <div> className="copyright"
                     Copyright 2023 All rights reserved
                   </div>
                 </div>

@@ -92,10 +92,7 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
 
 const SendNewParcel = () => {
 
-  //1210 new code to fix always give id_user = 1
-  const { userid, token } = useAuthContext() as any;
-  //old code
-  //const { token } = useAuthContext() as any;
+  const { userid } = useAuthContext() as any;
 
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
@@ -299,7 +296,7 @@ const onChange = (newParcelData: SendParcel) => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  <h5>Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
+                  <h5 className="afterConfirm">Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
                   <div className="stepSend">
                     <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
                     <p><strong>Step 2:</strong> Enter the pin code to the touch screen to open the cabinet.</p>
