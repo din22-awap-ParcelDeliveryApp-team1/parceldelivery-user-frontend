@@ -1,6 +1,6 @@
 import "../styling/sendNewParcel.css";
 import { Link } from 'react-router-dom';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "../components/sidebar";
@@ -48,7 +48,7 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
     parcel_pickup_date: parcelData.parcel_pickup_date?.toISOString() || null,
     parcel_last_pickup_date: parcelData.parcel_last_pickup_date?.toISOString() || null,
     };
-  const response = await fetch('http://localhost:3001/parcel', {
+  const response = await fetch('http://localhost:3001/send/newParcel', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -90,10 +90,16 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
 }
 
 const SendNewParcel = () => {
+
+  //1210 new code to fix always give id_user = 1
+  const { userid, token } = useAuthContext() as any;
+  //old code
+  //const { token } = useAuthContext() as any;
+
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
-    id_user: 1,
+    id_user: userid, //to get user id from token
     reciever_name: '',
     reciever_telephone: '',
     reciever_street_address: '',
@@ -120,6 +126,11 @@ const SendNewParcel = () => {
     receiver_email: '',
     sender_email: '',
   });
+
+  //update parceldata id_user if userid change
+  useEffect(() => {
+    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userid }));
+  }, [userid]);
 
   const goToNextStep = () => {
     setStep(step + 1);
@@ -158,7 +169,6 @@ const SendNewParcel = () => {
             // Parse the response to get the pin code
             const responseData = await response.json();
             const pinCode = responseData.pin_code;
-            console.log('Pin Code:', pinCode);
 
             // Update the state with the pin code
             setParcelData((prevParcelData) => ({ ...prevParcelData, pin_code: pinCode }));
@@ -183,11 +193,11 @@ const SendNewParcel = () => {
 
   return (
     <Container className="sendNewParcel">
-      <Row className="mt-3">
-        <Col xs={2} className="sidebar mr-2">
+      <Row className="mb-3">
+        <Col xs={6} md={4} lg={2} className="sidebar mr-2">
           <Sidebar />
         </Col>
-        <Col xs={10}>
+        <Col xs={12} md={8} lg={10}>
           <div className="sendNewParcel">
             {step === 1 && (
               <div>
@@ -207,9 +217,9 @@ const SendNewParcel = () => {
                   <Row>
                     <Col xs={6} className="d-flex justify-content-end">
                       <Button
-                        variant="primary"
+                        className="sendbtn"
                         onClick={goToNextStep}
-                        style={{ marginTop: '10px', padding: '8px 16px' }}
+                        style={{ marginTop: '10px', padding: '8px 16px',  }}
                       >
                         Next
                       </Button>{' '}
@@ -232,11 +242,12 @@ const SendNewParcel = () => {
                   <Row>
                     <Col xs={6}>
                       <Button onClick={goToPreviousStep}
+                        className="sendbtn"
                         style={{ marginTop: '10px', padding: '8px 16px' }}>Back
                       </Button>{' '}
                     </Col>
                     <Col xs={6}>
-                      <Button onClick={goToNextStep} className="ml-auto"
+                      <Button onClick={goToNextStep} className="ml-auto sendbtn"
                         style={{ marginTop: '10px', padding: '8px 16px'}}>Next
                       </Button>{' '}
                     </Col>
@@ -255,11 +266,13 @@ const SendNewParcel = () => {
                 <Row>
                     <Col xs={6}>
                       <Button onClick={goToPreviousStep} 
+                        className="sendbtn"
                         style={{ padding: '8px 16px' }}>Back
                       </Button>{' '}
                     </Col>
                     <Col xs={6}>
                       <Button onClick={goToConfirm} 
+                        className="ml-auto sendbtn"
                         style={{  padding: '8px 16px' }}>Confirm
                       </Button>{' '}
                     </Col>

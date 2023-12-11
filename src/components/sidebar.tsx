@@ -7,7 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const Sidebar = () => {
 
     return (
-        <ListGroup as="ol" variant="flush" className="mt-5 ">
+        <ListGroup as="ol" variant="flush" className="sidebarListgroup">
             <ListGroup.Item id="sidebarListItem">
                 <Link to="/SendNewParcel" id="sidebarList"><strong>Send a New Parcel</strong></Link>
             </ListGroup.Item>

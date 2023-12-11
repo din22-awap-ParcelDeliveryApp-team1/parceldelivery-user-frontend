@@ -4,6 +4,7 @@
 .parcelSizeImage img {
     max-width: 100%; 
     height: auto; 
+    padding-top: 5%;
   }
 
 .unit {

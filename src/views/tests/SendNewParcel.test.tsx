@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, getByTestId, act, } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import SendNewParcel from "../sendNewParcel";
 import { MemoryRouter } from "react-router"; 

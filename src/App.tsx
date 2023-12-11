@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./views/home";
 import SentParcels from "./views/sentParcels";
@@ -11,18 +12,25 @@ import Register from "./views/Register";
 import Signin from "./views/Signin";
 import { useAuthContext } from "./contexts/authContext";
 import './App.css';
-//1202 new code, for userAuth, has some error, need to fix
-//import { AuthProvider } from "./contexts/authContext";
+
 
 
 function App() {
-
-  const { token } = useAuthContext() as any;
-
+  const { token, setToken, setUserId } = useAuthContext() as any;
+  
+  const localToken = localStorage.getItem("token");
+  const localUserId = Number(localStorage.getItem("userId"));
+  
+  useEffect(() => {
+    if (localToken && !token) {
+      setToken(localToken);
+      setUserId(localUserId);
+    }
+  }, [localToken, token, setToken, localUserId, setUserId]);
+  
   return (
     <div className="App">
-      {/* 1202 add authprovider has error */}
-    {/*   <AuthProvider> */}
+
       <Navbar />
       <Routes>
         <Route path="/" element={<FrontPage />} />
@@ -39,7 +47,7 @@ function App() {
         <Route path="/Signin" element={<Signin />} />
       </Routes>
       <Footer />
-      {/* </AuthProvider> */}
+     
     </div>
   );
 }

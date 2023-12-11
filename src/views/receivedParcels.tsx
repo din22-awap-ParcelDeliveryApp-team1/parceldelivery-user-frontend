@@ -27,13 +27,40 @@ const ReceivedParcels = () => {
         event.preventDefault();
         setSelectedParcel(parcel);
     };
+    //due to error, new code to ccheck if working
+    /*const surveyList = Array.isArray(deliveredParcels) && deliveredParcels.length > 0
+        ? deliveredParcels.map((parcel: any) =>  (
+        <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
+            <ListGroup.Item
+                as="li"
+                className="align-items-start"
+                action onClick={(event) => handleClick(event, parcel)}
+                style={{ borderBottom: '1px solid #ccc' }}>
+                <Row>
+                    <Col xs={4}>
+                        <div>{parcel.sender_name}</div>
+                    </Col>
+                    <Col>
+                        <div>{parcel.parcel_dropoff_date.slice(0, 10)}</div>
+                    </Col>
+                    <Col>
+                        <div>{parcel.parcel_pickup_date.slice(0, 10)}</div>
+                    </Col>
+                </Row>
+            </ListGroup.Item>
+        </ListGroup>
+      ))
+      : <div style={{ paddingLeft: '5%' }}>You have not received any parcels yet</div>;*/
 
+    //error after test and add token
+    
     const surveyList = (deliveredParcels.length > 0) ? deliveredParcels.map((parcel: any) =>
         <ListGroup key={parcel.id_parcel} as="ol" variant='flush'>
             <ListGroup.Item
                 as="li"
-                className="align-items-start listRow"
-                action onClick={(event) => handleClick(event, parcel)}>
+                className="align-items-start"
+                action onClick={(event) => handleClick(event, parcel)}
+                style={{ borderBottom: '1px solid #ccc' }}>
                 <Row>
                     <Col xs={4}>
                         <div>{parcel.sender_name}</div>
@@ -53,10 +80,10 @@ const ReceivedParcels = () => {
     return (
         <Container>
             <Row>
-                <Col xs={2} className="sidebar">
+                <Col xs={6} md={4} lg={2} className="sidebar">
                     <Sidebar />
                 </Col>
-                <Col xs={6} className="sentList">
+                <Col xs={12} md={8} lg={6} className="sentList">
                     <div>
                     <h3 className="mainHeader">Received parcels history</h3>
                     </div>
@@ -69,7 +96,7 @@ const ReceivedParcels = () => {
                         {surveyList}
                     </div>
                 </Col>
-                <Col xs={4} className="parcelDetails">
+                <Col xs={12} md={8} lg={4} className="parcelDetails">
                     <div id="header">
                         <h5>Parcel details</h5>
                     </div>
