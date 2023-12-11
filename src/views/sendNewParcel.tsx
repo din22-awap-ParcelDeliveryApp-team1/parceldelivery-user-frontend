@@ -8,7 +8,6 @@ import ParcelSize from "../components/ParcelSize";
 import ParcelSizeImage from "../components/ParcelSizeImage";
 import SendParcelConfirm from "../components/SendParcelConfirm";
 import ReceiverSenderDetails from "../components/ReceiverSenderDetails";
-import { useAuthContext } from "../contexts/authContext";
 
 export interface SendParcel{
   id_parcel: number;
@@ -40,7 +39,7 @@ export interface SendParcel{
   sender_email: string;
 }
 
-async function postParcelToBackend(parcelData: SendParcel, token: String): Promise<Response> {
+async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
    // Format the dates without the time part
    const formattedParcelData = {
       ...parcelData,
@@ -49,10 +48,9 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
     parcel_pickup_date: parcelData.parcel_pickup_date?.toISOString() || null,
     parcel_last_pickup_date: parcelData.parcel_last_pickup_date?.toISOString() || null,
     };
-  const response = await fetch('http://localhost:3001/parcel', {
+  const response = await fetch('http://localhost:3001/send/newParcel', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -92,10 +90,12 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
 }
 
 const SendNewParcel = () => {
+
   //1210 new code to fix always give id_user = 1
   const { userid, token } = useAuthContext() as any;
   //old code
   //const { token } = useAuthContext() as any;
+
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
@@ -164,7 +164,7 @@ const SendNewParcel = () => {
         alert("Please fill in all the fields.");
         return;
       }
-      const response = await postParcelToBackend(parcelData, token);
+      const response = await postParcelToBackend(parcelData);
         if (response.ok) {
             // Parse the response to get the pin code
             const responseData = await response.json();
