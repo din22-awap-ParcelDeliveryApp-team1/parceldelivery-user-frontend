@@ -8,6 +8,7 @@ import ParcelSize from "../components/ParcelSize";
 import ParcelSizeImage from "../components/ParcelSizeImage";
 import SendParcelConfirm from "../components/SendParcelConfirm";
 import ReceiverSenderDetails from "../components/ReceiverSenderDetails";
+import { useAuthContext } from "../contexts/authContext";
 
 export interface SendParcel{
   id_parcel: number;
@@ -111,9 +112,9 @@ const SendNewParcel = () => {
     sender_postal_code: '',
     sender_city: '',
     parcel_dropoff_date: new Date(),
-    parcel_readyforpickup_date: new Date(),
-    parcel_pickup_date: new Date(),
-    parcel_last_pickup_date: new Date(),
+    parcel_readyforpickup_date: null,
+    parcel_pickup_date: null,
+    parcel_last_pickup_date: null,
     pin_code: 0,
     status: 'ready_to_deliver',
     desired_dropoff_locker: 0,
@@ -181,13 +182,29 @@ const SendNewParcel = () => {
     }
 };
   
-  const onChange = (newParcelData: SendParcel) => {
-    if(newParcelData.parcel_dropoff_date){
-      newParcelData.parcel_readyforpickup_date = 
-        new Date(newParcelData.parcel_dropoff_date.getTime()+ 4*24*60*60*1000);
-    }
-    setParcelData({...parcelData, ...newParcelData});
+const onChange = (newParcelData: SendParcel) => {
+  if (newParcelData.parcel_dropoff_date) {
+    // Calculate parcel_readyforpickup_date (4 days ahead)
+    const readyForPickupDate = new Date(newParcelData.parcel_dropoff_date.getTime() + 4 * 24 * 60 * 60 * 1000);
+
+    // Calculate parcel_last_pickup_date (7 days ahead)
+    const lastPickupDate = new Date(newParcelData.parcel_dropoff_date.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    // Set parcel_pickup_date to null
+    newParcelData.parcel_pickup_date = null;
+
+    // Update parcelData state with the calculated dates
+    setParcelData({
+      ...parcelData,
+      parcel_readyforpickup_date: readyForPickupDate,
+      parcel_last_pickup_date: lastPickupDate,
+      parcel_pickup_date: null, // Set to null to represent unknown
+      ...newParcelData,
+    });
+  } else {
+    setParcelData({ ...parcelData, ...newParcelData });
   }
+};
 
   return (
     <Container className="sendNewParcel">

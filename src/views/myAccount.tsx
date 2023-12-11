@@ -111,7 +111,7 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
         <Col xs={12} md={9} className="user-info">
 
         <h1>My Account</h1>
-        <h2>Welcome {userInfo.user_name || "Loading..."}</h2>
+        <h2>Welcome {userInfo.user_name || "Loading..."}!</h2>
         <div className="user-info">
         <div>
         <label htmlFor="first_name">First Name : </label>
