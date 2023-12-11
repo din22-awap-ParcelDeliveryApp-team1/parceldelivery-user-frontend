@@ -24,14 +24,6 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-/* test('renders SendNewParcel component', () => {
-    render(<MemoryRouter><SendNewParcel /></MemoryRouter>);
-    //Check if heading text first view is present
-    expect(screen.getByText('Send a New Parcel')).toBeInTheDocument();
-    expect(screen.getByText('Please fill in here package details. Note the maximum size!')).toBeInTheDocument();
-  });  */
-
-
 test('renders SendNewParcel component for logged-in user', () => {
     // Simulate a logged-in user
     const userIsLoggedIn = true;
