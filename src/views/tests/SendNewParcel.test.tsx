@@ -4,8 +4,14 @@ import SendNewParcel from "../sendNewParcel";
 import { MemoryRouter } from "react-router"; 
 import userEvent from "@testing-library/user-event";
 import AuthContextProvider from "../../contexts/authContext";
+import { useAuthContext } from "../../contexts/authContext";
 
 const mockResponse = { pin_code: '0012' };
+
+jest.mock("../../contexts/authContext", () => ({
+  useAuthContext: jest.fn(),
+  AuthContextProvider: jest.fn(),
+}));
 
 beforeEach(() => {
   jest.spyOn(global, 'fetch').mockResolvedValue(Promise.resolve({
@@ -24,9 +30,11 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('renders SendNewParcel component for logged-in user', () => {
-    // Simulate a logged-in user
-    const userIsLoggedIn = true;
+// Renders SendNewParcel component for logged-in user, 1st view
+test('renders SendNewParcel component for logged-in user', async () => {
+  (useAuthContext as jest.Mock).mockReturnValue({ userid: 123, token: 'mocked-token' });
+
+  await act(async () => {
     render(
       <MemoryRouter>
         <AuthContextProvider>
@@ -34,14 +42,21 @@ test('renders SendNewParcel component for logged-in user', () => {
         </AuthContextProvider>
       </MemoryRouter>
     );
-    // Assertions specific to a logged-in user
-    expect(screen.getByText('Send a New Parcel')).toBeInTheDocument();
   });
 
+  expect(screen.getByText('Send a New Parcel')).toBeInTheDocument();
+});
+
+// Renders 2nd view of SendNewParcel component
 test('renders SendNewParcel second view', () => {
-    render(<MemoryRouter><SendNewParcel /></MemoryRouter>);
-    // find the Next button and click it
-    fireEvent.click(screen.getByText('Next'));
+  render(
+    <MemoryRouter>
+      <AuthContextProvider>
+        <SendNewParcel />
+      </AuthContextProvider>
+    </MemoryRouter>
+  );
+  fireEvent.click(screen.getByText('Next'));
     // check if the second page is rendered
     expect(screen.getByText('Please fill in here receiver and sender details')).toBeInTheDocument();
     // find the Back button and click it
@@ -49,9 +64,17 @@ test('renders SendNewParcel second view', () => {
     // check if the first page is rendered
     expect(screen.getByText('Please fill in here package details. Note the maximum size!')).toBeInTheDocument();
   }); 
-
-  test('renders SendNewParcel 3rd view, validates form fields before confirming and gets pincode', async () => {
-    const { getByTestId } = await act(() => render(<MemoryRouter><SendNewParcel /></MemoryRouter>));
+  
+// Renders 3rd view of SendNewParcel component
+test('renders SendNewParcel 3rd view, validates form fields before confirming and gets pincode', async () => {
+  (useAuthContext as jest.Mock).mockReturnValue({ userid: 123, token: 'mocked-token' });
+  render(
+    <MemoryRouter>
+      <AuthContextProvider>
+        <SendNewParcel />
+      </AuthContextProvider>
+    </MemoryRouter>
+  );
     // Navigate to the 2nd page
     fireEvent.click(screen.getByText('Next'));
     // check if the second page is rendered
@@ -96,14 +119,14 @@ test('renders SendNewParcel second view', () => {
     fireEvent.change(screen.getByLabelText('Email', {selector: 'input[name="sender_email"]'}), {
       target: { value: 'marry@gmail.com' },
     });
-    //Find drop-off locker selection list and select the first option
-    await act(async () => {
-      userEvent.selectOptions(getByTestId("select-desired-locker"), "1");
+        //Find drop-off locker selection list and select the first option
+     await act(async () => {
+      userEvent.selectOptions(screen.getByTestId("select-desired-locker"), "1");
     });
 
     await act(async () => {
-      userEvent.selectOptions(getByTestId("select-dropoff-locker"), "1");
-    }); 
+      userEvent.selectOptions(screen.getByTestId("select-dropoff-locker"), "1");
+    });  
   // Check the "Drop-off date" text
   expect(screen.getByText('Drop-off date:')).toBeInTheDocument();
   // navigate to the 3rd page
