@@ -40,16 +40,16 @@ const [error, setError] = useState(
     password: '',
     confirmPassword: '',
     user_name: '',
-    form: '', // Add this if you want to store form-wide errors
+    form: '', 
   }
   );
-  //1124 to check username  
+  
   const [usernameExists, setUsernameExists] = useState<boolean>(false); 
   const [submissionState, setSubmissionState] = useState('idle');
-  //1201 add if success directly to login page
+ 
   const [success, setSuccess] = useState<boolean>(false);
 
-  //1124 for check username
+
 const checkUsername = async (user_name:string) => {
   try {
     const query = JSON.stringify("username:"+user_name);
@@ -98,9 +98,9 @@ const checkUsername = async (user_name:string) => {
           setError(prevState => ({...prevState, confirmPassword: 'Passwords do not match'}));
         }      
         else {setError(prevState => ({...prevState, confirmPassword: ''}));}
-          //1124 add username check
+          
         if (name === 'user_name'){
-          //checkUsername(value);
+          
           } 
         if(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === ''){
           setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
@@ -128,14 +128,14 @@ const checkUsername = async (user_name:string) => {
 
     if(formData.first_name.trim() === '' || formData.last_name.trim() === '' || formData.email.trim() === '' || formData.telephone.trim() === '' || formData.street_address.trim() === '' || formData.postal_code.trim() === '' || formData.city.trim() === '' || formData.user_name.trim() === '' || formData.password.trim() === '' || formData.confirmPassword.trim() === ''){
       setError(prevState => ({...prevState, form: "All fileds need to be filled" }));
-      //return;
+      
     } 
-    //1126 new code add here to tell error
+
     if(usernameExists){
       setError(prevState => ({...prevState, user_name: 'Username already exists'}));
       return;
     }
-      // Send data to the server (you can use fetch or Axios)
+     
     try {
       //to apply if statement to check if all fields are filled
       const response = await fetch('http://localhost:3001/user', {
@@ -256,7 +256,7 @@ return (
         onBlur={handleBlurChange}
         required
       />
-      {/* 1124 new modify Show error message */}
+      
        {usernameExists && <p className="error">Username already exists</p>}
    
       <label htmlFor="password">Password</label>

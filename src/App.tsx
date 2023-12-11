@@ -14,6 +14,7 @@ import { useAuthContext } from "./contexts/authContext";
 import './App.css';
 
 
+
 function App() {
   const { token, setToken, setUserId } = useAuthContext() as any;
   
@@ -46,6 +47,7 @@ function App() {
         <Route path="/Signin" element={<Signin />} />
       </Routes>
       <Footer />
+     
     </div>
   );
 }

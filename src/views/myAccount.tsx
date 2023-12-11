@@ -1,4 +1,4 @@
-import React, {useEffect, useState, MouseEvent} from "react";
+import React, {useEffect, useState} from "react";
 import Sidebar from '../components/sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -23,14 +23,15 @@ type UserInfoProps = {
 
   const MyAccount: React.FC = () => {
     //get token and userId from AuthContext
-    const { token, userId } = useAuthContext() as any;
+    const { token, userid } = useAuthContext() as any; //change from userId to userid
     const [userInfo, setUserInfo] = useState<UserInfoProps>({});
     const navigate = useNavigate();
    
 
     useEffect(() => {
       const fetchUserInfo = async () => {
-        const response = await fetch(`http://localhost:3001/user/${userId}`, {
+        //change from userId to userid
+        const response = await fetch(`http://localhost:3001/user/${userid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ type UserInfoProps = {
         }
       };
       fetchUserInfo();
-    }, [token, userId]);
+    }, [token, userid]); //change from userId to userid
     
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -55,7 +56,7 @@ const handleChangeSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   e.preventDefault();
   console.log("DBG: handleSubmit :" + userInfo);
   try {
-  const response = await fetch(`http://localhost:3001/user/${userId}`, {
+  const response = await fetch(`http://localhost:3001/user/${userid}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +78,8 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   e.preventDefault();
   const confirmDelete = window.confirm("Are you sure you want to delete your account?");
   try {
-  const response = await fetch(`http://localhost:3001/user/${userId}`, {
+    //change from userId to userid
+  const response = await fetch(`http://localhost:3001/user/${userid}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

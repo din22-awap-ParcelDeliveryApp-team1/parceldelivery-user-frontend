@@ -1,6 +1,6 @@
 import "../styling/sendNewParcel.css";
 import { Link } from 'react-router-dom';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "../components/sidebar";
@@ -92,11 +92,14 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
 }
 
 const SendNewParcel = () => {
-  const { token } = useAuthContext() as any;
+  //1210 new code to fix always give id_user = 1
+  const { userid, token } = useAuthContext() as any;
+  //old code
+  //const { token } = useAuthContext() as any;
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
-    id_user: 1,
+    id_user: userid, //to get user id from token
     reciever_name: '',
     reciever_telephone: '',
     reciever_street_address: '',
@@ -123,6 +126,11 @@ const SendNewParcel = () => {
     receiver_email: '',
     sender_email: '',
   });
+
+  //update parceldata id_user if userid change
+  useEffect(() => {
+    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userid }));
+  }, [userid]);
 
   const goToNextStep = () => {
     setStep(step + 1);
