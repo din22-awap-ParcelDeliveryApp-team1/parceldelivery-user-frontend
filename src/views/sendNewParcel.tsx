@@ -93,13 +93,13 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
 
 const SendNewParcel = () => {
   //1210 new code to fix always give id_user = 1
-  const { userid, token } = useAuthContext() as any;
+  const { userId, token } = useAuthContext() as any;
   //old code
   //const { token } = useAuthContext() as any;
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
-    id_user: userid, //to get user id from token
+    id_user: userId, //to get user id from token
     reciever_name: '',
     reciever_telephone: '',
     reciever_street_address: '',
@@ -129,8 +129,8 @@ const SendNewParcel = () => {
 
   //update parceldata id_user if userid change
   useEffect(() => {
-    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userid }));
-  }, [userid]);
+    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userId }));
+  }, [userId]);
 
   const goToNextStep = () => {
     setStep(step + 1);

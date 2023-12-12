@@ -10,6 +10,7 @@ import { parcel_status, locker_location } from '../components/statuses';
 
 interface ParcelType {
     id_parcel: number;
+    //id_user: number;//add this to see if can get user id to
     sender_name: string;
     status: string;
     parcel_pickup_date: Date;
