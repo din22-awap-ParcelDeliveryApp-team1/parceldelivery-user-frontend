@@ -17,7 +17,7 @@ const Footer= () => {
                   <div className="terms">
                     <a style={{color:"#035f68"}} href="/terms-and-conditions">Terms and Conditions</a>
                   </div>
-                  <div> className="copyright"
+                  <div className="copyright">
                     Copyright 2023 All rights reserved
                   </div>
                 </div>

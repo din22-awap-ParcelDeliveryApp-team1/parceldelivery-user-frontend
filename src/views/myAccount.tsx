@@ -23,7 +23,7 @@ type UserInfoProps = {
 
   const MyAccount: React.FC = () => {
     //get token and userId from AuthContext
-    const { token, userid } = useAuthContext() as any; //change from userId to userid
+    const { token, userId } = useAuthContext() as any; //change from userId to userid
     const [userInfo, setUserInfo] = useState<UserInfoProps>({});
     const navigate = useNavigate();
    
@@ -31,7 +31,7 @@ type UserInfoProps = {
     useEffect(() => {
       const fetchUserInfo = async () => {
         //change from userId to userid
-        const response = await fetch(`http://localhost:3001/user/${userid}`, {
+        const response = await fetch(`http://localhost:3001/user/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ type UserInfoProps = {
         }
       };
       fetchUserInfo();
-    }, [token, userid]); //change from userId to userid
+    }, [token, userId]); //change from userId to userid
     
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -56,7 +56,7 @@ const handleChangeSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   e.preventDefault();
   console.log("DBG: handleSubmit :" + userInfo);
   try {
-  const response = await fetch(`http://localhost:3001/user/${userid}`, {
+  const response = await fetch(`http://localhost:3001/user/${userId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const handleDeleteSubmit = async (e: React.MouseEvent<HTMLButtonElement>)=> {
   const confirmDelete = window.confirm("Are you sure you want to delete your account?");
   try {
     //change from userId to userid
-  const response = await fetch(`http://localhost:3001/user/${userid}`, {
+  const response = await fetch(`http://localhost:3001/user/${userId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

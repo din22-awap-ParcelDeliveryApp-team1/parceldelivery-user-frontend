@@ -92,12 +92,12 @@ async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
 
 const SendNewParcel = () => {
 
-  const { userid } = useAuthContext() as any;
+  const { userId } = useAuthContext() as any;
 
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
-    id_user: userid, //to get user id from token
+    id_user: userId, //to get user id from token
     reciever_name: '',
     reciever_telephone: '',
     reciever_street_address: '',
@@ -127,8 +127,8 @@ const SendNewParcel = () => {
 
   //update parceldata id_user if userid change
   useEffect(() => {
-    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userid }));
-  }, [userid]);
+    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userId }));
+  }, [userId]);
 
   const goToNextStep = () => {
     setStep(step + 1);

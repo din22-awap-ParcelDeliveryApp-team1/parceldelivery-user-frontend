@@ -31,7 +31,7 @@ test('renders SendNewParcel component for logged-in user', async () => {
     render(
       <MemoryRouter>
         <AuthContext.Provider value={{
-          userid: 123,
+         userId: 123,
           token: 'mocked-token',
           setToken: jest.fn(),
           setUserId: jest.fn(),
@@ -68,7 +68,7 @@ test('renders SendNewParcel 3rd view, validates form fields before confirming an
   render(
     <MemoryRouter>
       <AuthContext.Provider value={{
-        userid: 123,
+        userId: 123,
         token: 'mocked-token',
         setToken: jest.fn(),
         setUserId: jest.fn(),

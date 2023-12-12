@@ -12,13 +12,13 @@ interface ParcelContextType {
 const ParcelContext = createContext<ParcelContextType | undefined>(undefined);
 
 const ParcelContextProvider = (props: any) => {
-    const { userid, token } = useAuthContext() as any; //change from userId to userid
+    const { userId, token } = useAuthContext() as any; //change from userId to userid
     const [sentParcels, setSentParcels] = useState<any>([]);
     const [receivedParcels, setReceivedParcels] = useState<any>([]);
 
     useEffect(() => {
         const fetchSentParcels = async () => {
-            const data = await getSentParcels(userid, token); //change from userId to userid
+            const data = await getSentParcels(userId, token); //change from userId to userid
             setSentParcels(data);
         };
         if (token) {
@@ -27,11 +27,11 @@ const ParcelContextProvider = (props: any) => {
             setSentParcels([]);
         };
         
-    }, [userid, token]); //change from userId to userid
+    }, [userId, token]); //change from userId to userid
 
     useEffect(() => {
         const fetchReceivedParcels = async () => {
-            const data = await getReceivedParcels(userid, token); //change from userId to userid
+            const data = await getReceivedParcels(userId, token); //change from userId to userid
             setReceivedParcels(data);
         };
         if (token) {
@@ -39,7 +39,7 @@ const ParcelContextProvider = (props: any) => {
         } else {
             setReceivedParcels([]);
         };
-    }, [userid, token]); //change from userId to userid
+    }, [userId, token]); //change from userId to userid
     
     let incomingParcels: any = [];
     let deliveredParcels: any = [];
