@@ -1,5 +1,5 @@
 
-[Logo](/public/images/logo_driveme.png)
+![Logo](/public/images/logo_driveme.png)
 
 
 # Advanced Web Application Project 
