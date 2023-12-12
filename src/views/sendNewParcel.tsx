@@ -40,7 +40,7 @@ export interface SendParcel{
   sender_email: string;
 }
 
-async function postParcelToBackend(parcelData: SendParcel, token: String): Promise<Response> {
+async function postParcelToBackend(parcelData: SendParcel): Promise<Response> {
    // Format the dates without the time part
    const formattedParcelData = {
       ...parcelData,
@@ -49,10 +49,9 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
     parcel_pickup_date: parcelData.parcel_pickup_date?.toISOString() || null,
     parcel_last_pickup_date: parcelData.parcel_last_pickup_date?.toISOString() || null,
     };
-  const response = await fetch('http://localhost:3001/parcel', {
+  const response = await fetch('http://localhost:3001/send/newParcel', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -92,14 +91,13 @@ async function postParcelToBackend(parcelData: SendParcel, token: String): Promi
 }
 
 const SendNewParcel = () => {
-  //1210 new code to fix always give id_user = 1
-  const { userId, token } = useAuthContext() as any;
-  //old code
-  //const { token } = useAuthContext() as any;
+
+  const { userid } = useAuthContext() as any;
+
   const [step, setStep] = useState<number>(1);
   const [parcelData, setParcelData] = useState<SendParcel>({
     id_parcel: 1,
-    id_user: userId, //to get user id from token
+    id_user: userid, //to get user id from token
     reciever_name: '',
     reciever_telephone: '',
     reciever_street_address: '',
@@ -111,9 +109,9 @@ const SendNewParcel = () => {
     sender_postal_code: '',
     sender_city: '',
     parcel_dropoff_date: new Date(),
-    parcel_readyforpickup_date: new Date(),
-    parcel_pickup_date: new Date(),
-    parcel_last_pickup_date: new Date(),
+    parcel_readyforpickup_date: null,
+    parcel_pickup_date: null,
+    parcel_last_pickup_date: null,
     pin_code: 0,
     status: 'ready_to_deliver',
     desired_dropoff_locker: 0,
@@ -129,8 +127,8 @@ const SendNewParcel = () => {
 
   //update parceldata id_user if userid change
   useEffect(() => {
-    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userId }));
-  }, [userId]);
+    setParcelData((prevParcelData) => ({ ...prevParcelData, id_user: userid }));
+  }, [userid]);
 
   const goToNextStep = () => {
     setStep(step + 1);
@@ -164,7 +162,7 @@ const SendNewParcel = () => {
         alert("Please fill in all the fields.");
         return;
       }
-      const response = await postParcelToBackend(parcelData, token);
+      const response = await postParcelToBackend(parcelData);
         if (response.ok) {
             // Parse the response to get the pin code
             const responseData = await response.json();
@@ -181,13 +179,29 @@ const SendNewParcel = () => {
     }
 };
   
-  const onChange = (newParcelData: SendParcel) => {
-    if(newParcelData.parcel_dropoff_date){
-      newParcelData.parcel_readyforpickup_date = 
-        new Date(newParcelData.parcel_dropoff_date.getTime()+ 4*24*60*60*1000);
-    }
-    setParcelData({...parcelData, ...newParcelData});
+const onChange = (newParcelData: SendParcel) => {
+  if (newParcelData.parcel_dropoff_date) {
+    // Calculate parcel_readyforpickup_date (4 days ahead)
+    const readyForPickupDate = new Date(newParcelData.parcel_dropoff_date.getTime() + 4 * 24 * 60 * 60 * 1000);
+
+    // Calculate parcel_last_pickup_date (7 days ahead)
+    const lastPickupDate = new Date(newParcelData.parcel_dropoff_date.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    // Set parcel_pickup_date to null
+    newParcelData.parcel_pickup_date = null;
+
+    // Update parcelData state with the calculated dates
+    setParcelData({
+      ...parcelData,
+      parcel_readyforpickup_date: readyForPickupDate,
+      parcel_last_pickup_date: lastPickupDate,
+      parcel_pickup_date: null, // Set to null to represent unknown
+      ...newParcelData,
+    });
+  } else {
+    setParcelData({ ...parcelData, ...newParcelData });
   }
+};
 
   return (
     <Container className="sendNewParcel">
@@ -282,7 +296,7 @@ const SendNewParcel = () => {
           {step === 4 && (
               <div>
                 <div className="sendConfirm">
-                  <h5>Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
+                  <h5 className="afterConfirm">Your order has been confirmed! The pin code is {parcelData.pin_code}. Please follow the steps below!</h5>
                   <div className="stepSend">
                     <p><strong>Step 1:</strong> Bring your parcel to the selected dropoff locker.</p>
                     <p><strong>Step 2:</strong> Enter the pin code to the touch screen to open the cabinet.</p>

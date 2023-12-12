@@ -10,7 +10,7 @@ interface AuthContextType {
 }
 // create the actual context here; the AuthContextType is the type of the context
 // AuthContextType need to be used as type when using the contect in other components
-const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 // This AuthContextProvider is the component that will wrap the components which need access to the context
 // the AuthContextProvider needs to be exported from here and imported in index.tsx and wrapped around <APP />
