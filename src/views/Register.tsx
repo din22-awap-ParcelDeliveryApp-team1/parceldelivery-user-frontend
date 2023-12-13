@@ -164,9 +164,9 @@ return (
     <section className="registerContainer">
     {submissionState !=="success" && <h1>Register now and join us!</h1>}
     {submissionState !== "success" && <h5>* Mandatory field</h5>}
-    <div className="already-have-account">
+    {submissionState !== "success"&&<div className="already-have-account">
       <p>Already have an account? <Link to="/signin">Sign in here</Link></p>
-    </div>
+    </div>}
     {submissionState !== "success" ?(
       <form onSubmit={handleSubmit} noValidate>
       <div className="form">
