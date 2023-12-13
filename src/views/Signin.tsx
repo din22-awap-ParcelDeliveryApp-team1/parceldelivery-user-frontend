@@ -80,8 +80,6 @@ const Signin: React.FC = () => {
 
 			if (data.success) {
 				setSubmissionState('success');
-				// set token and userId in the AuthContext
-				// token and userId can now be accessed from any component that uses the AuthContext
 				setToken(data.token);
 				setUserId(data.userId);
 				// store in local storage

@@ -28,6 +28,7 @@ test('renders Register component', () => {
     render(<MemoryRouter><Register /></MemoryRouter>);
     expect(screen.getByText('Register now and join us!')).toBeInTheDocument();
 });
+
 //fill in the form fields for register a new user
 test('fill in the form fields for register a new user', async () => {
     const { getByTestId } = await act(() => render(<MemoryRouter><Register /></MemoryRouter>));

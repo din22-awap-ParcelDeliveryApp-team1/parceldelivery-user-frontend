@@ -5,12 +5,12 @@ import React, {createContext, useState, useContext} from 'react';
 interface AuthContextType {
     token: string | undefined;
     setToken: React.Dispatch<React.SetStateAction<string>>;
-    userid: number | undefined; //change from userId to userid
+    userId: number | undefined; //change from userId to userid
     setUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 // create the actual context here; the AuthContextType is the type of the context
 // AuthContextType need to be used as type when using the contect in other components
-const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 // This AuthContextProvider is the component that will wrap the components which need access to the context
 // the AuthContextProvider needs to be exported from here and imported in index.tsx and wrapped around <APP />
@@ -20,7 +20,7 @@ const AuthContextProvider = (props: any) => {
     // these states can be used in the components if you want to use the context
     // for example in Signin.tsx you can now use 'setToken' and 'setUserId' to set the token and userId
     const [token, setToken] = useState<string>("");
-    const [userid, setUserId] = useState<number>(0); //change from userId to userid
+    const [userId, setUserId] = useState<number>(0); //change from userId to userid
 
     // the value of the context (meaning the states that are used in other components) is determined here
     // the value is passed in as a prop to the AuthContext.Provider
@@ -28,7 +28,7 @@ const AuthContextProvider = (props: any) => {
     const value = {
         token,
         setToken,
-        userid, //change from userId to userid
+        userId, //change from userId to userid
         setUserId
     };
 

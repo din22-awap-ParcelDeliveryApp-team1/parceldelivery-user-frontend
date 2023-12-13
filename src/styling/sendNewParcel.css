@@ -26,9 +26,13 @@
   }
 
   .confirmHeading {
-    margin-bottom: 30px;
+    margin-top: 4%;
   }
 
   .dropoffDate {
     margin-top: 30px;
+  }
+  
+  .afterConfirm {
+    margin-top: 10%;
   }
